@@ -1,9 +1,8 @@
-package in.hocg.payment.core.request;
+package in.hocg.payment.core;
 
 
 import com.alibaba.fastjson.JSON;
-import in.hocg.payment.core.response.Response;
-import in.hocg.payment.core.utils.StringUtils;
+import in.hocg.payment.utils.StringUtils;
 import lombok.Getter;
 
 /**

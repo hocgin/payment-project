@@ -1,9 +1,6 @@
-package in.hocg.payment.core.request;
+package in.hocg.payment.core;
 
 
-import in.hocg.payment.core.Help;
-import in.hocg.payment.core.response.Response;
-import in.hocg.payment.core.storage.ConfigStorage;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

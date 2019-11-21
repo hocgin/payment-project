@@ -1,4 +1,4 @@
-package in.hocg.payment.core.response;
+package in.hocg.payment.core;
 
 import in.hocg.payment.core.Help;
 
@@ -8,5 +8,6 @@ import in.hocg.payment.core.Help;
  *
  * @author hocgin
  */
-public interface Response extends Help {
+public interface Request extends Help {
+    
 }

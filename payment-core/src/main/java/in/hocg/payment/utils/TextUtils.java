@@ -1,4 +1,4 @@
-package in.hocg.payment.core.utils;
+package in.hocg.payment.utils;
 
 import com.google.common.base.Strings;
 import lombok.NonNull;

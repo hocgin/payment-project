@@ -1,6 +1,6 @@
-package in.hocg.payment.core;
+package in.hocg.payment;
 
-import in.hocg.payment.core.utils.TextUtils;
+import in.hocg.payment.utils.TextUtils;
 
 /**
  * Created by hocgin on 2019/11/19.

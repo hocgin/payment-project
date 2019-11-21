@@ -1,4 +1,4 @@
-package in.hocg.payment.core.utils;
+package in.hocg.payment.utils;
 
 import lombok.experimental.UtilityClass;
 

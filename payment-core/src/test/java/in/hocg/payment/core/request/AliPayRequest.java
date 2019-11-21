@@ -1,5 +1,6 @@
 package in.hocg.payment.core.request;
 
+import in.hocg.payment.core.AbsRequest;
 import in.hocg.payment.core.response.AliPayResponse;
 import in.hocg.payment.core.service.AliPayPaymentService;
 import lombok.Data;

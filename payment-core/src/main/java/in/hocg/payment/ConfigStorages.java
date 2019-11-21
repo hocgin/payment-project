@@ -1,6 +1,7 @@
-package in.hocg.payment.core;
+package in.hocg.payment;
 
-import in.hocg.payment.core.storage.ConfigStorage;
+import in.hocg.payment.core.Help;
+import in.hocg.payment.core.ConfigStorage;
 import lombok.NonNull;
 
 /**
