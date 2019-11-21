@@ -1,6 +1,6 @@
 package in.hocg.payment.core;
 
-import in.hocg.payment.core.service.PaymentService;
+import in.hocg.payment.core.request.PaymentService;
 import in.hocg.payment.core.storage.ConfigStorage;
 import lombok.NonNull;
 
@@ -13,8 +13,17 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author hocgin
  */
-public class PaymentServices {
+public class PaymentServices implements Help {
     
+    /**
+     * 构建一个支付服务
+     *
+     * @param paymentServiceClass
+     * @param configStorage
+     * @param <T>
+     * @param <C>
+     * @return
+     */
     public static <T extends PaymentService, C extends ConfigStorage> T createPaymentService(@NonNull Class<T> paymentServiceClass,
                                                                                              @NonNull C configStorage) {
         try {

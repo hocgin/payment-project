@@ -18,6 +18,7 @@
     <modules>
         <module>payment-parent</module>
         <module>payment-core</module>
+        <module>payment-modules</module>
     </modules>
 
     <properties>

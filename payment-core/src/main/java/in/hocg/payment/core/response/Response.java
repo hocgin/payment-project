@@ -1,4 +1,4 @@
-package in.hocg.payment.core.storage;
+package in.hocg.payment.core.response;
 
 import in.hocg.payment.core.Help;
 
@@ -8,6 +8,5 @@ import in.hocg.payment.core.Help;
  *
  * @author hocgin
  */
-public interface ConfigStorage extends Help {
-
+public interface Response extends Help {
 }

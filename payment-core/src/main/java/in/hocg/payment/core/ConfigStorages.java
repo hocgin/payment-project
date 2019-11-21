@@ -9,8 +9,15 @@ import lombok.NonNull;
  *
  * @author hocgin
  */
-public class ConfigStorages {
+public class ConfigStorages implements Help {
     
+    /**
+     * 构建一个配置服务
+     *
+     * @param configStorageClass
+     * @param <T>
+     * @return
+     */
     public static <T extends ConfigStorage> T createConfigStorage(@NonNull Class<T> configStorageClass) {
         try {
             return configStorageClass.newInstance();
