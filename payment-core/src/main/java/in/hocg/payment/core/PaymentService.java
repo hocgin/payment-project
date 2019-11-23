@@ -23,9 +23,9 @@ public abstract class PaymentService<T extends ConfigStorage> implements Help {
      * @param request
      * @return
      */
-    public <R extends Response,
+    public <R extends PaymentResponse,
             P extends PaymentService,
-            T extends AbsRequest<P, R>> R request(@NonNull T request) {
+            T extends AbsPaymentRequest<P, R>> R request(@NonNull T request) {
         return request.request((P) this);
     }
     

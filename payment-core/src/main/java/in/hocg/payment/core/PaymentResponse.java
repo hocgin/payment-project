@@ -6,5 +6,5 @@ package in.hocg.payment.core;
  *
  * @author hocgin
  */
-public interface Response extends Help {
+public interface PaymentResponse extends Help {
 }

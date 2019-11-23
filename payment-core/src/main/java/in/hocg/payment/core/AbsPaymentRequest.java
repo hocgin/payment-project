@@ -11,8 +11,8 @@ import lombok.Getter;
  *
  * @author hocgin
  */
-public abstract class AbsRequest<P extends PaymentService, R extends Response>
-        implements Request {
+public abstract class AbsPaymentRequest<P extends PaymentService, R extends PaymentResponse>
+        implements PaymentRequest {
     @Getter
     private P paymentService;
     
