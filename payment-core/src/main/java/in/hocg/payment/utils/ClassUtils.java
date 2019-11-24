@@ -117,4 +117,30 @@ public class ClassUtils {
         }
     }
     
+    /**
+     * 判断是否基础类型
+     *
+     * @param clazz
+     * @return
+     */
+    public static boolean isBaseType(Class clazz) {
+        return clazz.equals(Integer.class) ||
+                clazz.equals(Byte.class) ||
+                clazz.equals(Long.class) ||
+                clazz.equals(Double.class) ||
+                clazz.equals(Float.class) ||
+                clazz.equals(Character.class) ||
+                clazz.equals(Short.class) ||
+                clazz.equals(Boolean.class);
+    }
+    
+    /**
+     * 判断是否数组
+     *
+     * @param clazz
+     * @return
+     */
+    public static boolean isArray(Class clazz) {
+        return clazz.isArray();
+    }
 }

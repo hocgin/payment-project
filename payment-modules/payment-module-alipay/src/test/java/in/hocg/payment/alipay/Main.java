@@ -2,7 +2,7 @@ package in.hocg.payment.alipay;
 
 import com.google.common.collect.Lists;
 import in.hocg.payment.alipay.v2.request.AppPayRequest;
-import in.hocg.payment.sign.SignHelper;
+import in.hocg.payment.sign.strategy.DefaultSignStrategy;
 import in.hocg.payment.sign.SignType;
 import in.hocg.payment.utils.SignUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class Main {
         goodsDetail.add(new AppPayRequest.GoodsDetail("sdd", "sd", "sd", "sd"));
         request.setGoodsDetail(goodsDetail);
         
-        String signString = SignHelper.getSignString(request, privateKey, SignType.RSA);
+        String signString = DefaultSignStrategy.getSignString(request, privateKey, SignType.RSA);
         log.debug("SIGN {}", signString);
     }
 }

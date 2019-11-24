@@ -4,7 +4,7 @@ import lombok.experimental.UtilityClass;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.util.SortedMap;
+import java.util.Map;
 
 /**
  * Created by hocgin on 2019/11/21.
@@ -27,7 +27,7 @@ public class SignUtils {
      * @param params
      * @return
      */
-    public static String getSignString(SortedMap<String, String> params) {
+    public static String getSignString(Map<String, Object> params) {
         return params.keySet().parallelStream()
                 .map(fieldName -> String.format("%s=%s", fieldName, params.get(fieldName)))
                 .reduce((s1, s2) -> s1 + "&" + s2).orElse("");

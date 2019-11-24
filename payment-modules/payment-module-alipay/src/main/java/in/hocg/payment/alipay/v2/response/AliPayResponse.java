@@ -2,7 +2,8 @@ package in.hocg.payment.alipay.v2.response;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import in.hocg.payment.core.PaymentResponse;
-import lombok.NonNull;
+import in.hocg.payment.sign.SignField;
+import lombok.Data;
 
 /**
  * Created by hocgin on 2019/11/21.
@@ -10,24 +11,27 @@ import lombok.NonNull;
  *
  * @author hocgin
  */
+@Data
 public abstract class AliPayResponse implements PaymentResponse {
     
-    @NonNull
     @JSONField(name = "code")
+    @SignField(value = "code", required = true)
     private String code;
     
-    @NonNull
     @JSONField(name = "msg")
+    @SignField(value = "msg", required = true)
     private String msg;
     
+    @JSONField(name = "sign")
+    @SignField(value = "sign", required = true, ignore = true)
+    private String sign;
+    
     @JSONField(name = "sub_code")
+    @SignField(value = "sub_code")
     private String subCode;
     
     @JSONField(name = "sub_msg")
+    @SignField(value = "sub_msg")
     private String subMsg;
     
-    @NonNull
-    @JSONField(name = "sign")
-    private String sign;
-
 }

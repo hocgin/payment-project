@@ -16,9 +16,24 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 public @interface SignField {
     
+    /**
+     * 签名值
+     *
+     * @return
+     */
     String value() default "";
     
+    /**
+     * 是否忽略该字段
+     *
+     * @return
+     */
     boolean ignore() default false;
     
+    /**
+     * 是否必须
+     *
+     * @return
+     */
     boolean required() default false;
 }

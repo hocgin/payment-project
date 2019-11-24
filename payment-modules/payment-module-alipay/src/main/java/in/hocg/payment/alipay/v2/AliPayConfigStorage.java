@@ -1,10 +1,13 @@
 package in.hocg.payment.alipay.v2;
 
+import in.hocg.payment.alipay.constants.Constants;
 import in.hocg.payment.core.ConfigStorage;
 import in.hocg.payment.sign.SignType;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.experimental.Accessors;
 
 /**
  * Created by hocgin on 2019/11/21.
@@ -14,6 +17,8 @@ import lombok.NonNull;
  */
 @Getter
 @Data
+@Accessors(chain = true)
+@NoArgsConstructor
 public class AliPayConfigStorage implements ConfigStorage {
     
     /**
@@ -50,12 +55,25 @@ public class AliPayConfigStorage implements ConfigStorage {
      * 签名类型
      */
     @NonNull
-    private SignType signType;
+    private SignType signType = SignType.RSA2;
     
     /**
      * 编码
      */
     @NonNull
     private String charset = "UTF-8";
+    
+    /**
+     * 是否沙箱环境
+     */
+    @NonNull
+    private Boolean isDev = false;
+    
+    public String getUrl() {
+        if (isDev) {
+            return Constants.ALIPAY_DEV_URL;
+        }
+        return Constants.ALIPAY_URL;
+    }
     
 }

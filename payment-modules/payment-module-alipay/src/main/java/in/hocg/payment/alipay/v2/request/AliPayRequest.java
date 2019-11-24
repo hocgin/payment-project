@@ -5,11 +5,12 @@ import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.alipay.v2.response.AppPayResponse;
 import in.hocg.payment.core.AbsPaymentRequest;
+import in.hocg.payment.sign.strategy.DefaultSignStrategy;
 import in.hocg.payment.sign.SignField;
-import in.hocg.payment.sign.SignHelper;
 import in.hocg.payment.sign.SignType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * Created by hocgin on 2019/11/21.
@@ -17,11 +18,11 @@ import lombok.EqualsAndHashCode;
  *
  * @author hocgin
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@Accessors(chain = true)
+@EqualsAndHashCode(callSuper = true)
 public abstract class AliPayRequest
         extends AbsPaymentRequest<AliPayService, AppPayResponse> {
-    public static final String API = "https://openapi.alipay.com/gateway.do";
     
     @JSONField(name = "app_id")
     @SignField(value = "app_id", required = true)
@@ -70,6 +71,6 @@ public abstract class AliPayRequest
     @Override
     protected String sign() {
         AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
-        return SignHelper.getSignString(this, configStorage.getPrivateKey(), SignType.valueOf(getSignType()));
+        return DefaultSignStrategy.getSignString(this, configStorage.getPrivateKey(), SignType.valueOf(getSignType()));
     }
 }

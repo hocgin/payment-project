@@ -1,6 +1,7 @@
 package in.hocg.payment.sign;
 
 import in.hocg.payment.sign.data.WaitSignObject;
+import in.hocg.payment.sign.strategy.DefaultSignStrategy;
 import in.hocg.payment.utils.SignUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,8 +26,8 @@ class SignHelperTest {
         
         WaitSignObject object = new WaitSignObject("superVal", "keyValue", 12, null);
         SignType rsa = SignType.RSA;
-        String signString = SignHelper.getSignString(object, privateKey, rsa);
-        boolean result = SignHelper.verifySign(object, publicKey, rsa, signString);
+        String signString = DefaultSignStrategy.getSignString(object, privateKey, rsa);
+        boolean result = DefaultSignStrategy.verifySign(object, publicKey, rsa, signString);
         Assertions.assertTrue(result);
     }
     

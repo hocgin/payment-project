@@ -2,6 +2,8 @@ package in.hocg.payment.alipay.v2.request;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.google.common.collect.Maps;
+import in.hocg.payment.alipay.utils.LangKit;
 import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.response.AppPayResponse;
 import in.hocg.payment.sign.SignField;
@@ -9,6 +11,7 @@ import in.hocg.payment.utils.LangUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
@@ -19,6 +22,7 @@ import java.util.List;
  * @author hocgin
  */
 @Data
+@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class AppPayRequest extends AliPayRequest {
     
@@ -189,7 +193,6 @@ public class AppPayRequest extends AliPayRequest {
         this.signType = LangUtils.getOrDefault(this.getSignType(), configStorage.getSignType().name());
         this.timestamp = LangUtils.getOrDefault(this.getTimestamp(), String.valueOf(System.currentTimeMillis()));
         this.sign = sign();
-        
-        return null;
+        return LangKit.getHttpClient().get(configStorage.getUrl(), Maps.newHashMap(), AppPayResponse.class);
     }
 }
