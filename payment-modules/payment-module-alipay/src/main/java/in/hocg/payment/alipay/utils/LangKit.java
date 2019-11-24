@@ -13,7 +13,11 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class LangKit {
     
-    
+    /**
+     * 获取一个 HTTP 客户端
+     *
+     * @return
+     */
     public static HttpClient getHttpClient() {
         return HttpClient.getInstance(OkHttpClient.class);
     }
