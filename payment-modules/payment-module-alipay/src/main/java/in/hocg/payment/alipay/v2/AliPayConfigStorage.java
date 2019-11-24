@@ -1,6 +1,6 @@
 package in.hocg.payment.alipay.v2;
 
-import in.hocg.payment.alipay.constants.Constants;
+import in.hocg.payment.alipay.constants.ConfigConstants;
 import in.hocg.payment.core.ConfigStorage;
 import in.hocg.payment.sign.SignType;
 import lombok.Data;
@@ -71,9 +71,9 @@ public class AliPayConfigStorage implements ConfigStorage {
     
     public String getUrl() {
         if (isDev) {
-            return Constants.ALIPAY_DEV_URL;
+            return ConfigConstants.ALIPAY_DEV_URL;
         }
-        return Constants.ALIPAY_URL;
+        return ConfigConstants.ALIPAY_URL;
     }
     
 }

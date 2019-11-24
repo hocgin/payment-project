@@ -9,7 +9,7 @@ import lombok.experimental.UtilityClass;
  * @author hocgin
  */
 @UtilityClass
-public class Constants {
+public class ConfigConstants {
     /**
      * 阿里接口服务器
      */
