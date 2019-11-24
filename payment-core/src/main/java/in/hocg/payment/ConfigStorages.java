@@ -23,9 +23,8 @@ public class ConfigStorages implements Help {
         try {
             return configStorageClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            throw PaymentException.wrap(e);
         }
-        return null;
     }
     
 }

@@ -18,4 +18,8 @@ public class PaymentException extends RuntimeException {
     public static PaymentException wrap(String message, Object... args) {
         return new PaymentException(TextUtils.format(message, args));
     }
+    
+    public static PaymentException wrap(Exception e) {
+        return new PaymentException(e.getMessage());
+    }
 }
