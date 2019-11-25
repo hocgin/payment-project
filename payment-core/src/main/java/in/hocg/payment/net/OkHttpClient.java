@@ -15,7 +15,7 @@ import java.util.Map;
  * @author hocgin
  */
 @Slf4j
-public class OkHttpClient extends HttpClient {
+public class OkHttpClient implements HttpClient {
     
     private static okhttp3.OkHttpClient CLIENT = new okhttp3.OkHttpClient.Builder().build();
     

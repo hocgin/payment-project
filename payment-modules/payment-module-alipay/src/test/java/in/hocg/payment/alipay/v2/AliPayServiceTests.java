@@ -2,7 +2,7 @@ package in.hocg.payment.alipay.v2;
 
 import in.hocg.payment.ConfigStorages;
 import in.hocg.payment.PaymentServices;
-import in.hocg.payment.alipay.v2.request.AppPayRequest;
+import in.hocg.payment.alipay.v2.request.TradePayRequest;
 import in.hocg.payment.alipay.v2.response.AppPayResponse;
 import in.hocg.payment.sign.SignType;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class AliPayServiceTests {
     @Test
     void request() {
         AliPayService paymentService = PaymentServices.createPaymentService(AliPayService.class, CONFIG_STORAGE);
-        AppPayRequest request = new AppPayRequest()
+        TradePayRequest request = new TradePayRequest()
                 .setOutTradeNo(String.valueOf(System.currentTimeMillis()))
                 .setScene("bar_code")
                 .setSubject("商品标题")

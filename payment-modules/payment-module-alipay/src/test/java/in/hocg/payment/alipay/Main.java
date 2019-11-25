@@ -1,7 +1,7 @@
 package in.hocg.payment.alipay;
 
 import com.google.common.collect.Lists;
-import in.hocg.payment.alipay.v2.request.AppPayRequest;
+import in.hocg.payment.alipay.v2.request.TradePayRequest;
 import in.hocg.payment.sign.strategy.DefaultSignStrategy;
 import in.hocg.payment.sign.SignType;
 import in.hocg.payment.utils.SignUtils;
@@ -28,10 +28,10 @@ public class Main {
         String privateKey = encoder.encodeToString(keyPair.getPrivate().getEncoded());
         String publicKey = encoder.encodeToString(keyPair.getPublic().getEncoded());
         
-        AppPayRequest request = new AppPayRequest();
+        TradePayRequest request = new TradePayRequest();
         request.setAuthCode("authcode");
-        ArrayList<AppPayRequest.GoodsDetail> goodsDetail = Lists.newArrayList();
-        goodsDetail.add(new AppPayRequest.GoodsDetail("sdd", "sd", "sd", "sd"));
+        ArrayList<TradePayRequest.GoodsDetail> goodsDetail = Lists.newArrayList();
+        goodsDetail.add(new TradePayRequest.GoodsDetail("sdd", "sd", "sd", "sd"));
         request.setGoodsDetail(goodsDetail);
         
         String signString = DefaultSignStrategy.getSignString(request, privateKey, SignType.RSA);

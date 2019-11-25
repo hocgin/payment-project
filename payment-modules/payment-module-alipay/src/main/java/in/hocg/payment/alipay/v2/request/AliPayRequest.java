@@ -3,11 +3,11 @@ package in.hocg.payment.alipay.v2.request;
 import com.alibaba.fastjson.annotation.JSONField;
 import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.AliPayService;
-import in.hocg.payment.alipay.v2.response.AppPayResponse;
 import in.hocg.payment.core.AbsPaymentRequest;
-import in.hocg.payment.sign.strategy.DefaultSignStrategy;
+import in.hocg.payment.core.PaymentResponse;
 import in.hocg.payment.sign.SignField;
 import in.hocg.payment.sign.SignType;
+import in.hocg.payment.sign.strategy.DefaultSignStrategy;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -21,8 +21,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public abstract class AliPayRequest
-        extends AbsPaymentRequest<AliPayService, AppPayResponse> {
+public abstract class AliPayRequest<R extends PaymentResponse>
+        extends AbsPaymentRequest<AliPayService, R> {
     
     @JSONField(name = "app_id")
     @SignField(value = "app_id", required = true)

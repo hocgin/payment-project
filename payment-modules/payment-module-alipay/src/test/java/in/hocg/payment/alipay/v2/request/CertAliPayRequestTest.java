@@ -15,7 +15,7 @@ class CertAliPayRequestTest {
     }
     
     void test() {
-        AppPayRequest request = new AppPayRequest();
+        TradePayRequest request = new TradePayRequest();
         
     }
 }
