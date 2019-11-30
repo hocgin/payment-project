@@ -15,7 +15,7 @@ class OkHttpClientTest {
     
     @Test
     void get() {
-        HttpClientFactory client = HttpClientFactory.getSingleInstance(OkHttpClient.class);
+        HttpClient client = HttpClientFactory.getSingleInstance(OkHttpClient.class);
         String text = client.get("http://www.baidu.com", Maps.newHashMap(), String.class);
         log.debug("文本: {}", text);
     }

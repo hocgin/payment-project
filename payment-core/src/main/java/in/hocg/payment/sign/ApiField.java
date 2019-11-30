@@ -14,24 +14,24 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
-public @interface SignField {
+public @interface ApiField {
     
     /**
-     * 签名值
+     * 参数名
      *
      * @return
      */
     String value() default "";
     
     /**
-     * 是否忽略该字段
+     * 签名是否忽略该字段
      *
      * @return
      */
     boolean ignore() default false;
     
     /**
-     * 是否必须
+     * 是否必须, 目前仅为标记作用
      *
      * @return
      */

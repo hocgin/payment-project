@@ -2,12 +2,17 @@ package in.hocg.payment.alipay.v2;
 
 import in.hocg.payment.ConfigStorages;
 import in.hocg.payment.PaymentServices;
+import in.hocg.payment.alipay.v2.request.AliPayRequest;
 import in.hocg.payment.alipay.v2.request.TradePayRequest;
-import in.hocg.payment.alipay.v2.response.AppPayResponse;
-import in.hocg.payment.sign.SignType;
+import in.hocg.payment.alipay.v2.response.WrapperResponse;
+import in.hocg.payment.alipay.v2.response.TradePayResponse;
+import in.hocg.payment.sign.strategy.SignType;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by hocgin on 2019/11/24.
@@ -33,12 +38,13 @@ public class AliPayServiceTests {
     @Test
     void request() {
         AliPayService paymentService = PaymentServices.createPaymentService(AliPayService.class, CONFIG_STORAGE);
-        TradePayRequest request = new TradePayRequest()
+        AliPayRequest request = new TradePayRequest()
                 .setOutTradeNo(String.valueOf(System.currentTimeMillis()))
                 .setScene("bar_code")
                 .setSubject("商品标题")
-                .setAuthCode("28763443825664394");
-        AppPayResponse response = paymentService.request(request);
+                .setAuthCode("28763443825664394")
+                .setTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        WrapperResponse<TradePayResponse> response = paymentService.request(request);
         log.debug("响应: {}", response);
     }
 }

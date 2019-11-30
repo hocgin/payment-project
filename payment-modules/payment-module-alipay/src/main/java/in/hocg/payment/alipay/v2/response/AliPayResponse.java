@@ -2,7 +2,7 @@ package in.hocg.payment.alipay.v2.response;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import in.hocg.payment.core.PaymentResponse;
-import in.hocg.payment.sign.SignField;
+import in.hocg.payment.sign.ApiField;
 import lombok.Data;
 
 /**
@@ -15,23 +15,23 @@ import lombok.Data;
 public abstract class AliPayResponse implements PaymentResponse {
     
     @JSONField(name = "code")
-    @SignField(value = "code", required = true)
+    @ApiField(value = "code", required = true)
     private String code;
     
     @JSONField(name = "msg")
-    @SignField(value = "msg", required = true)
+    @ApiField(value = "msg", required = true)
     private String msg;
     
     @JSONField(name = "sign")
-    @SignField(value = "sign", required = true, ignore = true)
+    @ApiField(value = "sign", required = true, ignore = true)
     private String sign;
     
     @JSONField(name = "sub_code")
-    @SignField(value = "sub_code")
+    @ApiField(value = "sub_code")
     private String subCode;
     
     @JSONField(name = "sub_msg")
-    @SignField(value = "sub_msg")
+    @ApiField(value = "sub_msg")
     private String subMsg;
     
 }

@@ -1,6 +1,6 @@
 package in.hocg.payment.sign.data;
 
-import in.hocg.payment.sign.SignField;
+import in.hocg.payment.sign.ApiField;
 import lombok.Data;
 
 /**
@@ -12,6 +12,6 @@ import lombok.Data;
 @Data
 public abstract class SuperSignObject {
     
-    @SignField
-    private final String superVal;
+    @ApiField
+    private String superVal;
 }

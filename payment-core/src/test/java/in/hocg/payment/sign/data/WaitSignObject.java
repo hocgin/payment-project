@@ -1,7 +1,8 @@
 package in.hocg.payment.sign.data;
 
-import in.hocg.payment.sign.SignField;
+import in.hocg.payment.sign.ApiField;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Created by hocgin on 2019/11/23.
@@ -10,18 +11,19 @@ import lombok.Data;
  * @author hocgin
  */
 @Data
+@NoArgsConstructor
 public class WaitSignObject extends SuperSignObject {
-    @SignField
-    private final String key;
-    @SignField
-    private final Integer vInt;
-    @SignField
-    private final String nil;
+    @ApiField
+    private String key;
+    @ApiField
+    private Integer vInt;
+    @ApiField
+    private String nil;
     
     private String sign;
     
     public WaitSignObject(String superVal, String key, Integer vInt, String nil) {
-        super(superVal);
+        this.setSuperVal(superVal);
         this.key = key;
         this.vInt = vInt;
         this.nil = nil;

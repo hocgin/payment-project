@@ -2,8 +2,7 @@ package in.hocg.payment.alipay;
 
 import com.google.common.collect.Lists;
 import in.hocg.payment.alipay.v2.request.TradePayRequest;
-import in.hocg.payment.sign.strategy.DefaultSignStrategy;
-import in.hocg.payment.sign.SignType;
+import in.hocg.payment.alipay.v2.request.inner.GoodsDetail;
 import in.hocg.payment.utils.SignUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -30,11 +29,10 @@ public class Main {
         
         TradePayRequest request = new TradePayRequest();
         request.setAuthCode("authcode");
-        ArrayList<TradePayRequest.GoodsDetail> goodsDetail = Lists.newArrayList();
-        goodsDetail.add(new TradePayRequest.GoodsDetail("sdd", "sd", "sd", "sd"));
+        ArrayList<GoodsDetail> goodsDetail = Lists.newArrayList();
+        goodsDetail.add(new GoodsDetail("sdd", "sd", "sd", "sd"));
         request.setGoodsDetail(goodsDetail);
         
-        String signString = DefaultSignStrategy.getSignString(request, privateKey, SignType.RSA);
-        log.debug("SIGN {}", signString);
+    
     }
 }

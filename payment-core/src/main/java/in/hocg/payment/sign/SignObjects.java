@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import in.hocg.payment.utils.ClassUtils;
 import in.hocg.payment.utils.ObjectUtils;
 import lombok.NonNull;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
@@ -18,7 +19,8 @@ import java.util.Map;
  * @author hocgin
  */
 @Slf4j
-public class SignHelper {
+@UtilityClass
+public class SignObjects {
     
     private static final Map<String, Map<String, Field>> CACHE_SIGN_FIELD = Maps.newHashMap();
     
@@ -42,20 +44,20 @@ public class SignHelper {
     public static Map<String, Field> getSignFields(Class<?> aClass) {
         Map<String, Field> result = Maps.newHashMap();
         ClassUtils.from(aClass).getAllField()
-                .stream()
+                .parallelStream()
                 .filter(field -> {
-                    if (!field.isAnnotationPresent(SignField.class)) {
+                    if (!field.isAnnotationPresent(ApiField.class)) {
                         return false;
                     }
-                    SignField annotation = field.getAnnotation(SignField.class);
+                    ApiField annotation = field.getAnnotation(ApiField.class);
                     return !annotation.ignore();
                 }).forEach(field -> {
-            SignField annotation = field.getAnnotation(SignField.class);
-            String signFieldName = annotation.value();
-            if (Strings.isNullOrEmpty(signFieldName)) {
-                signFieldName = field.getName();
+            ApiField annotation = field.getAnnotation(ApiField.class);
+            String fieldName = annotation.value();
+            if (Strings.isNullOrEmpty(fieldName)) {
+                fieldName = field.getName();
             }
-            result.put(signFieldName, field);
+            result.put(fieldName, field);
         });
         
         return result;
@@ -71,10 +73,9 @@ public class SignHelper {
         Class<?> aClass = object.getClass();
         Map<String, Field> fields = getSignFieldsUseCache(aClass);
         Map<String, Object> params = Maps.newHashMap();
-        fields.keySet().forEach(item -> {
-            Field field = fields.get(item);
-            Object fieldValue = ObjectUtils.tryCallGetter(object, field.getName(), CaseFormat.LOWER_CAMEL);
-            params.put(item, fieldValue);
+        fields.forEach((key, value) -> {
+            Object fieldValue = ObjectUtils.tryCallGetter(object, value.getName(), CaseFormat.LOWER_CAMEL);
+            params.put(key, fieldValue);
         });
         return params;
     }

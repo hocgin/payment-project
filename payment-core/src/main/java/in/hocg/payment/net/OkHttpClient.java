@@ -57,6 +57,7 @@ public class OkHttpClient implements HttpClient {
     @Override
     public <T> T get(String url, Map<String, String> headers, Class<T> responseClass) {
         Response response = get(url, headers);
+        log.debug("GET URL={} Headers={}", url, headers);
         if (!response.isSuccessful()) {
             throw new RuntimeException("请求失败");
         }
@@ -72,6 +73,7 @@ public class OkHttpClient implements HttpClient {
         T result;
         try {
             result = StringUtils.stringToBean(content, responseClass);
+            log.debug("响应结果转换: 文本数据={}, 转换后的实体={}", content, result);
         } catch (Exception e) {
             log.error("响应结果转换时出现异常，期望类型为：{}，实际响应结果为：{}", responseClass, content);
             throw new RuntimeException(e);
