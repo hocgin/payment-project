@@ -10,6 +10,9 @@ import in.hocg.payment.utils.TextUtils;
  */
 public class PaymentException extends RuntimeException {
     
+    private PaymentException(Exception e) {
+        super(e);
+    }
     
     private PaymentException(String message) {
         super(message);
@@ -20,6 +23,6 @@ public class PaymentException extends RuntimeException {
     }
     
     public static PaymentException wrap(Exception e) {
-        return new PaymentException(e.getMessage());
+        return new PaymentException(e);
     }
 }

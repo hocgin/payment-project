@@ -1,5 +1,6 @@
 package in.hocg.payment.net;
 
+import in.hocg.payment.PaymentException;
 import in.hocg.payment.utils.LangUtils;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
@@ -43,7 +44,7 @@ public class OkHttpClient implements HttpClient {
         try {
             return CLIENT.newCall(request).execute();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw PaymentException.wrap(e);
         }
     }
     
@@ -64,7 +65,7 @@ public class OkHttpClient implements HttpClient {
         try {
             return CLIENT.newCall(request).execute();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw PaymentException.wrap(e);
         }
     }
     
@@ -73,14 +74,14 @@ public class OkHttpClient implements HttpClient {
     public String get(String url, Map<String, String> headers) {
         Response response = execGet(url, headers);
         if (!response.isSuccessful()) {
-            throw new RuntimeException("网络请求失败");
+            throw PaymentException.wrap("网络请求失败");
         }
         ResponseBody responseBody = response.body();
         try {
             assert responseBody != null;
             return responseBody.string();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw PaymentException.wrap(e);
         }
     }
     
@@ -90,14 +91,14 @@ public class OkHttpClient implements HttpClient {
         RequestBody requestBody = RequestBody.create(body.getBytes());
         Response response = execPost(url, headers, requestBody);
         if (!response.isSuccessful()) {
-            throw new RuntimeException("网络请求失败");
+            throw PaymentException.wrap("网络请求失败");
         }
         ResponseBody responseBody = response.body();
         try {
             assert responseBody != null;
             return responseBody.string();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw PaymentException.wrap(e);
         }
     }
     
