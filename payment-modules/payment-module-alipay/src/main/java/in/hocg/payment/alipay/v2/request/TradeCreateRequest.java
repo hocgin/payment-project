@@ -4,6 +4,7 @@ import in.hocg.payment.alipay.constants.Constants;
 import in.hocg.payment.alipay.utils.LangKit;
 import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.response.TradeCreateResponse;
+import in.hocg.payment.net.Converts;
 import in.hocg.payment.sign.SignObjects;
 import in.hocg.payment.sign.Signs;
 import in.hocg.payment.sign.strategy.SignType;
@@ -44,7 +45,7 @@ public class TradeCreateRequest extends AliPayRequest<TradeCreateResponse> {
         this.version = LangUtils.getOrDefault(this.getVersion(), configStorage.getVersion());
         this.notifyUrl = LangUtils.getOrDefault(this.getNotifyUrl(), null);
         SignType signType = configStorage.getSignType();
-    
+        
         // 签名
         this.signType = LangUtils.getOrDefault(this.getSignType(), signType.name());
         Map<String, Object> values = SignObjects.getSignValues(this);
@@ -52,8 +53,10 @@ public class TradeCreateRequest extends AliPayRequest<TradeCreateResponse> {
         values = Signs.getString(values, valueStrategy);
         String content = Signs.merge(values, new DefaultMergeStrategy());
         this.sign = Signs.getSign(content, privateKey, signType);
-    
+        
+        // 访问支付宝接口
         String url = HttpUtils.getUrl(baseUrl, values);
-        return LangKit.getHttpClient().get(url, TradeCreateResponse.class);
+        Converts convert = Converts.valueOf(this.format.toUpperCase());
+        return LangKit.getHttpClient().get(url, convert, TradeCreateResponse.class);
     }
 }

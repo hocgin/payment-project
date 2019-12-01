@@ -19,23 +19,23 @@ public interface HttpClient {
      */
     HttpClient proxy(Proxy proxy);
     
-    
     /**
      * GET 请求
+     *
      * @param url
      * @param headers
-     * @param responseClass
-     * @param <T>
      * @return
      */
-    <T> T get(String url, Map<String, String> headers, Class<T> responseClass);
+    String get(String url, Map<String, String> headers);
     
     /**
-     * GET 请求
+     * POST 请求
+     *
      * @param url
-     * @param responseClass
-     * @param <T>
+     * @param headers
+     * @param body
      * @return
      */
-    <T> T get(String url, Class<T> responseClass);
+    String post(String url, Map<String, String> headers, String body);
+    
 }

@@ -1,6 +1,7 @@
 package in.hocg.payment.alipay.utils;
 
 import in.hocg.payment.net.HttpClient;
+import in.hocg.payment.net.ObjectHttpClient;
 import in.hocg.payment.net.HttpClientFactory;
 import in.hocg.payment.net.OkHttpClient;
 import lombok.experimental.UtilityClass;
@@ -19,7 +20,8 @@ public class LangKit {
      *
      * @return
      */
-    public static HttpClient getHttpClient() {
-        return HttpClientFactory.getSingleInstance(OkHttpClient.class);
+    public static ObjectHttpClient getHttpClient() {
+        HttpClient httpClient = HttpClientFactory.getSingleInstance(OkHttpClient.class);
+        return new ObjectHttpClient(httpClient);
     }
 }

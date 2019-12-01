@@ -1,6 +1,5 @@
 package in.hocg.payment.net;
 
-import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -15,8 +14,5 @@ class OkHttpClientTest {
     
     @Test
     void get() {
-        HttpClient client = HttpClientFactory.getSingleInstance(OkHttpClient.class);
-        String text = client.get("http://www.baidu.com", Maps.newHashMap(), String.class);
-        log.debug("文本: {}", text);
     }
 }

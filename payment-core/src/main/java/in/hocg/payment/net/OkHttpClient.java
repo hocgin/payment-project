@@ -1,7 +1,6 @@
 package in.hocg.payment.net;
 
-import com.google.common.collect.Maps;
-import in.hocg.payment.utils.StringUtils;
+import in.hocg.payment.utils.LangUtils;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 
@@ -35,7 +34,7 @@ public class OkHttpClient implements HttpClient {
      * @param headers
      * @return
      */
-    public Response get(String url, Map<String, String> headers) {
+    public Response execGet(String url, Map<String, String> headers) {
         Request request = new Request.Builder()
                 .url(url)
                 .headers(Headers.of(headers))
@@ -49,46 +48,6 @@ public class OkHttpClient implements HttpClient {
     }
     
     /**
-     * 请求使用 GET 方式
-     *
-     * @param url
-     * @param headers
-     * @return
-     */
-    @Override
-    public <T> T get(String url, Map<String, String> headers, Class<T> responseClass) {
-        Response response = get(url, headers);
-        log.debug("GET URL={} Headers={}", url, headers);
-        if (!response.isSuccessful()) {
-            throw new RuntimeException("请求失败");
-        }
-        ResponseBody body = response.body();
-        String content = null;
-        if (body != null) {
-            try {
-                content = body.string();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        T result;
-        try {
-            result = StringUtils.stringToBean(content, responseClass);
-            log.debug("响应结果转换: 文本数据={}, 转换后的实体={}", content, result);
-        } catch (Exception e) {
-            log.error("响应结果转换时出现异常，期望类型为：{}，实际响应结果为：{}", responseClass, content);
-            throw new RuntimeException(e);
-        }
-        return result;
-        
-    }
-    
-    @Override
-    public <T> T get(String url, Class<T> responseClass) {
-        return get(url, Maps.newHashMap(), responseClass);
-    }
-    
-    /**
      * POST 请求
      *
      * @param url
@@ -96,7 +55,7 @@ public class OkHttpClient implements HttpClient {
      * @param requestBody
      * @return
      */
-    public Response post(String url, Map<String, String> headers, RequestBody requestBody) {
+    public Response execPost(String url, Map<String, String> headers, RequestBody requestBody) {
         Request request = new Request.Builder()
                 .url(url)
                 .headers(Headers.of(headers))
@@ -104,6 +63,39 @@ public class OkHttpClient implements HttpClient {
                 .build();
         try {
             return CLIENT.newCall(request).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    
+    @Override
+    public String get(String url, Map<String, String> headers) {
+        Response response = execGet(url, headers);
+        if (!response.isSuccessful()) {
+            throw new RuntimeException("网络请求失败");
+        }
+        ResponseBody responseBody = response.body();
+        try {
+            assert responseBody != null;
+            return responseBody.string();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    @Override
+    public String post(String url, Map<String, String> headers, String body) {
+        body = LangUtils.getOrDefault(body, "");
+        RequestBody requestBody = RequestBody.create(body.getBytes());
+        Response response = execPost(url, headers, requestBody);
+        if (!response.isSuccessful()) {
+            throw new RuntimeException("网络请求失败");
+        }
+        ResponseBody responseBody = response.body();
+        try {
+            assert responseBody != null;
+            return responseBody.string();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
