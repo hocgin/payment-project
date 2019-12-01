@@ -1,8 +1,6 @@
-package in.hocg.payment.core.data.request;
+package in.hocg.payment.core.data;
 
 import in.hocg.payment.core.PaymentRequest;
-import in.hocg.payment.core.data.TestPaymentService;
-import in.hocg.payment.core.data.response.TestResponse;
 import lombok.extern.slf4j.Slf4j;
 
 /**

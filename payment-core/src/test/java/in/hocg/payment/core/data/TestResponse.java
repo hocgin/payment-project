@@ -1,4 +1,4 @@
-package in.hocg.payment.core.data.response;
+package in.hocg.payment.core.data;
 
 import in.hocg.payment.core.PaymentResponse;
 

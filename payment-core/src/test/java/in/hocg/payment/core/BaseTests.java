@@ -24,12 +24,4 @@ public class BaseTests {
         Assertions.assertNotNull(paymentService);
     }
     
-    @Test
-    void testRequest() {
-        TestConfigStorage configStorage = ConfigStorages.createConfigStorage(TestConfigStorage.class);
-        Assertions.assertNotNull(configStorage);
-    
-        TestPaymentService paymentService = PaymentServices.createPaymentService(TestPaymentService.class, configStorage);
-        Assertions.assertNotNull(paymentService);
-    }
 }
