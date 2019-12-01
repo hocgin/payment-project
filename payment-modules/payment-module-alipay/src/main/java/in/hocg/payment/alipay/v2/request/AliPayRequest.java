@@ -3,7 +3,7 @@ package in.hocg.payment.alipay.v2.request;
 import com.alibaba.fastjson.annotation.JSONField;
 import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.AliPayService;
-import in.hocg.payment.core.AbsPaymentRequest;
+import in.hocg.payment.core.PaymentRequest;
 import in.hocg.payment.core.PaymentResponse;
 import in.hocg.payment.sign.ApiField;
 import lombok.Data;
@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public abstract class AliPayRequest<R extends PaymentResponse>
-        extends AbsPaymentRequest<AliPayService, R> {
+        extends PaymentRequest<AliPayService, R> {
     
     @JSONField(name = "app_id")
     @ApiField(value = "app_id", required = true)

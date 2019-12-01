@@ -2,7 +2,7 @@ package in.hocg.payment.alipay.v2.request;
 
 import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.alipay.v2.response.AppPayResponse;
-import in.hocg.payment.core.AbsPaymentRequest;
+import in.hocg.payment.core.PaymentRequest;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author hocgin
  */
 @Slf4j
-public class CertAliPayRequest extends AbsPaymentRequest<AliPayService, AppPayResponse> {
+public class CertAliPayRequest extends PaymentRequest<AliPayService, AppPayResponse> {
     
     @Override
     protected AppPayResponse request() {

@@ -22,7 +22,7 @@ import java.util.Map;
  *
  * @author hocgin
  */
-class SignHelperTest {
+class SignTests {
     
     @Test
     void getSignString() {

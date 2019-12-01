@@ -6,5 +6,6 @@ package in.hocg.payment.core;
  *
  * @author hocgin
  */
-public interface PaymentResponse extends Help {
+public interface PaymentResponse {
+    boolean isSuccess();
 }

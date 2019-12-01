@@ -6,6 +6,6 @@ package in.hocg.payment.core;
  *
  * @author hocgin
  */
-public interface ConfigStorage extends Help {
+public interface ConfigStorage {
 
 }

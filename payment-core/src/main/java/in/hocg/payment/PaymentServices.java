@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author hocgin
  */
-public class PaymentServices implements Help {
+public class PaymentServices {
     
     /**
      * 构建一个支付服务

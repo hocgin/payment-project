@@ -1,6 +1,5 @@
 package in.hocg.payment;
 
-import in.hocg.payment.core.Help;
 import in.hocg.payment.core.ConfigStorage;
 import lombok.NonNull;
 
@@ -10,7 +9,7 @@ import lombok.NonNull;
  *
  * @author hocgin
  */
-public class ConfigStorages implements Help {
+public class ConfigStorages {
     
     /**
      * 构建一个配置服务

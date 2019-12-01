@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
  * @author hocgin
  */
 @RequiredArgsConstructor
-public abstract class PaymentService<T extends ConfigStorage> implements Help {
+public abstract class PaymentService<T extends ConfigStorage> {
     
     @Getter
     private final T configStorage;
@@ -25,7 +25,7 @@ public abstract class PaymentService<T extends ConfigStorage> implements Help {
      */
     public <R extends PaymentResponse,
             P extends PaymentService,
-            T extends AbsPaymentRequest<P, R>> R request(@NonNull T request) {
+            T extends PaymentRequest<P, R>> R request(@NonNull T request) {
         return request.request((P) this);
     }
     
