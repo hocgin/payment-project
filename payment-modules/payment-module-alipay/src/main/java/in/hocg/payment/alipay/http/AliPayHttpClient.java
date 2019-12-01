@@ -25,4 +25,9 @@ public class AliPayHttpClient implements HttpClient {
 //        CLIENT.get(url, headers, )
         return null;
     }
+    
+    @Override
+    public <T> T get(String url, Class<T> responseClass) {
+        return null;
+    }
 }

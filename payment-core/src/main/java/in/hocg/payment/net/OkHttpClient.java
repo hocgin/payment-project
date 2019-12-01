@@ -1,5 +1,6 @@
 package in.hocg.payment.net;
 
+import com.google.common.collect.Maps;
 import in.hocg.payment.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
@@ -80,6 +81,11 @@ public class OkHttpClient implements HttpClient {
         }
         return result;
         
+    }
+    
+    @Override
+    public <T> T get(String url, Class<T> responseClass) {
+        return get(url, Maps.newHashMap(), responseClass);
     }
     
     /**

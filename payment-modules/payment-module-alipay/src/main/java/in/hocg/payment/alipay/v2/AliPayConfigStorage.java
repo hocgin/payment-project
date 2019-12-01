@@ -1,6 +1,6 @@
 package in.hocg.payment.alipay.v2;
 
-import in.hocg.payment.alipay.constants.ConfigConstants;
+import in.hocg.payment.alipay.constants.Constants;
 import in.hocg.payment.core.ConfigStorage;
 import in.hocg.payment.sign.strategy.SignType;
 import lombok.Data;
@@ -40,18 +40,6 @@ public class AliPayConfigStorage implements ConfigStorage {
     private String aliPayPublicKey;
     
     /**
-     * 同步通知URL
-     */
-    @NonNull
-    private String syncNotifyUrl;
-    
-    /**
-     * 异步通知URL
-     */
-    @NonNull
-    private String asyncNotifyUrl;
-    
-    /**
      * 签名类型
      */
     @NonNull
@@ -63,6 +51,12 @@ public class AliPayConfigStorage implements ConfigStorage {
     @NonNull
     private String charset = "UTF-8";
     
+    @NonNull
+    private String format = "JSON";
+    
+    @NonNull
+    private String version = "1.0";
+    
     /**
      * 是否沙箱环境
      */
@@ -71,9 +65,9 @@ public class AliPayConfigStorage implements ConfigStorage {
     
     public String getUrl() {
         if (isDev) {
-            return ConfigConstants.ALIPAY_DEV_URL;
+            return Constants.ALIPAY_DEV_URL;
         }
-        return ConfigConstants.ALIPAY_URL;
+        return Constants.ALIPAY_URL;
     }
     
 }

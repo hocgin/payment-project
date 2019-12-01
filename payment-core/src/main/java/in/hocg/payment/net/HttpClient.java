@@ -29,4 +29,13 @@ public interface HttpClient {
      * @return
      */
     <T> T get(String url, Map<String, String> headers, Class<T> responseClass);
+    
+    /**
+     * GET 请求
+     * @param url
+     * @param responseClass
+     * @param <T>
+     * @return
+     */
+    <T> T get(String url, Class<T> responseClass);
 }

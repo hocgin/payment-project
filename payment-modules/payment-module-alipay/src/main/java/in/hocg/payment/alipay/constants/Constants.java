@@ -2,6 +2,8 @@ package in.hocg.payment.alipay.constants;
 
 import lombok.experimental.UtilityClass;
 
+import java.time.format.DateTimeFormatter;
+
 /**
  * Created by hocgin on 2019/11/24.
  * email: hocgin@gmail.com
@@ -9,14 +11,20 @@ import lombok.experimental.UtilityClass;
  * @author hocgin
  */
 @UtilityClass
-public class ConfigConstants {
+public class Constants {
     /**
-     * 阿里接口服务器
+     * 支付宝 - 接口 - 服务器 - 正式环境
      */
     public static final String ALIPAY_URL = "https://openapi.alipay.com/gateway.do";
     
     /**
-     * 阿里接口服务器 - 开发环境
+     * 支付宝 - 接口 - 服务器 - 开发环境
      */
     public static final String ALIPAY_DEV_URL = "https://openapi.alipaydev.com/gateway.do";
+    
+    /**
+     * 支付宝 - 接口 - 时间格式
+     */
+    public static final DateTimeFormatter ALIPAY_API_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss");
+    
 }
