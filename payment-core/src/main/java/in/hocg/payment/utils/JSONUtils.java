@@ -31,4 +31,22 @@ public class JSONUtils {
     public static String toJSON(Object bean) {
         return JSON.toJSONString(bean);
     }
+    
+    /**
+     * 美化 JSON
+     *
+     * @param object
+     * @return
+     */
+    public static String pretty(Object object) {
+        if (object == null) {
+            return "";
+        }
+        
+        Object jsonObject = object;
+        if (object instanceof String) {
+            jsonObject = JSON.parseObject(((String) object));
+        }
+        return JSON.toJSONString(jsonObject, true);
+    }
 }

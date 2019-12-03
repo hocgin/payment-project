@@ -1,6 +1,7 @@
 package in.hocg.payment.parser;
 
 import in.hocg.payment.sign.data.WaitSignObject;
+import in.hocg.payment.utils.XMLUtils;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -14,5 +15,11 @@ class ConvertersTest {
     @Test
     void convert() {
         WaitSignObject object = new WaitSignObject("superVal", "keyValue", 12, null);
+    }
+    
+    @Test
+    void testAliPayXmlObject() {
+        AliPayXMLObject bean = XMLUtils.toBean(Data.XML_DATA_ALIPAY, AliPayXMLObject.class);
+        System.out.println(bean);
     }
 }

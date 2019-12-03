@@ -49,10 +49,10 @@ public class AliPayConfigStorage implements ConfigStorage {
      * 编码
      */
     @NonNull
-    private String charset = "UTF-8";
+    private String charset = "utf-8";
     
     @NonNull
-    private String format = "JSON";
+    private String format = "json";
     
     @NonNull
     private String version = "1.0";

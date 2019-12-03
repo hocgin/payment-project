@@ -28,7 +28,7 @@ public class SignUtils {
      * @return
      */
     public static String getSignString(Map<String, Object> params) {
-        return params.keySet().parallelStream()
+        return params.keySet().stream()
                 .map(fieldName -> String.format("%s=%s", fieldName, params.get(fieldName)))
                 .reduce((s1, s2) -> s1 + "&" + s2).orElse("");
     }

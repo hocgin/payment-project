@@ -28,7 +28,7 @@ public class Signs {
         Map<String, Object> result = Maps.newTreeMap();
         Maps.newHashMap(params)
                 .entrySet()
-                .parallelStream()
+                .stream()
                 .map(strategy::map)
                 .filter(strategy::filter)
                 .sorted(strategy.sorted())

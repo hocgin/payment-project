@@ -1,6 +1,5 @@
 package in.hocg.payment.sign.strategy.value;
 
-import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Objects;
 
@@ -26,7 +25,7 @@ public class DefaultValueStrategy implements ValueStrategy {
     @Override
     public Map.Entry<String, Object> mapOrdered(Map.Entry<String, Object> entry) {
         Object value = entry.getValue();
-        entry.setValue(URLEncoder.encode(String.valueOf(value)));
+//        entry.setValue(URLEncoder.encode(String.valueOf(value)));
         return entry;
     }
 }

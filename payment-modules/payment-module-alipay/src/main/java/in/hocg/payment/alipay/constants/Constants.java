@@ -25,6 +25,6 @@ public class Constants {
     /**
      * 支付宝 - 接口 - 时间格式
      */
-    public static final DateTimeFormatter ALIPAY_API_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss");
+    public static final DateTimeFormatter ALIPAY_API_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     
 }

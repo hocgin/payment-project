@@ -17,6 +17,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
 
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ public class TradeCreateRequest extends AliPayRequest<TradeCreateResponse> {
         String baseUrl = configStorage.getUrl();
         
         this.appId = LangUtils.getOrDefault(this.getAppId(), configStorage.getAppId());
-        this.method = "alipay.trade.app.pay";
+        this.method = "alipay.trade.create";
         this.format = LangUtils.getOrDefault(this.getFormat(), configStorage.getFormat());
         this.charset = LangUtils.getOrDefault(this.getCharset(), configStorage.getCharset());
         this.timestamp = LangUtils.getOrDefault(this.getTimestamp(), LocalDateTime.now().format(Constants.ALIPAY_API_DATE_FORMAT));
@@ -53,6 +54,11 @@ public class TradeCreateRequest extends AliPayRequest<TradeCreateResponse> {
         values = Signs.getString(values, valueStrategy);
         String content = Signs.merge(values, new DefaultMergeStrategy());
         this.sign = Signs.getSign(content, privateKey, signType);
+        values.put("sign", this.sign);
+        for (Map.Entry<String, Object> entry : values.entrySet()) {
+            Object value = entry.getValue();
+            entry.setValue(URLEncoder.encode(String.valueOf(value)));
+        }
         
         // 访问支付宝接口
         String url = HttpUtils.getUrl(baseUrl, values);

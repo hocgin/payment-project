@@ -36,7 +36,7 @@ public class AliPayServiceTests {
     void testTradeCreateRequest() {
         TradeCreateRequest request = new TradeCreateRequest();
         request.setBizContent("{" +
-                "\"out_trade_no\":\"201911270908381158731\",\"total_amount\":\"88.88\",\"subject\":\"iPhone+Xs+Max+256G\",\"buyer_id\":\"2088102175953034\"" +
+                "\"out_trade_no\":\"201911270908381158722\",\"total_amount\":\"88.88\",\"subject\":\"iPhone Xs Max 256G\",\"buyer_id\":\"2088102175953034\"" +
                 "}");
         TradeCreateResponse response = paymentService.request(request);
         log.debug("响应: {}", response);
