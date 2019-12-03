@@ -10,9 +10,9 @@ import lombok.Getter;
  * @author hocgin
  */
 @Getter
-public class WxPayService extends PaymentService<WxConfigStorage> {
+public class WxPayService extends PaymentService<WxPayConfigStorage> {
     
-    public WxPayService(WxConfigStorage configStorage) {
+    public WxPayService(WxPayConfigStorage configStorage) {
         super(configStorage);
     }
 }

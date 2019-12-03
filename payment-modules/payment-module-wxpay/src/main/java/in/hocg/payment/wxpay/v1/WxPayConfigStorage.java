@@ -16,6 +16,12 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
-public class WxConfigStorage implements ConfigStorage {
+public class WxPayConfigStorage implements ConfigStorage {
+    
+    private String appId;
+    
+    private String mchId;
+    
+    private String key;
 
 }

@@ -11,4 +11,11 @@
 
     <artifactId>payment-module-wxpay</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.11</version>
+        </dependency>
+    </dependencies>
 </project>
