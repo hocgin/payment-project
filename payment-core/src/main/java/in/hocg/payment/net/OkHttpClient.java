@@ -1,5 +1,6 @@
 package in.hocg.payment.net;
 
+import com.google.common.collect.Maps;
 import in.hocg.payment.PaymentException;
 import in.hocg.payment.utils.LangUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -86,6 +87,11 @@ public class OkHttpClient implements HttpClient {
     }
     
     @Override
+    public String get(String url) {
+        return get(url, Maps.newHashMap());
+    }
+    
+    @Override
     public String post(String url, Map<String, String> headers, String body) {
         body = LangUtils.getOrDefault(body, "");
         RequestBody requestBody = RequestBody.create(body.getBytes());
@@ -100,6 +106,11 @@ public class OkHttpClient implements HttpClient {
         } catch (IOException e) {
             throw PaymentException.wrap(e);
         }
+    }
+    
+    @Override
+    public String post(String url, String body) {
+        return post(url, Maps.newHashMap(), body);
     }
     
 }

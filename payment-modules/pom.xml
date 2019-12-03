@@ -17,6 +17,7 @@
 
     <modules>
         <module>payment-module-alipay</module>
+        <module>payment-module-wxpay</module>
     </modules>
 
     <dependencies>

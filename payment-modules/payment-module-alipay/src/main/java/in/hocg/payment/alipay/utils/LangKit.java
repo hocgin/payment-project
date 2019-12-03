@@ -20,8 +20,12 @@ public class LangKit {
      *
      * @return
      */
-    public static ObjectHttpClient getHttpClient() {
+    public static ObjectHttpClient getObjectHttpClient() {
         HttpClient httpClient = HttpClientFactory.getSingleInstance(OkHttpClient.class);
         return new ObjectHttpClient(httpClient);
+    }
+    
+    public static HttpClient getHttpClient() {
+        return HttpClientFactory.getSingleInstance(OkHttpClient.class);
     }
 }

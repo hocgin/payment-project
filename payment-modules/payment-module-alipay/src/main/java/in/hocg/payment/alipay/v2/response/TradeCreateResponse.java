@@ -1,7 +1,8 @@
 package in.hocg.payment.alipay.v2.response;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 
 /**
  * Created by hocgin on 2019/11/21.
@@ -9,9 +10,14 @@ import lombok.Getter;
  *
  * @author hocgin
  */
-@Getter
+@Data
 @EqualsAndHashCode(callSuper = true)
 public class TradeCreateResponse extends AliPayResponse {
+    
+    @JSONField(name = "out_trade_no")
+    private String outTradeNo;
+    @JSONField(name = "trade_no")
+    private String tradeNo;
     
     @Override
     public boolean isSuccess() {

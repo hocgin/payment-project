@@ -28,6 +28,8 @@ public interface HttpClient {
      */
     String get(String url, Map<String, String> headers);
     
+    String get(String url);
+    
     /**
      * POST 请求
      *
@@ -37,5 +39,7 @@ public interface HttpClient {
      * @return
      */
     String post(String url, Map<String, String> headers, String body);
+    
+    String post(String url, String body);
     
 }
