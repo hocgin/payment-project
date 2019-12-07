@@ -1,6 +1,7 @@
 package in.hocg.payment.encrypt;
 
 import com.google.common.hash.Hashing;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author hocgin
  */
 @Slf4j
+@UtilityClass
 public class MD5Encrypt {
     
     /**
@@ -18,7 +20,7 @@ public class MD5Encrypt {
      * @param data
      * @return
      */
-    public static String encode(String data) {
+    public static String sign(String data) {
         String sign = Hashing.md5().hashBytes(data.getBytes()).toString();
         log.debug("待签名的数据: {}\n生成的签名: {}", data, sign);
         return sign;

@@ -130,7 +130,7 @@ public class UnifiedOrderRequest extends WxPayRequest<UnifiedOrderResponse> {
         
         Map<String, Object> values = SignObjects.getSignValues(this);
         String signString = Helpers.WxPay.getSignString(values);
-        signString += String.format("&%s", key);
+        signString += String.format("&key=%s", key);
         
         this.sign = WxSignType.MD5.sign(signString, null);
         
