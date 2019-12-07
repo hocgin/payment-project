@@ -4,6 +4,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignObjects;
+import in.hocg.payment.sign.SignValue;
 import in.hocg.payment.utils.LangUtils;
 import in.hocg.payment.wxpay.sign.Helpers;
 import in.hocg.payment.wxpay.sign.WxSignType;
@@ -129,7 +130,8 @@ public class UnifiedOrderRequest extends WxPayRequest<UnifiedOrderResponse> {
         
         
         Map<String, Object> values = SignObjects.getSignValues(this);
-        String signString = Helpers.WxPay.getSignString(values);
+        SignValue signValue = Helpers.newSignValue().handle(values);
+        String signString = signValue.getSignValue();
         signString += String.format("&key=%s", key);
         
         this.sign = WxSignType.MD5.sign(signString, null);

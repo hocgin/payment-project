@@ -2,7 +2,7 @@ package in.hocg.payment.wxpay.sign;
 
 import in.hocg.payment.encrypt.HMACSHA256Encrypt;
 import in.hocg.payment.encrypt.MD5Encrypt;
-import in.hocg.payment.sign.strategy.Sign;
+import in.hocg.payment.sign.SignScheme;
 
 /**
  * Created by hocgin on 2019/12/3.
@@ -10,7 +10,7 @@ import in.hocg.payment.sign.strategy.Sign;
  *
  * @author hocgin
  */
-public enum WxSignType implements Sign {
+public enum WxSignType implements SignScheme {
     MD5 {
         @Override
         public String sign(String data, String privateKey) {

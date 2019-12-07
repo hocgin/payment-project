@@ -1,12 +1,17 @@
 package in.hocg.payment.alipay.v2.request;
 
+import in.hocg.payment.alipay.sign.Helpers;
 import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.core.PaymentRequest;
 import in.hocg.payment.core.PaymentResponse;
 import in.hocg.payment.sign.ApiField;
+import in.hocg.payment.sign.SignObjects;
+import in.hocg.payment.sign.SignValue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.util.Map;
 
 /**
  * Created by hocgin on 2019/11/21.
@@ -53,4 +58,9 @@ public abstract class AliPayRequest<R extends PaymentResponse>
     @ApiField(value = "biz_content", required = true)
     protected String bizContent = "{}";
     
+    
+    protected SignValue getSignValue() {
+        Map<String, Object> values = SignObjects.getSignValues(this);
+        return Helpers.newSignValue().handle(values);
+    }
 }

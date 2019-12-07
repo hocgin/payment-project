@@ -1,4 +1,4 @@
-package in.hocg.payment.sign.strategy;
+package in.hocg.payment.sign;
 
 /**
  * Created by hocgin on 2019/11/23.
@@ -6,7 +6,7 @@ package in.hocg.payment.sign.strategy;
  *
  * @author hocgin
  */
-public interface Sign {
+public interface SignScheme {
     
     /**
      * 签名

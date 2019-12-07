@@ -32,7 +32,7 @@ import java.util.Map;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class TradeCreateRequest extends AliPayRequest<TradeCreateResponse> {
+public class TradeCloseRequest extends AliPayRequest<TradeCreateResponse> {
     
     @Override
     protected TradeCreateResponse request() {
@@ -58,7 +58,7 @@ public class TradeCreateRequest extends AliPayRequest<TradeCreateResponse> {
     
         this.sign = signType.sign(data, privateKey);
         values.put("sign", this.sign);
-        
+    
         for (Map.Entry<String, Object> entry : values.entrySet()) {
             Object value = entry.getValue();
             entry.setValue(URLEncoder.encode(String.valueOf(value)));

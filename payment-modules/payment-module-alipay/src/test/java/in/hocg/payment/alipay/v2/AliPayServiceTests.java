@@ -4,7 +4,7 @@ import in.hocg.payment.ConfigStorages;
 import in.hocg.payment.PaymentServices;
 import in.hocg.payment.alipay.v2.request.TradeCreateRequest;
 import in.hocg.payment.alipay.v2.response.TradeCreateResponse;
-import in.hocg.payment.sign.strategy.SignType;
+import in.hocg.payment.sign.SignType;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

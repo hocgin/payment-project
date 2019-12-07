@@ -1,4 +1,4 @@
-package in.hocg.payment.sign.strategy;
+package in.hocg.payment.sign;
 
 import in.hocg.payment.encrypt.RSAEncrypt;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author hocgin
  */
 @Slf4j
-public enum SignType implements Sign {
+public enum SignType implements SignScheme {
     RSA {
         @Override
         public String sign(String data, String privateKey) {
