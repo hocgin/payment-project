@@ -2,7 +2,9 @@ package in.hocg.payment.alipay.v2;
 
 import in.hocg.payment.ConfigStorages;
 import in.hocg.payment.PaymentServices;
+import in.hocg.payment.alipay.v2.request.TradeCloseRequest;
 import in.hocg.payment.alipay.v2.request.TradeCreateRequest;
+import in.hocg.payment.alipay.v2.response.TradeCloseResponse;
 import in.hocg.payment.alipay.v2.response.TradeCreateResponse;
 import in.hocg.payment.sign.SignType;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +33,6 @@ public class AliPayServiceTests {
         paymentService = PaymentServices.createPaymentService(AliPayService.class, configStorage);
     }
     
-    
     @Test
     void testTradeCreateRequest() {
         TradeCreateRequest request = new TradeCreateRequest();
@@ -39,6 +40,16 @@ public class AliPayServiceTests {
                 "\"out_trade_no\":\"201911270908381158722\",\"total_amount\":\"88.88\",\"subject\":\"iPhone Xs Max 256G\",\"buyer_id\":\"2088102175953034\"" +
                 "}");
         TradeCreateResponse response = paymentService.request(request);
+        log.debug("响应: {}", response);
+    }
+    
+    @Test
+    void testTradeCloseRequest() {
+        TradeCloseRequest request = new TradeCloseRequest();
+        TradeCloseRequest.BizContent bizContent = new TradeCloseRequest.BizContent();
+        bizContent.setOutTradeNo("201911270908381158722");
+        request.setBizContent2(bizContent);
+        TradeCloseResponse response = paymentService.request(request);
         log.debug("响应: {}", response);
     }
 }

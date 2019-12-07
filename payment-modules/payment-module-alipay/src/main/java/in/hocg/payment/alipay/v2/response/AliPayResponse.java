@@ -13,25 +13,30 @@ import lombok.Data;
  */
 @Data
 public abstract class AliPayResponse implements PaymentResponse {
+    public static final String FIELD_CODE = "code";
+    public static final String FIELD_MSG = "msg";
+    public static final String FIELD_SIGN = "sign";
+    public static final String FIELD_SUB_CODE = "sub_code";
+    public static final String FIELD_SUB_MSG = "sub_msg";
     
-    @JSONField(name = "code")
-    @ApiField(value = "code", required = true)
+    @JSONField(name = FIELD_CODE)
+    @ApiField(value = FIELD_CODE, required = true)
     private String code;
     
-    @JSONField(name = "msg")
-    @ApiField(value = "msg", required = true)
+    @JSONField(name = FIELD_MSG)
+    @ApiField(value = FIELD_MSG, required = true)
     private String msg;
     
-    @JSONField(name = "sign")
-    @ApiField(value = "sign", required = true, ignore = true)
+    @JSONField(name = FIELD_SIGN)
+    @ApiField(value = FIELD_SIGN, required = true, ignore = true)
     private String sign;
     
-    @JSONField(name = "sub_code")
-    @ApiField(value = "sub_code")
+    @JSONField(name = FIELD_SUB_CODE)
+    @ApiField(value = FIELD_SUB_CODE)
     private String subCode;
     
-    @JSONField(name = "sub_msg")
-    @ApiField(value = "sub_msg")
+    @JSONField(name = FIELD_SUB_MSG)
+    @ApiField(value = FIELD_SUB_MSG)
     private String subMsg;
     
 }

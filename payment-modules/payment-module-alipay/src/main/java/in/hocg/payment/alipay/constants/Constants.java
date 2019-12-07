@@ -27,4 +27,8 @@ public class Constants {
      */
     public static final DateTimeFormatter ALIPAY_API_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     
+    /**
+     * 响应为成功时使用的 code
+     */
+    public static final String RESPONSE_SUCCESS_CODE = "10000";
 }

@@ -1,6 +1,7 @@
 package in.hocg.payment.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.Feature;
 
 /**
  * Created by hocgin on 2019/11/24.
@@ -19,7 +20,7 @@ public class JSONUtils {
      * @return
      */
     public static <T> T toBean(String json, Class<T> beanClass) {
-        return JSON.parseObject(json, beanClass);
+        return JSON.parseObject(json, beanClass, Feature.OrderedField);
     }
     
     /**

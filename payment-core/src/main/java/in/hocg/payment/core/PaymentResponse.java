@@ -7,5 +7,7 @@ package in.hocg.payment.core;
  * @author hocgin
  */
 public interface PaymentResponse {
+    
     boolean isSuccess();
+    
 }
