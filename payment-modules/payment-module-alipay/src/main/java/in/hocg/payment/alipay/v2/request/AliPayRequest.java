@@ -92,7 +92,8 @@ public abstract class AliPayRequest<R extends PaymentResponse>
      * @return
      */
     @NotNull
-    protected Map<String, Object> setSignAndGetParams(@NonNull String privateKey, SignType signType) {
+    protected Map<String, Object> setSignAndGetParams(@NonNull String privateKey,
+                                                      SignType signType) {
         Map<String, Object> values = SignObjects.getSignValues(this);
         SignValue signValue = Helpers.newSignValue().handle(values);
         String data = signValue.getSignValue();
@@ -160,5 +161,27 @@ public abstract class AliPayRequest<R extends PaymentResponse>
         default String string() {
             return JSON.toJSONString(this);
         }
+    }
+    
+    protected R request(String method,
+                        String responseKey,
+                        Class<R> responseClass) {
+        // 设置参数
+        setPublicValues();
+        AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
+        @NonNull String privateKey = configStorage.getPrivateKey();
+        @NonNull String aliPayPublicKey = configStorage.getAliPayPublicKey();
+        SignType signType = configStorage.getSignType();
+        String baseUrl = configStorage.getUrl();
+        this.method = method;
+        
+        // 签名
+        Map<String, Object> values = setSignAndGetParams(privateKey, signType);
+        
+        // 访问支付宝接口
+        String url = Helpers.getUrl(baseUrl, values);
+        Converts convert = Converts.valueOf(this.format.toUpperCase());
+        JSONObject response = Helpers.getObjectHttpClient().get(url, convert, JSONObject.class);
+        return wrapResponse(response, responseKey, signType, aliPayPublicKey, convert, responseClass);
     }
 }
