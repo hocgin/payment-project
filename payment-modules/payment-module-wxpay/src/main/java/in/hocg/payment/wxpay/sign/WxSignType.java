@@ -13,6 +13,11 @@ import in.hocg.payment.sign.SignScheme;
 public enum WxSignType implements SignScheme {
     MD5 {
         @Override
+        public String string() {
+            return "MD5";
+        }
+        
+        @Override
         public String sign(String data, String privateKey) {
             return MD5Encrypt.sign(data).toUpperCase();
         }
@@ -22,6 +27,11 @@ public enum WxSignType implements SignScheme {
             return sign(data, publicKey).equals(sign);
         }
     }, HMAC_SHA256 {
+        @Override
+        public String string() {
+            return "HMAC-SHA256";
+        }
+        
         @Override
         public String sign(String data, String privateKey) {
             return HMACSHA256Encrypt.sign(data, privateKey).toUpperCase();
@@ -33,4 +43,5 @@ public enum WxSignType implements SignScheme {
         }
     };
     
+    public abstract String string();
 }

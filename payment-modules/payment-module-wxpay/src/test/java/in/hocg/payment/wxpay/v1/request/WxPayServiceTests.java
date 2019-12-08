@@ -4,6 +4,7 @@ import in.hocg.payment.ConfigStorages;
 import in.hocg.payment.PaymentServices;
 import in.hocg.payment.wxpay.v1.WxPayConfigStorage;
 import in.hocg.payment.wxpay.v1.WxPayService;
+import in.hocg.payment.wxpay.v1.response.UnifiedOrderResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -23,14 +24,15 @@ class WxPayServiceTests {
         configStorage.setAppId("appid");
         configStorage.setKey("key");
         configStorage.setMchId("MchId");
+        configStorage.setIsDev(true);
         paymentService = PaymentServices.createPaymentService(WxPayService.class, configStorage);
     }
     
     @Test
     void testUnifiedOrderRequest() {
         UnifiedOrderRequest request = new UnifiedOrderRequest();
-        request.setAppId("11");
         request.setAttach("aa");
-        paymentService.request(request);
+        UnifiedOrderResponse response = paymentService.request(request);
+        System.out.println(response);
     }
 }

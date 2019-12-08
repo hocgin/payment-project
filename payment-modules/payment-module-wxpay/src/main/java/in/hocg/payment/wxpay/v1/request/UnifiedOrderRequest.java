@@ -2,6 +2,7 @@ package in.hocg.payment.wxpay.v1.request;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import in.hocg.payment.PaymentException;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignObjects;
 import in.hocg.payment.sign.SignValue;
@@ -13,8 +14,11 @@ import in.hocg.payment.wxpay.v1.WxPayConfigStorage;
 import in.hocg.payment.wxpay.v1.response.UnifiedOrderResponse;
 import in.hocg.payment.wxpay.xml.XStreamInitializer;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Map;
+
+import static in.hocg.payment.wxpay.constants.Constants.RESPONSE_SUCCESS_CODE;
 
 /**
  * Created by hocgin on 2019/12/3.
@@ -22,33 +26,14 @@ import java.util.Map;
  *
  * @author hocgin
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @XStreamAlias("xml")
 public class UnifiedOrderRequest extends WxPayRequest<UnifiedOrderResponse> {
     
-    @ApiField(value = "app_id", required = true)
-    @XStreamAlias("app_id")
-    private String appId;
-    
-    @ApiField(value = "mch_id", required = true)
-    @XStreamAlias("mch_id")
-    private String mchId;
-    
     @ApiField(value = "device_info")
     @XStreamAlias("device_info")
     private String deviceInfo;
-    
-    @ApiField(value = "nonce_str", required = true)
-    @XStreamAlias("nonce_str")
-    private String nonceStr;
-    
-    @ApiField(value = "sign", required = true, ignore = true)
-    @XStreamAlias("sign")
-    private String sign;
-    
-    @ApiField(value = "sign_type")
-    @XStreamAlias("sign_type")
-    private String signType;
     
     @ApiField(value = "body", required = true)
     @XStreamAlias("body")
@@ -120,27 +105,42 @@ public class UnifiedOrderRequest extends WxPayRequest<UnifiedOrderResponse> {
     
     @Override
     protected UnifiedOrderResponse request() {
-        String url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
         WxPayConfigStorage configStorage = this.getPaymentService().getConfigStorage();
         String key = configStorage.getKey();
-        
+        String url = String.format("%s/pay/unifiedorder", configStorage.getUrl());
         this.appId = LangUtils.getOrDefault(this.getAppId(), configStorage.getAppId());
         this.mchId = LangUtils.getOrDefault(this.getMchId(), configStorage.getMchId());
-        this.notifyUrl = LangUtils.getOrDefault(this.getNotifyUrl(), null);
-        
+        this.nonceStr = LangUtils.getOrDefault(this.getNonceStr(), String.valueOf(System.currentTimeMillis()));
+        WxSignType signType = configStorage.getSignType();
+        this.signType = LangUtils.getOrDefault(this.getSignType(), signType.string());
         
         Map<String, Object> values = SignObjects.getSignValues(this);
         SignValue signValue = Helpers.newSignValue().handle(values);
         String signString = signValue.getSignValue();
         signString += String.format("&key=%s", key);
         
-        this.sign = WxSignType.MD5.sign(signString, null);
+        this.sign = signType.sign(signString, null);
         
         XStream xstream = XStreamInitializer.getInstance();
         xstream.processAnnotations(this.getClass());
         String xml = xstream.toXML(this);
         String response = LangKit.getHttpClient().post(url, xml);
-        UnifiedOrderResponse o = (UnifiedOrderResponse) xstream.fromXML(response);
-        return null;
+        UnifiedOrderResponse result = (UnifiedOrderResponse) xstream.fromXML(response);
+        result.after();
+        
+        // 业务结果检查
+        if (!RESPONSE_SUCCESS_CODE.equals(result.getReturnCode())) {
+            throw PaymentException.wrap("业务处理失败: " + result.getReturnCode());
+        }
+        
+        // 验签
+        Map<String, Object> data = result.toMap();
+        SignValue signValue2 = Helpers.newSignValue().handle(data);
+        boolean verify = signType.verify(signValue2.getSignValue(), null, result.getSign());
+        if (!verify) {
+            throw PaymentException.wrap("签名校验失败，数据可能被串改");
+        }
+        
+        return result;
     }
 }
