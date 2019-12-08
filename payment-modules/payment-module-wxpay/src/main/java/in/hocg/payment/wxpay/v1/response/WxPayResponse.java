@@ -3,8 +3,10 @@ package in.hocg.payment.wxpay.v1.response;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import in.hocg.payment.core.PaymentResponse;
+import in.hocg.payment.wxpay.xml.XStreamInitializer;
 import lombok.Data;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -130,6 +132,15 @@ public abstract class WxPayResponse implements PaymentResponse {
             throw new RuntimeException(e);
         }
         
+        return result;
+    }
+    
+    public static <T extends WxPayResponse> T fromXML(String xmlString, Class<T> clz) {
+        XStream xstream = XStreamInitializer.getInstance();
+        xstream.processAnnotations(clz);
+        T result = (T) xstream.fromXML(xmlString);
+        result.setXmlString(xmlString);
+        result.after();
         return result;
     }
 }

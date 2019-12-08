@@ -1,6 +1,5 @@
 package in.hocg.payment.wxpay.v1.request;
 
-import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import in.hocg.payment.PaymentException;
 import in.hocg.payment.sign.ApiField;
@@ -12,7 +11,6 @@ import in.hocg.payment.wxpay.sign.WxSignType;
 import in.hocg.payment.wxpay.utils.LangKit;
 import in.hocg.payment.wxpay.v1.WxPayConfigStorage;
 import in.hocg.payment.wxpay.v1.response.UnifiedOrderResponse;
-import in.hocg.payment.wxpay.xml.XStreamInitializer;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -121,12 +119,8 @@ public class UnifiedOrderRequest extends WxPayRequest<UnifiedOrderResponse> {
         
         this.sign = signType.sign(signString, null);
         
-        XStream xstream = XStreamInitializer.getInstance();
-        xstream.processAnnotations(this.getClass());
-        String xml = xstream.toXML(this);
-        String response = LangKit.getHttpClient().post(url, xml);
-        UnifiedOrderResponse result = (UnifiedOrderResponse) xstream.fromXML(response);
-        result.after();
+        String response = LangKit.getHttpClient().post(url, this.toXML());
+        UnifiedOrderResponse result = UnifiedOrderResponse.fromXML(response, UnifiedOrderResponse.class);
         
         // 业务结果检查
         if (!RESPONSE_SUCCESS_CODE.equals(result.getReturnCode())) {
@@ -135,8 +129,9 @@ public class UnifiedOrderRequest extends WxPayRequest<UnifiedOrderResponse> {
         
         // 验签
         Map<String, Object> data = result.toMap();
-        SignValue signValue2 = Helpers.newSignValue().handle(data);
-        boolean verify = signType.verify(signValue2.getSignValue(), null, result.getSign());
+        SignValue responseSignValue = Helpers.newSignValue().handle(data);
+        String responseSignValueString = responseSignValue.getSignValue();
+        boolean verify = signType.verify(responseSignValueString, null, result.getSign());
         if (!verify) {
             throw PaymentException.wrap("签名校验失败，数据可能被串改");
         }

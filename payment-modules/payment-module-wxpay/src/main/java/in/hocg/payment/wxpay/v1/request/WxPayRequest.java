@@ -1,10 +1,12 @@
 package in.hocg.payment.wxpay.v1.request;
 
+import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import in.hocg.payment.core.PaymentRequest;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.wxpay.v1.WxPayService;
 import in.hocg.payment.wxpay.v1.response.WxPayResponse;
+import in.hocg.payment.wxpay.xml.XStreamInitializer;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -43,4 +45,10 @@ public abstract class WxPayRequest<R extends WxPayResponse>
     @ApiField(value = "sign_type")
     @XStreamAlias("sign_type")
     protected String signType;
+    
+    public String toXML() {
+        XStream xstream = XStreamInitializer.getInstance();
+        xstream.processAnnotations(this.getClass());
+        return xstream.toXML(this);
+    }
 }
