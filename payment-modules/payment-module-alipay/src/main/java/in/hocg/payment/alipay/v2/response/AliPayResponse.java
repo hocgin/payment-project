@@ -19,24 +19,24 @@ public abstract class AliPayResponse implements PaymentResponse {
     public static final String FIELD_SUB_CODE = "sub_code";
     public static final String FIELD_SUB_MSG = "sub_msg";
     
-    @JSONField(name = FIELD_CODE)
-    @ApiField(value = FIELD_CODE, required = true)
+    @JSONField(name = AliPayResponse.FIELD_CODE)
+    @ApiField(value = AliPayResponse.FIELD_CODE, required = true)
     private String code;
     
-    @JSONField(name = FIELD_MSG)
-    @ApiField(value = FIELD_MSG, required = true)
+    @JSONField(name = AliPayResponse.FIELD_MSG)
+    @ApiField(value = AliPayResponse.FIELD_MSG, required = true)
     private String msg;
     
-    @JSONField(name = FIELD_SIGN)
-    @ApiField(value = FIELD_SIGN, required = true, ignore = true)
+    @JSONField(name = AliPayResponse.FIELD_SIGN)
+    @ApiField(value = AliPayResponse.FIELD_SIGN, required = true, ignore = true)
     private String sign;
     
-    @JSONField(name = FIELD_SUB_CODE)
-    @ApiField(value = FIELD_SUB_CODE)
+    @JSONField(name = AliPayResponse.FIELD_SUB_CODE)
+    @ApiField(value = AliPayResponse.FIELD_SUB_CODE)
     private String subCode;
     
-    @JSONField(name = FIELD_SUB_MSG)
-    @ApiField(value = FIELD_SUB_MSG)
+    @JSONField(name = AliPayResponse.FIELD_SUB_MSG)
+    @ApiField(value = AliPayResponse.FIELD_SUB_MSG)
     private String subMsg;
     
 }
