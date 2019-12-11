@@ -12,9 +12,9 @@ import lombok.EqualsAndHashCode;
  *
  * @author hocgin
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @XStreamAlias("xml")
+@EqualsAndHashCode(callSuper = true)
 public class UnifiedOrderRequest extends WxPayRequest<UnifiedOrderResponse> {
     
     @ApiField(value = "device_info")
