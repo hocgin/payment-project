@@ -1,5 +1,6 @@
 package in.hocg.payment.alipay.v2.response;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,4 +13,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class TradeOrderSettleResponse extends AliPayResponse {
+    @JSONField(name = "trade_no")
+    private String tradeNo;
 }

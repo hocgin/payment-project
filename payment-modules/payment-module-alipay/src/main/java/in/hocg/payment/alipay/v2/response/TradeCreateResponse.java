@@ -13,10 +13,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class TradeCreateResponse extends AliPayResponse {
-    
     @JSONField(name = "out_trade_no")
     private String outTradeNo;
     @JSONField(name = "trade_no")
     private String tradeNo;
-    
 }
