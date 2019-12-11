@@ -19,8 +19,4 @@ public class TradeCreateResponse extends AliPayResponse {
     @JSONField(name = "trade_no")
     private String tradeNo;
     
-    @Override
-    public boolean isSuccess() {
-        return false;
-    }
 }

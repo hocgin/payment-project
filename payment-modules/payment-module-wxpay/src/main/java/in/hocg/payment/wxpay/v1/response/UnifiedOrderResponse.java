@@ -79,12 +79,8 @@ public class UnifiedOrderResponse extends WxPayResponse {
     }
     
     @Override
-    public void after() {
+    public void afterPropertiesSet() {
         composeCoupons();
     }
     
-    @Override
-    public boolean isSuccess() {
-        return false;
-    }
 }

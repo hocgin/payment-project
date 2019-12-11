@@ -9,16 +9,16 @@ import in.hocg.payment.utils.XMLUtils;
  *
  * @author hocgin
  */
-public enum Converts implements Convert {
+public enum Converts implements Convert<Object> {
     JSON() {
         @Override
-        public <T> T convert(String body, Class<T> clazz) {
+        public <R extends Object> R convert(String body, Class<R> clazz) {
             return JSONUtils.toBean(body, clazz);
         }
     },
     XML {
         @Override
-        public <T> T convert(String body, Class<T> clazz) {
+        public <R extends Object> R convert(String body, Class<R> clazz) {
             return XMLUtils.toBean(body, clazz);
         }
     };

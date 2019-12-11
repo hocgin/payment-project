@@ -2,6 +2,7 @@ package in.hocg.payment.alipay.v2.request;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import in.hocg.payment.alipay.v2.response.TradeCloseResponse;
+import in.hocg.payment.sign.ApiField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -17,6 +18,9 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 public class TradeCloseRequest extends AliPayRequest<TradeCloseResponse> {
     
+    @ApiField(value = "method", required = true)
+    protected final String method = "alipay.trade.close";
+    
     @Data
     @Accessors(chain = true)
     public static class BizContent implements AliPayRequest.BizContent {
@@ -30,9 +34,7 @@ public class TradeCloseRequest extends AliPayRequest<TradeCloseResponse> {
     
     @Override
     protected TradeCloseResponse request() {
-        return request("alipay.trade.close",
-                "alipay_trade_close_response",
-                TradeCloseResponse.class);
+        return request(TradeCloseResponse.class);
     }
     
 }

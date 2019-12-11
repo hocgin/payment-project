@@ -3,6 +3,7 @@ package in.hocg.payment.alipay.v2.request;
 import com.alibaba.fastjson.annotation.JSONField;
 import in.hocg.payment.alipay.v2.request.item.*;
 import in.hocg.payment.alipay.v2.response.TradeCreateResponse;
+import in.hocg.payment.sign.ApiField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -19,6 +20,9 @@ import java.util.List;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class TradeCreateRequest extends AliPayRequest<TradeCreateResponse> {
+    
+    @ApiField(value = "method", required = true)
+    protected final String method = "alipay.trade.create";
     
     @Data
     @Accessors(chain = true)
@@ -64,8 +68,6 @@ public class TradeCreateRequest extends AliPayRequest<TradeCreateResponse> {
     
     @Override
     protected TradeCreateResponse request() {
-        return request("alipay.trade.create",
-                "alipay_trade_create_response",
-                TradeCreateResponse.class);
+        return request(TradeCreateResponse.class);
     }
 }

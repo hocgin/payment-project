@@ -1,6 +1,7 @@
 package in.hocg.payment.core.data;
 
 import in.hocg.payment.core.PaymentResponse;
+import in.hocg.payment.sign.SignScheme;
 
 /**
  * Created by hocgin on 2019/12/1.
@@ -8,10 +9,10 @@ import in.hocg.payment.core.PaymentResponse;
  *
  * @author hocgin
  */
-public class TestResponse implements PaymentResponse {
+public class TestResponse extends PaymentResponse {
     
     @Override
-    public boolean isSuccess() {
+    public boolean checkSign(SignScheme scheme, String key) {
         return true;
     }
 }

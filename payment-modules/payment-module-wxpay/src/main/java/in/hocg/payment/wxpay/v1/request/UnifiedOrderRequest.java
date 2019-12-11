@@ -1,22 +1,10 @@
 package in.hocg.payment.wxpay.v1.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import in.hocg.payment.PaymentException;
 import in.hocg.payment.sign.ApiField;
-import in.hocg.payment.sign.SignObjects;
-import in.hocg.payment.sign.SignValue;
-import in.hocg.payment.utils.LangUtils;
-import in.hocg.payment.wxpay.sign.Helpers;
-import in.hocg.payment.wxpay.sign.WxSignType;
-import in.hocg.payment.wxpay.utils.LangKit;
-import in.hocg.payment.wxpay.v1.WxPayConfigStorage;
 import in.hocg.payment.wxpay.v1.response.UnifiedOrderResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Map;
-
-import static in.hocg.payment.wxpay.constants.Constants.RESPONSE_SUCCESS_CODE;
 
 /**
  * Created by hocgin on 2019/12/3.
@@ -103,39 +91,6 @@ public class UnifiedOrderRequest extends WxPayRequest<UnifiedOrderResponse> {
     
     @Override
     protected UnifiedOrderResponse request() {
-        WxPayConfigStorage configStorage = this.getPaymentService().getConfigStorage();
-        String key = configStorage.getKey();
-        String url = String.format("%s/pay/unifiedorder", configStorage.getUrl());
-        this.appId = LangUtils.getOrDefault(this.getAppId(), configStorage.getAppId());
-        this.mchId = LangUtils.getOrDefault(this.getMchId(), configStorage.getMchId());
-        this.nonceStr = LangUtils.getOrDefault(this.getNonceStr(), String.valueOf(System.currentTimeMillis()));
-        WxSignType signType = configStorage.getSignType();
-        this.signType = LangUtils.getOrDefault(this.getSignType(), signType.string());
-        
-        Map<String, Object> values = SignObjects.getSignValues(this);
-        SignValue signValue = Helpers.newSignValue().handle(values);
-        String signString = signValue.getSignValue();
-        signString += String.format("&key=%s", key);
-        
-        this.sign = signType.sign(signString, null);
-        
-        String response = LangKit.getHttpClient().post(url, this.toXML());
-        UnifiedOrderResponse result = UnifiedOrderResponse.fromXML(response, UnifiedOrderResponse.class);
-        
-        // 业务结果检查
-        if (!RESPONSE_SUCCESS_CODE.equals(result.getReturnCode())) {
-            throw PaymentException.wrap("业务处理失败: " + result.getReturnCode());
-        }
-        
-        // 验签
-        Map<String, Object> data = result.toMap();
-        SignValue responseSignValue = Helpers.newSignValue().handle(data);
-        String responseSignValueString = responseSignValue.getSignValue();
-        boolean verify = signType.verify(responseSignValueString, null, result.getSign());
-        if (!verify) {
-            throw PaymentException.wrap("签名校验失败，数据可能被串改");
-        }
-        
-        return result;
+        return request("pay/unifiedorder", UnifiedOrderResponse.class);
     }
 }

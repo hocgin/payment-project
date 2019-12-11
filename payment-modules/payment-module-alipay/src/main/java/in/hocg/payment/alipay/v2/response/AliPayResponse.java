@@ -1,9 +1,17 @@
 package in.hocg.payment.alipay.v2.response;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.parser.Feature;
 import in.hocg.payment.core.PaymentResponse;
 import in.hocg.payment.sign.ApiField;
+import in.hocg.payment.sign.SignScheme;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.Map;
+
 
 /**
  * Created by hocgin on 2019/11/21.
@@ -12,7 +20,8 @@ import lombok.Data;
  * @author hocgin
  */
 @Data
-public abstract class AliPayResponse implements PaymentResponse {
+@EqualsAndHashCode(callSuper = true)
+public abstract class AliPayResponse extends PaymentResponse {
     public static final String FIELD_CODE = "code";
     public static final String FIELD_MSG = "msg";
     public static final String FIELD_SIGN = "sign";
@@ -38,5 +47,20 @@ public abstract class AliPayResponse implements PaymentResponse {
     @JSONField(name = AliPayResponse.FIELD_SUB_MSG)
     @ApiField(value = AliPayResponse.FIELD_SUB_MSG)
     private String subMsg;
+    
+    @Override
+    public boolean checkSign(SignScheme scheme, String key) {
+        final Map<String, String> map = JSON.parseObject(getContent(), new TypeReference<Map<String, String>>() {
+        }, Feature.OrderedField);
+        String responseKey = "";
+        for (String item : map.keySet()) {
+            if (item.endsWith("response")) {
+                responseKey = item;
+                break;
+            }
+        }
+        final String responseBody = map.getOrDefault(responseKey, "{}");
+        return scheme.verify(responseBody, key, getSign());
+    }
     
 }

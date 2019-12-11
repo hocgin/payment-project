@@ -6,15 +6,14 @@ package in.hocg.payment.net;
  *
  * @author hocgin
  */
-public interface Convert {
+public interface Convert<T> {
     
     /**
      * 格式转换
      *
      * @param body
      * @param clazz
-     * @param <T>
      * @return
      */
-    <T> T convert(String body, Class<T> clazz);
+    <R extends T> R convert(String body, Class<R> clazz);
 }

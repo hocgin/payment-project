@@ -3,10 +3,11 @@ package in.hocg.payment.wxpay.v1.response;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import in.hocg.payment.core.PaymentResponse;
-import in.hocg.payment.wxpay.xml.XStreamInitializer;
+import in.hocg.payment.sign.SignScheme;
+import in.hocg.payment.sign.SignValue;
+import in.hocg.payment.wxpay.sign.Helpers;
 import lombok.Data;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -27,7 +28,7 @@ import java.util.Map;
  * @author hocgin
  */
 @Data
-public abstract class WxPayResponse implements PaymentResponse {
+public abstract class WxPayResponse extends PaymentResponse {
     @XStreamAlias("return_code")
     private String returnCode;
     
@@ -101,12 +102,6 @@ public abstract class WxPayResponse implements PaymentResponse {
     }
     
     /**
-     * 实例化处理
-     */
-    public void after() {
-    }
-    
-    /**
      * xml 转 Map
      *
      * @return
@@ -135,12 +130,11 @@ public abstract class WxPayResponse implements PaymentResponse {
         return result;
     }
     
-    public static <T extends WxPayResponse> T fromXML(String xmlString, Class<T> clz) {
-        XStream xstream = XStreamInitializer.getInstance();
-        xstream.processAnnotations(clz);
-        T result = (T) xstream.fromXML(xmlString);
-        result.setXmlString(xmlString);
-        result.after();
-        return result;
+    @Override
+    public boolean checkSign(SignScheme scheme, String key) {
+        Map<String, Object> data = this.toMap();
+        SignValue signHelper = Helpers.newSignValue().handle(data);
+        String signValue = signHelper.getSignValue();
+        return scheme.verify(signValue, key, this.getSign());
     }
 }

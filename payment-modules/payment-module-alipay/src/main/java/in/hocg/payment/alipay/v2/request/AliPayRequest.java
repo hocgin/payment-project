@@ -1,16 +1,14 @@
 package in.hocg.payment.alipay.v2.request;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import in.hocg.payment.PaymentException;
 import in.hocg.payment.alipay.Helpers;
 import in.hocg.payment.alipay.constants.Constants;
+import in.hocg.payment.alipay.convert.AliPayConverts;
 import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.alipay.v2.response.AliPayResponse;
 import in.hocg.payment.core.PaymentRequest;
-import in.hocg.payment.core.PaymentResponse;
-import in.hocg.payment.net.Converts;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignObjects;
 import in.hocg.payment.sign.SignType;
@@ -34,15 +32,12 @@ import java.util.Map;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public abstract class AliPayRequest<R extends PaymentResponse>
+public abstract class AliPayRequest<R extends AliPayResponse>
         extends PaymentRequest<AliPayService, R> {
     public static final String FIELD_SIGN = "sign";
     
     @ApiField(value = "app_id", required = true)
     protected String appId;
-    
-    @ApiField(value = "method", required = true)
-    protected String method;
     
     @ApiField(value = "format", required = true)
     protected String format;
@@ -70,6 +65,27 @@ public abstract class AliPayRequest<R extends PaymentResponse>
     
     @ApiField(value = "biz_content", required = true)
     protected String bizContent = "{}";
+    
+    /**
+     * 封装 BizContent
+     *
+     * @param bizContent
+     */
+    public void setBizContent2(BizContent bizContent) {
+        this.bizContent = bizContent.string();
+    }
+    
+    interface BizContent {
+        
+        /**
+         * 签名
+         *
+         * @return
+         */
+        default String string() {
+            return JSON.toJSONString(this);
+        }
+    }
     
     /**
      * 设置公用属性
@@ -104,68 +120,7 @@ public abstract class AliPayRequest<R extends PaymentResponse>
         return values;
     }
     
-    /**
-     * 处理响应
-     *
-     * @param response
-     * @param key
-     * @param signType
-     * @param publicKey
-     * @param convert
-     * @return
-     */
-    public R wrapResponse(JSONObject response,
-                          String key,
-                          SignType signType,
-                          String publicKey,
-                          Converts convert,
-                          Class<R> clazz) {
-        String sign = response.getString(AliPayResponse.FIELD_SIGN);
-        String responseString = response.getString(key);
-        
-        // 检查签名
-        boolean verifySign = signType.verify(responseString, publicKey, sign);
-        
-        // 如果签名失败
-        if (!verifySign) {
-            throw PaymentException.wrap("签名校验失败，数据可能被串改");
-        }
-        
-        String code = response.getJSONObject(key).getString(AliPayResponse.FIELD_CODE);
-        
-        // 如果业务处理失败
-        if (!Constants.RESPONSE_SUCCESS_CODE.equals(code)) {
-            throw PaymentException.wrap("业务处理失败: " + code);
-        }
-        
-        // 封装响应结构
-        return convert.convert(responseString, clazz);
-    }
-    
-    /**
-     * 封装 BizContent
-     *
-     * @param bizContent
-     */
-    public void setBizContent2(BizContent bizContent) {
-        this.bizContent = bizContent.string();
-    }
-    
-    interface BizContent {
-        
-        /**
-         * 签名
-         *
-         * @return
-         */
-        default String string() {
-            return JSON.toJSONString(this);
-        }
-    }
-    
-    protected R request(String method,
-                        String responseKey,
-                        Class<R> responseClass) {
+    protected R request(Class<R> responseClass) {
         // 设置参数
         setPublicValues();
         AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
@@ -173,15 +128,25 @@ public abstract class AliPayRequest<R extends PaymentResponse>
         @NonNull String aliPayPublicKey = configStorage.getAliPayPublicKey();
         SignType signType = configStorage.getSignType();
         String baseUrl = configStorage.getUrl();
-        this.method = method;
         
         // 签名
         Map<String, Object> values = setSignAndGetParams(privateKey, signType);
         
         // 访问支付宝接口
         String url = Helpers.getUrl(baseUrl, values);
-        Converts convert = Converts.valueOf(this.format.toUpperCase());
-        JSONObject response = Helpers.getObjectHttpClient().get(url, convert, JSONObject.class);
-        return wrapResponse(response, responseKey, signType, aliPayPublicKey, convert, responseClass);
+        String response = Helpers.getHttpClient().get(url);
+        R result = AliPayResponse.from(AliPayConverts.JSON, response, responseClass);
+        
+        // 如果业务处理失败
+        if (!Constants.RESPONSE_SUCCESS_CODE.equals(result.getCode())) {
+            throw PaymentException.wrap("业务处理失败: " + result.getCode());
+        }
+        
+        // 如果签名失败
+        if (!result.checkSign(signType, aliPayPublicKey)) {
+            throw PaymentException.wrap("签名校验失败，数据可能被串改");
+        }
+        
+        return result;
     }
 }

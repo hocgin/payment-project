@@ -33,7 +33,7 @@ public class ObjectHttpClient {
                      Class<T> responseClass) {
         String responseBody = httpClient.get(url, headers);
         print("GET", url, headers, "{}", responseBody);
-        return convert.convert(responseBody, responseClass);
+        return (T) convert.convert(responseBody, responseClass);
     }
     
     public <T> T get(String url,
@@ -49,7 +49,7 @@ public class ObjectHttpClient {
                       Class<T> responseClass) {
         String responseBody = httpClient.post(url, headers, requestBody);
         print("POST", url, headers, requestBody, responseBody);
-        return convert.convert(responseBody, responseClass);
+        return (T) convert.convert(responseBody, responseClass);
     }
     
     public <T> T post(String url,

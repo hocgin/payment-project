@@ -55,4 +55,8 @@ public class Helpers {
         return new ObjectHttpClient(httpClient);
     }
     
+    public static HttpClient getHttpClient() {
+        return HttpClientFactory.getSingleInstance(OkHttpClient.class);
+    }
+    
 }
