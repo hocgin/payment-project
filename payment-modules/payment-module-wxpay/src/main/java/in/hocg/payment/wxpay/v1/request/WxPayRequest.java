@@ -8,10 +8,9 @@ import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignObjects;
 import in.hocg.payment.sign.SignValue;
 import in.hocg.payment.utils.LangUtils;
-import in.hocg.payment.wxpay.convert.WxConverts;
-import in.hocg.payment.wxpay.sign.Helpers;
+import in.hocg.payment.wxpay.Helpers;
+import in.hocg.payment.wxpay.convert.WxPayConverts;
 import in.hocg.payment.wxpay.sign.WxSignType;
-import in.hocg.payment.wxpay.utils.LangKit;
 import in.hocg.payment.wxpay.v1.WxPayConfigStorage;
 import in.hocg.payment.wxpay.v1.WxPayService;
 import in.hocg.payment.wxpay.v1.response.WxPayResponse;
@@ -65,8 +64,7 @@ public abstract class WxPayRequest<R extends WxPayResponse>
         return xstream.toXML(this);
     }
     
-    public R request(String uri,
-                     Class<R> responseClass) {
+    public R request(String uri, Class<R> responseClass) {
         WxPayConfigStorage configStorage = this.getPaymentService().getConfigStorage();
         String key = configStorage.getKey();
         this.appId = LangUtils.getOrDefault(this.getAppId(), configStorage.getAppId());
@@ -83,10 +81,8 @@ public abstract class WxPayRequest<R extends WxPayResponse>
         this.sign = signType.sign(signString, key);
     
         String url = String.format("%s/%s", configStorage.getUrl(), uri);
-        String response = LangKit.getHttpClient().post(url, this.toXML());
-        R result = WxPayResponse.from(WxConverts.XML,
-                response,
-                responseClass);
+        String response = Helpers.getHttpClient().post(url, this.toXML());
+        R result = WxPayResponse.from(WxPayConverts.XML, response, responseClass);
         
         // 业务结果检查
         if (!RESPONSE_SUCCESS_CODE.equals(result.getReturnCode())) {

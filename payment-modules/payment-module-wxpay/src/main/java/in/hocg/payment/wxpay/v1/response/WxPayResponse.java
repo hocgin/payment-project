@@ -7,8 +7,9 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import in.hocg.payment.core.PaymentResponse;
 import in.hocg.payment.sign.SignScheme;
 import in.hocg.payment.sign.SignValue;
-import in.hocg.payment.wxpay.sign.Helpers;
+import in.hocg.payment.wxpay.Helpers;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -28,6 +29,7 @@ import java.util.Map;
  * @author hocgin
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public abstract class WxPayResponse extends PaymentResponse {
     @XStreamAlias("return_code")
     private String returnCode;

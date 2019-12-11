@@ -11,7 +11,7 @@ import in.hocg.payment.wxpay.xml.XStreamInitializer;
  *
  * @author hocgin
  */
-public enum WxConverts implements Convert<WxPayResponse> {
+public enum WxPayConverts implements Convert<WxPayResponse> {
     XML{
         @Override
         public <T extends WxPayResponse> T convert(String body, Class<T> clazz) {

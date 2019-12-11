@@ -1,5 +1,8 @@
-package in.hocg.payment.wxpay.sign;
+package in.hocg.payment.wxpay;
 
+import in.hocg.payment.net.HttpClient;
+import in.hocg.payment.net.HttpClientFactory;
+import in.hocg.payment.net.OkHttpClient;
 import in.hocg.payment.sign.SignValue;
 
 import java.util.Objects;
@@ -20,4 +23,7 @@ public class Helpers {
                 .setOrderStrategy(SignValue.KeyOrder.ASC);
     }
     
+    public static HttpClient getHttpClient() {
+        return HttpClientFactory.getSingleInstance(OkHttpClient.class);
+    }
 }
