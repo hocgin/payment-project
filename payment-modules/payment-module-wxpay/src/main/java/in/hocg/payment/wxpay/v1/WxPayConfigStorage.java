@@ -41,7 +41,7 @@ public class WxPayConfigStorage implements ConfigStorage {
      * 签名类型
      */
     @NonNull
-    private WxSignType signType = WxSignType.MD5;
+    private WxSignType signType = WxSignType.HMAC_SHA256;
     
     /**
      * 是否沙箱环境
