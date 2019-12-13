@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
 /**
@@ -142,5 +143,17 @@ public class ClassUtils {
      */
     public static boolean isArray(Class clazz) {
         return clazz.isArray();
+    }
+    
+    /**
+     * 获取范型的具体类型
+     *
+     * @param clazz
+     * @param index
+     * @return
+     */
+    public static Class getGenericSuperclass(Class clazz, int index) {
+        ParameterizedType pt = (ParameterizedType) clazz.getGenericSuperclass();
+        return (Class) pt.getActualTypeArguments()[index];
     }
 }
