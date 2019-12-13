@@ -1,7 +1,7 @@
 package in.hocg.payment.core;
 
 import com.google.common.collect.Maps;
-import in.hocg.payment.net.Convert;
+import in.hocg.payment.convert.Convert;
 import in.hocg.payment.utils.ClassUtils;
 
 import java.util.Map;

@@ -1,7 +1,7 @@
 package in.hocg.payment.wxpay.convert;
 
 import com.thoughtworks.xstream.XStream;
-import in.hocg.payment.net.Convert;
+import in.hocg.payment.convert.Convert;
 import in.hocg.payment.wxpay.v1.response.WxPayResponse;
 import in.hocg.payment.wxpay.xml.XStreamInitializer;
 

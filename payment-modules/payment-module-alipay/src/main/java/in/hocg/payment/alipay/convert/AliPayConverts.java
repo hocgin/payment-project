@@ -3,7 +3,7 @@ package in.hocg.payment.alipay.convert;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.parser.Feature;
 import in.hocg.payment.alipay.v2.response.AliPayResponse;
-import in.hocg.payment.net.Convert;
+import in.hocg.payment.convert.Convert;
 
 import java.util.Map;
 

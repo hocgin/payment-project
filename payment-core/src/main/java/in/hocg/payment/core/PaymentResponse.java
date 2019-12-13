@@ -1,6 +1,6 @@
 package in.hocg.payment.core;
 
-import in.hocg.payment.net.Convert;
+import in.hocg.payment.convert.Convert;
 import in.hocg.payment.sign.SignScheme;
 import lombok.Getter;
 import lombok.Setter;
