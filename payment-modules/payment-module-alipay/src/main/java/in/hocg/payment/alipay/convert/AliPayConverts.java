@@ -32,5 +32,15 @@ public enum AliPayConverts implements Convert<AliPayResponse> {
             object.setSign(map.getOrDefault(AliPayResponse.FIELD_SIGN, null));
             return object;
         }
+    },
+    TEXT {
+        @Override
+        public <R extends AliPayResponse> R convert(String body, Class<R> clazz) {
+            try {
+                return clazz.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

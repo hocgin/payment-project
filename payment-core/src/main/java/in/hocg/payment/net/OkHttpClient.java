@@ -90,11 +90,7 @@ public class OkHttpClient implements HttpClient {
     @Override
     public String get(String url) {
         ErrorContext.instance().activity("发起请求").url(url);
-        try {
-            return get(url, Maps.newHashMap());
-        } finally {
-            ErrorContext.instance().reset();
-        }
+        return get(url, Maps.newHashMap());
     }
     
     @Override

@@ -148,7 +148,8 @@ public abstract class AliPayRequest<R extends AliPayResponse>
      * @param response
      * @return
      */
-    private R handleResponse(Class<R> responseClass, String response) {
+    protected R handleResponse(Class<R> responseClass, String response) {
+        ErrorContext.instance().activity("正在处理响应: " + this.getClass()).object(response);
         AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
         SignType signType = configStorage.getSignType();
         @NonNull String aliPayPublicKey = configStorage.getAliPayPublicKey();
@@ -165,5 +166,30 @@ public abstract class AliPayRequest<R extends AliPayResponse>
             throw PaymentException.wrap("签名校验失败，数据可能被串改");
         }
         return result;
+    }
+    
+    /**
+     * 构建为 <form/>
+     *
+     * @return
+     */
+    protected String buildForm() {
+        AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
+        String baseUrl = configStorage.getUrl();
+        
+        Map<String, Object> values = handleRequestParams();
+        StringBuilder form = new StringBuilder();
+        form.append(String.format("<form method=\"POST\" action=\"%s\">", baseUrl));
+        String key;
+        Object value;
+        for (Map.Entry<String, Object> entry : values.entrySet()) {
+            key = entry.getKey();
+            value = entry.getValue();
+            form.append(String.format("<input type=\"hidden\" name=\"%s\" value=\'%s\'/>", key, value));
+        }
+        form.append("<input type=\"submit\" value=\"立即支付\" style=\"display:none\"/>");
+        form.append("</form>");
+        form.append("<script>document.forms[0].submit();</script>");
+        return form.toString();
     }
 }
