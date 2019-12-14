@@ -187,7 +187,7 @@ public abstract class AliPayRequest<R extends AliPayResponse>
         for (Map.Entry<String, Object> entry : values.entrySet()) {
             key = entry.getKey();
             value = entry.getValue();
-            form.append(String.format("<input type=\"hidden\" name=\"%s\" value=\'%s\'/>", key, value));
+            form.append(String.format("<input type=\"hidden\" name='%s' value='%s'/>", key, value));
         }
         form.append("<input type=\"submit\" value=\"立即支付\" style=\"display:none\"/>");
         form.append("</form>");
