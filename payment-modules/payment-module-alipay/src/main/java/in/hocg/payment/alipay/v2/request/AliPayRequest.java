@@ -16,6 +16,7 @@ import in.hocg.payment.sign.SignObjects;
 import in.hocg.payment.sign.SignType;
 import in.hocg.payment.sign.SignValue;
 import in.hocg.payment.utils.LangUtils;
+import in.hocg.payment.utils.StringUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -23,6 +24,7 @@ import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -191,5 +193,18 @@ public abstract class AliPayRequest<R extends AliPayResponse>
         form.append("</form>");
         form.append("<script>document.forms[0].submit();</script>");
         return form.toString();
+    }
+    
+    /**
+     * 构建 URL
+     * @return
+     */
+    protected String buildSdkParams() {
+        Map<String, Object> values = handleRequestParams();
+        values.entrySet().forEach(entry -> {
+            final Object value = entry.getValue();
+            entry.setValue(URLEncoder.encode(String.valueOf(value)));
+        });
+        return StringUtils.mapToString(values, "&");
     }
 }

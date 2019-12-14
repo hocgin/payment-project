@@ -6,11 +6,74 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <style>
+        #app-params {
+            max-width: 100%;
+            padding: 5px 20px;
+            box-sizing: border-box;
+            white-space: inherit;
+            word-wrap: break-word;
+            border: solid 1px #334FA7;
+            background-color: rgba(51, 79, 167, 0.23);
+        }
+    </style>
 </head>
 <body>
-<h1>二维码支付</h1>
+<span>注意: 以下接口默认均为沙箱模式</span>
+<h1>1. 二维码支付(扫码支付)</h1>
 <img src="alipay/pay/qr-code" style="height: 100px; width: 100px">
-<h1>PC支付</h1>
+<h1>2. PC端 支付</h1>
 <a href="alipay/pay/pc" target="_blank">点击进行支付</a>
+<h1>3. Wap/Native 支付</h1>
+<a href="alipay/pay/wap" target="_blank">点击进行支付</a>
+<h1>4. App 支付(沙箱)</h1>
+<ul>
+    <li>安装 <a href="">商户APP(沙箱)</a> 和 <a href="">支付宝APP(沙箱)</a></li>
+    <li><a id="copy" href="#">复制该文本</a>
+        <xmp id="app-params"></xmp>
+    </li>
+    <li>粘贴到 <a href="">商户APP(沙箱)</a> 的输入框中</li>
+    <li>点击APP支付按钮</li>
+</ul>
+
+<script>
+    (function ($) {
+        let $appParams = $('#app-params');
+        $.get('alipay/pay/app', (data) => {
+            $appParams.html(data);
+        });
+        $('#copy').on('click', () => {
+            copyToClipboard($appParams.text());
+        });
+
+
+        /**
+         * COPY
+         * @param text
+         * @returns {boolean|void}
+         */
+        function copyToClipboard(text) {
+            if (window.clipboardData && window.clipboardData.setData) {
+                // Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
+                return clipboardData.setData("Text", text);
+            } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+                var textarea = document.createElement("textarea");
+                textarea.textContent = text;
+                textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in Microsoft Edge.
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+                } catch (ex) {
+                    console.warn("Copy to clipboard failed.", ex);
+                    return false;
+                } finally {
+                    document.body.removeChild(textarea);
+                }
+            }
+        }
+    })(jQuery);
+</script>
 </body>
 </html>

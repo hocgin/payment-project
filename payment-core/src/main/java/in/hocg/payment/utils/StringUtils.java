@@ -2,7 +2,9 @@ package in.hocg.payment.utils;
 
 import lombok.experimental.UtilityClass;
 
+import java.util.Map;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Created by hocgin on 2019/11/19.
@@ -12,6 +14,22 @@ import java.util.Objects;
  */
 @UtilityClass
 public class StringUtils {
+    
+    /**
+     * Map 转为 String
+     * @param params
+     * @param joinerStr
+     * @return
+     */
+    public static String mapToString(Map<String, Object> params, String joinerStr) {
+        StringJoiner paramsStr = new StringJoiner(joinerStr);
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            paramsStr.merge(new StringJoiner("=").add(key).add(String.valueOf(value)));
+        }
+        return paramsStr.toString();
+    }
     
     /**
      * 字符串比较
