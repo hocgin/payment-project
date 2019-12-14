@@ -102,7 +102,7 @@ public class RefundQueryResponse extends WxPayResponse {
     }
     
     @Override
-    protected void afterPropertiesSet() {
+    public void afterPropertiesSet() {
         this.composeRefundInfo();
     }
 }

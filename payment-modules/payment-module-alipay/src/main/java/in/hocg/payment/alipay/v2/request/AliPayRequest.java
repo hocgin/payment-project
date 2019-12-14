@@ -8,6 +8,7 @@ import in.hocg.payment.alipay.convert.AliPayConverts;
 import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.alipay.v2.response.AliPayResponse;
+import in.hocg.payment.core.InitializingBean;
 import in.hocg.payment.core.PaymentRequest;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignObjects;
@@ -135,7 +136,7 @@ public abstract class AliPayRequest<R extends AliPayResponse>
         // 访问支付宝接口
         String url = Helpers.getUrl(baseUrl, values);
         String response = Helpers.getHttpClient().get(url);
-        R result = AliPayResponse.from(AliPayConverts.JSON, response, responseClass);
+        R result = InitializingBean.from(AliPayConverts.JSON, response, responseClass);
         
         // 如果业务处理失败
         if (!Constants.RESPONSE_SUCCESS_CODE.equals(result.getCode())) {

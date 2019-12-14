@@ -1,6 +1,6 @@
 package in.hocg.payment.alipay.v2.request;
 
-import in.hocg.payment.alipay.v2.response.TradeFastpayRefundQueryResponse;
+import in.hocg.payment.alipay.v2.response.TradeFastPayRefundQueryResponse;
 import in.hocg.payment.sign.ApiField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,14 +15,14 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class TradeFastPayRefundQueryRequest extends AliPayRequest<TradeFastpayRefundQueryResponse> {
+public class TradeFastPayRefundQueryRequest extends AliPayRequest<TradeFastPayRefundQueryResponse> {
     
     @ApiField(value = "method", required = true)
     protected final String method = "alipay.trade.fastpay.refund.query";
     
     @Override
-    protected TradeFastpayRefundQueryResponse request() {
-        return request(TradeFastpayRefundQueryResponse.class);
+    protected TradeFastPayRefundQueryResponse request() {
+        return request(TradeFastPayRefundQueryResponse.class);
     }
     
 }

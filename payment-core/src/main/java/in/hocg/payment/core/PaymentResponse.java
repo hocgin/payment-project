@@ -1,9 +1,7 @@
 package in.hocg.payment.core;
 
-import in.hocg.payment.convert.Convert;
 import in.hocg.payment.sign.SignScheme;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created by hocgin on 2019/11/19.
@@ -11,10 +9,9 @@ import lombok.Setter;
  *
  * @author hocgin
  */
-public abstract class PaymentResponse {
+public abstract class PaymentResponse implements InitializingBean {
     
     @Getter
-    @Setter
     private String content;
     
     /**
@@ -28,14 +25,13 @@ public abstract class PaymentResponse {
         return false;
     }
     
-    protected void afterPropertiesSet() {
+    @Override
+    public void afterPropertiesSet() {
     }
     
-    public static <T extends PaymentResponse> T from(Convert convert, String content, Class<T> clazz) {
-        T object = (T) convert.convert(content, clazz);
-        object.setContent(content);
-        object.afterPropertiesSet();
-        return object;
+    @Override
+    public void setContent(String content) {
+        this.content = content;
     }
     
 }

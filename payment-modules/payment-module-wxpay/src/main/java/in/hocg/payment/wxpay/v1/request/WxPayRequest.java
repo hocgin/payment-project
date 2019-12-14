@@ -3,6 +3,7 @@ package in.hocg.payment.wxpay.v1.request;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import in.hocg.payment.PaymentException;
+import in.hocg.payment.core.InitializingBean;
 import in.hocg.payment.core.PaymentRequest;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignObjects;
@@ -82,7 +83,7 @@ public abstract class WxPayRequest<R extends WxPayResponse>
     
         String url = String.format("%s/%s", configStorage.getUrl(), uri);
         String response = Helpers.getHttpClient().post(url, this.toXML());
-        R result = WxPayResponse.from(WxPayConverts.XML, response, responseClass);
+        R result = InitializingBean.from(WxPayConverts.XML, response, responseClass);
         
         // 业务结果检查
         if (!RESPONSE_SUCCESS_CODE.equals(result.getReturnCode())) {
