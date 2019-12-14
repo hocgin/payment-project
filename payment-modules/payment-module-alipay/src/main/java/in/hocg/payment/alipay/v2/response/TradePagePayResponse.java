@@ -11,6 +11,5 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TradePagePayResponse extends AliPayResponse {
-
+public class TradePagePayResponse extends AliPayPageResponse {
 }

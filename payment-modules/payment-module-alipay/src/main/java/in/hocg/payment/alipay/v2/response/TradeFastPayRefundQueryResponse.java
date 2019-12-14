@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TradeFastPayRefundQueryResponse extends AliPayResponse {
+public class TradeFastPayRefundQueryResponse extends AliPayHttpResponse {
     @JSONField(name = "trade_no")
     private String tradeNo;
     @JSONField(name = "out_trade_no")

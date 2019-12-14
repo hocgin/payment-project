@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TradeRefundResponse extends AliPayResponse {
+public class TradeRefundResponse extends AliPayHttpResponse {
     @JSONField(name = "trade_no")
     private String tradeNo;
     @JSONField(name = "out_trade_no")

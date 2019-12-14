@@ -157,12 +157,6 @@ public abstract class AliPayRequest<R extends AliPayResponse>
         @NonNull String aliPayPublicKey = configStorage.getAliPayPublicKey();
         R result = InitializingBean.from(AliPayConverts.JSON, response, responseClass);
         
-        // 如果业务处理失败
-        if (!Constants.RESPONSE_SUCCESS_CODE.equals(result.getCode())) {
-            log.warn("错误信息: {}", response);
-            throw PaymentException.wrap("业务处理失败: " + result.getCode());
-        }
-        
         // 如果签名失败
         if (!result.checkSign(signType, aliPayPublicKey)) {
             throw PaymentException.wrap("签名校验失败，数据可能被串改");
@@ -175,7 +169,7 @@ public abstract class AliPayRequest<R extends AliPayResponse>
      *
      * @return
      */
-    protected String buildForm() {
+    protected R buildForm(Class<R> responseClass) {
         AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
         String baseUrl = configStorage.getUrl();
         
@@ -192,19 +186,33 @@ public abstract class AliPayRequest<R extends AliPayResponse>
         form.append("<input type=\"submit\" value=\"立即支付\" style=\"display:none\"/>");
         form.append("</form>");
         form.append("<script>document.forms[0].submit();</script>");
-        return form.toString();
+        
+        try {
+            R result = responseClass.newInstance();
+            result.setContent(form.toString());
+            return result;
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
      * 构建 URL
      * @return
      */
-    protected String buildSdkParams() {
+    protected R buildSdkParams(Class<R> responseClass) {
         Map<String, Object> values = handleRequestParams();
         values.entrySet().forEach(entry -> {
             final Object value = entry.getValue();
             entry.setValue(URLEncoder.encode(String.valueOf(value)));
         });
-        return StringUtils.mapToString(values, "&");
+        
+        try {
+            R result = responseClass.newInstance();
+            result.setContent(StringUtils.mapToString(values, "&"));
+            return result;
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

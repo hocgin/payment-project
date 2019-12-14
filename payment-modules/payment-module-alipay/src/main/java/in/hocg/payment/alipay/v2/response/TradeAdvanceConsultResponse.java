@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TradeAdvanceConsultResponse extends AliPayResponse {
+public class TradeAdvanceConsultResponse extends AliPayHttpResponse {
     @JSONField(name = "refer_result")
     private String referResult;
     @JSONField(name = "wait_repayment_order_infos")

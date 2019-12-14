@@ -2,7 +2,7 @@ package in.hocg.payment.alipay.convert;
 
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.parser.Feature;
-import in.hocg.payment.alipay.v2.response.AliPayResponse;
+import in.hocg.payment.alipay.v2.response.AliPayHttpResponse;
 import in.hocg.payment.convert.Convert;
 
 import java.util.Map;
@@ -13,10 +13,10 @@ import java.util.Map;
  *
  * @author hocgin
  */
-public enum AliPayConverts implements Convert<AliPayResponse> {
+public enum AliPayConverts implements Convert<AliPayHttpResponse> {
     JSON {
         @Override
-        public <T extends AliPayResponse> T convert(String body, Class<T> clazz) {
+        public <T extends AliPayHttpResponse> T convert(String body, Class<T> clazz) {
             final Map<String, String> map = com.alibaba.fastjson.JSON.parseObject(body, new TypeReference<Map<String, String>>() {
             }, Feature.OrderedField);
             String responseKey = "";
@@ -29,18 +29,8 @@ public enum AliPayConverts implements Convert<AliPayResponse> {
             final String responseBody = map.getOrDefault(responseKey, "{}");
             
             final T object = com.alibaba.fastjson.JSON.parseObject(responseBody, clazz);
-            object.setSign(map.getOrDefault(AliPayResponse.FIELD_SIGN, null));
+            object.setSign(map.getOrDefault(AliPayHttpResponse.FIELD_SIGN, null));
             return object;
-        }
-    },
-    TEXT {
-        @Override
-        public <R extends AliPayResponse> R convert(String body, Class<R> clazz) {
-            try {
-                return clazz.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 }

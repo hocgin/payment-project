@@ -39,13 +39,7 @@ public class TradeWapPayRequest extends AliPayRequest<TradeWapPayResponse> {
     
     @Override
     protected TradeWapPayResponse request() {
-        try {
-            TradeWapPayResponse response = TradeWapPayResponse.class.newInstance();
-            response.setContent(buildForm());
-            return response;
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        return buildForm(TradeWapPayResponse.class);
     }
     
 }

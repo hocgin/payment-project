@@ -24,10 +24,5 @@
             <artifactId>payment-core</artifactId>
             <version>${revision}</version>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>payment-modules</artifactId>
-            <version>${revision}</version>
-        </dependency>
     </dependencies>
 </project>

@@ -37,13 +37,7 @@ public class TradePagePayRequest extends AliPayRequest<TradePagePayResponse> {
     
     @Override
     protected TradePagePayResponse request() {
-        try {
-            TradePagePayResponse response = TradePagePayResponse.class.newInstance();
-            response.setContent(buildForm());
-            return response;
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        return buildForm(TradePagePayResponse.class);
     }
     
 }

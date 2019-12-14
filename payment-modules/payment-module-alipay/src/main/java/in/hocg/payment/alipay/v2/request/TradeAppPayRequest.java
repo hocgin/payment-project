@@ -34,13 +34,7 @@ public class TradeAppPayRequest extends AliPayRequest<TradeAppPayResponse> {
     
     @Override
     protected TradeAppPayResponse request() {
-        try {
-            TradeAppPayResponse response = TradeAppPayResponse.class.newInstance();
-            response.setContent(buildSdkParams());
-            return response;
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        return buildSdkParams(TradeAppPayResponse.class);
     }
     
 }
