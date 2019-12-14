@@ -1,16 +1,11 @@
 package in.hocg.payment.alipay.v2.response;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.parser.Feature;
 import in.hocg.payment.core.PaymentResponse;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignScheme;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Map;
 
 
 /**
@@ -50,16 +45,14 @@ public abstract class AliPayResponse extends PaymentResponse {
     
     @Override
     public boolean checkSign(SignScheme scheme, String key) {
-        final Map<String, String> map = JSON.parseObject(getContent(), new TypeReference<Map<String, String>>() {
-        }, Feature.OrderedField);
-        String responseKey = "";
-        for (String item : map.keySet()) {
-            if (item.endsWith("response")) {
-                responseKey = item;
-                break;
-            }
+        final String response = "response";
+        final String content = getContent();
+        final int beginIndex = content.indexOf(response) + response.length() + 2;
+        final int endIndex =content.indexOf(",\"sign\"");
+        if (endIndex < 0) {
+            return false;
         }
-        final String responseBody = map.getOrDefault(responseKey, "{}");
+        final String responseBody = content.substring(beginIndex, endIndex);
         return scheme.verify(responseBody, key, getSign());
     }
     

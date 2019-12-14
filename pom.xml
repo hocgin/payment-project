@@ -19,6 +19,7 @@
         <module>payment-parent</module>
         <module>payment-core</module>
         <module>payment-modules</module>
+        <module>payment-samples</module>
     </modules>
 
     <properties>

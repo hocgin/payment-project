@@ -53,7 +53,7 @@ class SignTests {
         values.put("v7", Lists.newArrayList(node, node));
         
         // 签名
-        SignType rsa = SignType.RSA;
+        SignType rsa = SignType.RSA2;
         SignValue signValue = new SignValue().handle(values);
         String data = signValue.getSignValue();
         

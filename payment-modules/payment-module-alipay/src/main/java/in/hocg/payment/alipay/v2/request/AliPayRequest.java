@@ -8,6 +8,7 @@ import in.hocg.payment.alipay.convert.AliPayConverts;
 import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.alipay.v2.response.AliPayResponse;
+import in.hocg.payment.core.ErrorContext;
 import in.hocg.payment.core.InitializingBean;
 import in.hocg.payment.core.PaymentRequest;
 import in.hocg.payment.sign.ApiField;
@@ -19,6 +20,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
@@ -30,6 +32,7 @@ import java.util.Map;
  *
  * @author hocgin
  */
+@Slf4j
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
@@ -72,8 +75,9 @@ public abstract class AliPayRequest<R extends AliPayResponse>
      *
      * @param bizContent
      */
-    public void setBizContent2(BizContent bizContent) {
+    public AliPayRequest setBizContent2(BizContent bizContent) {
         this.bizContent = bizContent.string();
+        return this;
     }
     
     interface BizContent {
@@ -89,28 +93,25 @@ public abstract class AliPayRequest<R extends AliPayResponse>
     }
     
     /**
-     * 设置公用属性
+     * 处理请求参数
+     *
+     * @return
      */
-    protected void setPublicValues() {
+    @NotNull
+    protected Map<String, Object> handleRequestParams() {
         AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
+        SignType signType = configStorage.getSignType();
+        
+        // 设置参数
         this.appId = LangUtils.getOrDefault(this.getAppId(), configStorage.getAppId());
         this.format = LangUtils.getOrDefault(this.getFormat(), configStorage.getFormat());
         this.charset = LangUtils.getOrDefault(this.getCharset(), configStorage.getCharset());
         this.timestamp = LangUtils.getOrDefault(this.getTimestamp(), LocalDateTime.now().format(Constants.ALIPAY_API_DATE_FORMAT));
         this.version = LangUtils.getOrDefault(this.getVersion(), configStorage.getVersion());
         this.notifyUrl = LangUtils.getOrDefault(this.getNotifyUrl(), null);
-        SignType signType = configStorage.getSignType();
         this.signType = LangUtils.getOrDefault(this.getSignType(), signType.name());
-    }
-    
-    /**
-     * 签名处理
-     *
-     * @return
-     */
-    @NotNull
-    protected Map<String, Object> setSignAndGetParams(@NonNull String privateKey,
-                                                      SignType signType) {
+        
+        @NonNull String privateKey = configStorage.getPrivateKey();
         Map<String, Object> values = SignObjects.getSignValues(this);
         SignValue signValue = Helpers.newSignValue().handle(values);
         String data = signValue.getSignValue();
@@ -121,25 +122,41 @@ public abstract class AliPayRequest<R extends AliPayResponse>
         return values;
     }
     
+    /**
+     * 发起请求
+     *
+     * @param responseClass
+     * @return
+     */
     protected R request(Class<R> responseClass) {
-        // 设置参数
-        setPublicValues();
+        ErrorContext.instance().activity("正在发起请求: " + this.getClass());
         AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
-        @NonNull String privateKey = configStorage.getPrivateKey();
-        @NonNull String aliPayPublicKey = configStorage.getAliPayPublicKey();
-        SignType signType = configStorage.getSignType();
         String baseUrl = configStorage.getUrl();
         
-        // 签名
-        Map<String, Object> values = setSignAndGetParams(privateKey, signType);
+        Map<String, Object> values = handleRequestParams();
         
         // 访问支付宝接口
         String url = Helpers.getUrl(baseUrl, values);
         String response = Helpers.getHttpClient().get(url);
+        return handleResponse(responseClass, response);
+    }
+    
+    /**
+     * 处理响应结果
+     *
+     * @param responseClass
+     * @param response
+     * @return
+     */
+    private R handleResponse(Class<R> responseClass, String response) {
+        AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
+        SignType signType = configStorage.getSignType();
+        @NonNull String aliPayPublicKey = configStorage.getAliPayPublicKey();
         R result = InitializingBean.from(AliPayConverts.JSON, response, responseClass);
         
         // 如果业务处理失败
         if (!Constants.RESPONSE_SUCCESS_CODE.equals(result.getCode())) {
+            log.warn("错误信息: {}", response);
             throw PaymentException.wrap("业务处理失败: " + result.getCode());
         }
         
@@ -147,7 +164,6 @@ public abstract class AliPayRequest<R extends AliPayResponse>
         if (!result.checkSign(signType, aliPayPublicKey)) {
             throw PaymentException.wrap("签名校验失败，数据可能被串改");
         }
-        
         return result;
     }
 }

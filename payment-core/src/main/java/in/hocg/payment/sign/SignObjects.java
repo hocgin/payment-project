@@ -44,7 +44,7 @@ public class SignObjects {
     public static Map<String, Field> getSignFields(Class<?> aClass) {
         Map<String, Field> result = Maps.newHashMap();
         ClassUtils.from(aClass).getAllField()
-                .parallelStream()
+                .stream()
                 .filter(field -> {
                     if (!field.isAnnotationPresent(ApiField.class)) {
                         return false;

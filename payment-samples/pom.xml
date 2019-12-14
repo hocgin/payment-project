@@ -8,29 +8,26 @@
         <version>${revision}</version>
         <relativePath>../payment-parent/pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
+
+    <name>Payment :: Samples</name>
+    <artifactId>payment-samples</artifactId>
     <packaging>pom</packaging>
 
-    <name>Payment :: Modules</name>
-    <artifactId>payment-modules</artifactId>
-
     <modules>
-        <module>payment-module-alipay</module>
-        <module>payment-module-wxpay</module>
+        <module>payment-spring-boot-sample</module>
     </modules>
 
     <dependencies>
-        <!--测试阶段-->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>payment-core</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>payment-modules</artifactId>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
-
 </project>

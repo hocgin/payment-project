@@ -1,17 +1,51 @@
 package in.hocg.payment.core;
 
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
 /**
  * Created by hocgin on 2019/11/19.
  * email: hocgin@gmail.com
  *
  * @author hocgin
  */
+@Accessors(chain = true, fluent = true)
 public class ErrorContext {
     
     private static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
     private static final ThreadLocal<ErrorContext> LOCAL = new ThreadLocal<ErrorContext>();
     
     private ErrorContext stored;
+    
+    /**
+     * 触发位置
+     */
+    @Setter
+    private String activity;
+    
+    /**
+     * 参数
+     */
+    @Setter
+    private String object;
+    
+    /**
+     * 描述
+     */
+    @Setter
+    private String message;
+    
+    /**
+     * 异常信息
+     */
+    @Setter
+    private Throwable cause;
+    
+    /**
+     * URL
+     */
+    @Setter
+    private String url;
     
     private ErrorContext() {
     }
@@ -40,6 +74,11 @@ public class ErrorContext {
     }
     
     public ErrorContext reset() {
+        this.activity = null;
+        this.message = null;
+        this.cause = null;
+        this.url = null;
+        this.object = null;
         
         LOCAL.remove();
         return this;
@@ -48,7 +87,37 @@ public class ErrorContext {
     @Override
     public String toString() {
         StringBuilder description = new StringBuilder();
-        description.append(super.toString());
+    
+        if (this.message != null) {
+            description.append(LINE_SEPARATOR);
+            description.append("### ");
+            description.append(this.message);
+        }
+    
+        if (object != null) {
+            description.append(LINE_SEPARATOR);
+            description.append("### The error may involve ");
+            description.append(object);
+        }
+    
+        if (activity != null) {
+            description.append(LINE_SEPARATOR);
+            description.append("### The error occurred while ");
+            description.append(activity);
+        }
+    
+        if (this.url != null) {
+            description.append(LINE_SEPARATOR);
+            description.append("### URL: ");
+            description.append(this.url.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ').trim());
+        }
+    
+        if (cause != null) {
+            description.append(LINE_SEPARATOR);
+            description.append("### Cause: ");
+            description.append(cause.toString());
+        }
+        
         return description.toString();
     }
 }

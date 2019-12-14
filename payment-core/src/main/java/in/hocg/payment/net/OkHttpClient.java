@@ -2,6 +2,7 @@ package in.hocg.payment.net;
 
 import com.google.common.collect.Maps;
 import in.hocg.payment.PaymentException;
+import in.hocg.payment.core.ErrorContext;
 import in.hocg.payment.utils.LangUtils;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
@@ -88,7 +89,12 @@ public class OkHttpClient implements HttpClient {
     
     @Override
     public String get(String url) {
-        return get(url, Maps.newHashMap());
+        ErrorContext.instance().activity("发起请求").url(url);
+        try {
+            return get(url, Maps.newHashMap());
+        } finally {
+            ErrorContext.instance().reset();
+        }
     }
     
     @Override
