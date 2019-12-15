@@ -161,7 +161,6 @@ class WxPayServiceTests {
      */
     @Test
     void testBatchQueryCommentRequest() {
-        final String orderNo = String.valueOf(System.currentTimeMillis());
         
         BatchQueryCommentRequest request = new BatchQueryCommentRequest();
         request.setBeginTime("");
