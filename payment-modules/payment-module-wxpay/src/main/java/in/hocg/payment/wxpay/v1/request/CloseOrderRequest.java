@@ -22,6 +22,6 @@ public class CloseOrderRequest extends WxPayRequest<CloseOrderResponse> {
     
     @Override
     protected CloseOrderResponse request() {
-        return request("pay/closeorder", CloseOrderResponse.class);
+        return requestXML("pay/closeorder", CloseOrderResponse.class);
     }
 }

@@ -3,6 +3,7 @@ package in.hocg.payment.wxpay.v1.request;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import in.hocg.payment.PaymentException;
+import in.hocg.payment.convert.Convert;
 import in.hocg.payment.core.InitializingBean;
 import in.hocg.payment.core.PaymentRequest;
 import in.hocg.payment.sign.ApiField;
@@ -17,6 +18,7 @@ import in.hocg.payment.wxpay.v1.WxPayService;
 import in.hocg.payment.wxpay.v1.response.WxPayResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.experimental.Accessors;
 
 import java.util.Map;
@@ -33,9 +35,6 @@ import java.util.Map;
 public abstract class WxPayRequest<R extends WxPayResponse>
         extends PaymentRequest<WxPayService, R> {
     
-    /**
-     * APPID
-     */
     @ApiField(value = "app_id", required = true)
     @XStreamAlias("app_id")
     protected String appId;
@@ -56,13 +55,16 @@ public abstract class WxPayRequest<R extends WxPayResponse>
     @XStreamAlias("sign_type")
     protected String signType;
     
-    public String toXML() {
+    protected String toXML() {
         XStream xstream = Helpers.newXStream();
         xstream.processAnnotations(this.getClass());
         return xstream.toXML(this);
     }
     
-    public R request(String uri, Class<R> responseClass) {
+    /**
+     * 处理请求参数
+     */
+    protected void handleRequestParams() {
         WxPayConfigStorage configStorage = this.getPaymentService().getConfigStorage();
         String key = configStorage.getKey();
         this.appId = LangUtils.getOrDefault(this.getAppId(), configStorage.getAppId());
@@ -77,15 +79,59 @@ public abstract class WxPayRequest<R extends WxPayResponse>
         signString += String.format("&key=%s", key);
         
         this.sign = signType.sign(signString, key);
+    }
     
-        String url = String.format("%s/%s", configStorage.getUrl(), uri);
+    /**
+     * 发起请求
+     *
+     * @param uri
+     * @param responseClass
+     * @return
+     */
+    protected R request(String uri,
+                        Convert convert,
+                        Class<R> responseClass) {
+        WxPayConfigStorage configStorage = this.getPaymentService().getConfigStorage();
+        final String baseUrl = configStorage.getUrl();
+        
+        handleRequestParams();
+        
+        String url = String.format("%s/%s", baseUrl, uri);
         String response = Helpers.getHttpClient().post(url, this.toXML());
-        R result = InitializingBean.from(WxPayConverts.XML, response, responseClass);
+        
+        return handleResponse(convert, responseClass, response);
+    }
+    
+    /**
+     * 处理响应结果
+     *
+     * @param responseClass
+     * @param response
+     * @return
+     */
+    protected R handleResponse(Convert convert,
+                               Class<R> responseClass,
+                               String response) {
+        WxPayConfigStorage configStorage = getPaymentService().getConfigStorage();
+        @NonNull final String key = configStorage.getKey();
+        @NonNull final WxSignType signType = configStorage.getSignType();
+        R result = InitializingBean.from(convert, response, responseClass);
         
         // 验签
         if (!result.checkSign(signType, key)) {
             throw PaymentException.wrap("签名校验失败，数据可能被串改");
         }
         return result;
+    }
+    
+    protected R requestXML(String uri,
+                           Class<R> responseClass) {
+        return request(uri, WxPayConverts.XML, responseClass);
+    }
+    
+    
+    protected R requestData(String uri,
+                            Class<R> responseClass) {
+        return request(uri, WxPayConverts.TEXT, responseClass);
     }
 }

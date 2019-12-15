@@ -28,6 +28,6 @@ public class DownloadFundFlowRequest extends WxPayRequest<DownloadFundFlowRespon
     
     @Override
     protected DownloadFundFlowResponse request() {
-        return request("pay/downloadfundflow", DownloadFundFlowResponse.class);
+        return requestData("pay/downloadfundflow", DownloadFundFlowResponse.class);
     }
 }

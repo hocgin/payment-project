@@ -31,6 +31,6 @@ public class RefundQueryRequest extends WxPayRequest<RefundQueryResponse> {
     
     @Override
     protected RefundQueryResponse request() {
-        return request("pay/refundquery", RefundQueryResponse.class);
+        return requestXML("pay/refundquery", RefundQueryResponse.class);
     }
 }

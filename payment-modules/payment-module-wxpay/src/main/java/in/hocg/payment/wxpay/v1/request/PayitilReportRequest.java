@@ -34,6 +34,6 @@ public class PayitilReportRequest extends WxPayRequest<PayitilReportResponse> {
     
     @Override
     protected PayitilReportResponse request() {
-        return request("payitil/report", PayitilReportResponse.class);
+        return requestXML("payitil/report", PayitilReportResponse.class);
     }
 }

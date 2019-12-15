@@ -26,6 +26,6 @@ public class OrderQueryRequest extends WxPayRequest<OrderQueryResponse> {
     
     @Override
     protected OrderQueryResponse request() {
-        return request("pay/orderquery", OrderQueryResponse.class);
+        return requestXML("pay/orderquery", OrderQueryResponse.class);
     }
 }

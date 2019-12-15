@@ -46,6 +46,6 @@ public class PayRefundRequest extends WxPayRequest<PayRefundResponse> {
     
     @Override
     protected PayRefundResponse request() {
-        return request("secapi/pay/refund", PayRefundResponse.class);
+        return requestXML("secapi/pay/refund", PayRefundResponse.class);
     }
 }

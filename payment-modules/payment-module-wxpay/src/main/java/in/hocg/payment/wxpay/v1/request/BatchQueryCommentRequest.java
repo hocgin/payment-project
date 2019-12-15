@@ -31,6 +31,6 @@ public class BatchQueryCommentRequest extends WxPayRequest<BatchQueryCommentResp
     
     @Override
     protected BatchQueryCommentResponse request() {
-        return request("billcommentsp/batchquerycomment", BatchQueryCommentResponse.class);
+        return requestXML("billcommentsp/batchquerycomment", BatchQueryCommentResponse.class);
     }
 }

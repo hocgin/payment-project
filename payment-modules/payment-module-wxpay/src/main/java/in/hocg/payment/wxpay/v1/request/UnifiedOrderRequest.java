@@ -91,6 +91,6 @@ public class UnifiedOrderRequest extends WxPayRequest<UnifiedOrderResponse> {
     
     @Override
     protected UnifiedOrderResponse request() {
-        return request("pay/unifiedorder", UnifiedOrderResponse.class);
+        return requestXML("pay/unifiedorder", UnifiedOrderResponse.class);
     }
 }

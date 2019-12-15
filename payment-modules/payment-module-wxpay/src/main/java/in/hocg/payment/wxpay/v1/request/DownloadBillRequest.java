@@ -28,6 +28,6 @@ public class DownloadBillRequest extends WxPayRequest<DownloadBillResponse> {
     
     @Override
     protected DownloadBillResponse request() {
-        return request("pay/downloadbill", DownloadBillResponse.class);
+        return requestData("pay/downloadbill", DownloadBillResponse.class);
     }
 }
