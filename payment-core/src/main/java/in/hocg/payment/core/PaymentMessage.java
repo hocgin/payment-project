@@ -15,7 +15,6 @@ public abstract class PaymentMessage implements InitializingBean {
     
     @Override
     public void afterPropertiesSet() {
-    
     }
     
     @Override

@@ -1,4 +1,4 @@
-package in.hocg.payment.spring.boot.sample.controller;
+package in.hocg.payment.spring.boot.sample.controller.alipay;
 
 import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.alipay.v2.request.*;
