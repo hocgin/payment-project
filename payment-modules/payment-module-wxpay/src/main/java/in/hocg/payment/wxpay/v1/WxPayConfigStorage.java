@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
 
+import java.io.File;
+
 /**
  * Created by hocgin on 2019/11/21.
  * email: hocgin@gmail.com
@@ -20,31 +22,36 @@ import lombok.experimental.Accessors;
 public class WxPayConfigStorage implements ConfigStorage {
     
     /**
-     * APPID
+     * [必选] APP ID
      */
     @NonNull
     private String appId;
     
     /**
-     * 微信支付商户号
+     * [必选] 微信支付商户号
      */
     @NonNull
     private String mchId;
     
     /**
-     * API密钥
+     * [必选] API密钥
      */
     @NonNull
     private String key;
     
     /**
-     * 签名类型
+     * [必选] 签名类型
      */
     @NonNull
     private WxSignType signType = WxSignType.HMAC_SHA256;
     
     /**
-     * 是否沙箱环境
+     * [可选] 证书
+     */
+    private File certFile;
+    
+    /**
+     * [可选] 是否沙箱环境
      */
     @NonNull
     private Boolean isDev = false;
