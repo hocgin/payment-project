@@ -1,18 +1,19 @@
 package in.hocg.payment.alipay.v2.request;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import in.hocg.payment.alipay.v2.request.item.*;
 import in.hocg.payment.alipay.v2.response.TradeCreateResponse;
+import in.hocg.payment.core.PaymentMap;
 import in.hocg.payment.sign.ApiField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.List;
-
 /**
  * Created by hocgin on 2019/11/21.
  * email: hocgin@gmail.com
+ * <a href="https://docs.open.alipay.com/api_1/alipay.trade.create">
+ * alipay.trade.create(统一收单交易创建接口)
+ * </a>
  *
  * @author hocgin
  */
@@ -26,43 +27,34 @@ public class TradeCreateRequest extends AliPayRequest<TradeCreateResponse> {
     
     @Data
     @Accessors(chain = true)
-    public static class BizContent implements AliPayRequest.BizContent {
+    @EqualsAndHashCode(callSuper = true)
+    public static class BizContent
+            extends PaymentMap
+            implements AliPayRequest.BizContent {
+        
+        /**
+         * [必选] 商户订单号,64个字符以内、只能包含字母、数字、下划线；需保证在商户端不重复
+         */
         @JSONField(name = "out_trade_no")
         private String outTradeNo;
-        @JSONField(name = "seller_id")
-        private String sellerId;
+        
+        /**
+         * [必选] 订单总金额，单位为元，精确到小数点后两位，取值范围[0.01,100000000]
+         */
         @JSONField(name = "total_amount")
         private String totalAmount;
-        @JSONField(name = "discountable_amount")
-        private String discountableAmount;
+        
+        /**
+         * [必选] 订单标题
+         */
         @JSONField(name = "subject")
         private String subject;
-        @JSONField(name = "body")
-        private String body;
+        
+        /**
+         * [特殊可选] 买家的支付宝唯一用户号（2088开头的16位纯数字）
+         */
         @JSONField(name = "buyer_id")
         private String buyerId;
-        @JSONField(name = "goods_detail")
-        private List<GoodsDetail> goodsDetail;
-        @JSONField(name = "product_code")
-        private String productCode;
-        @JSONField(name = "operator_id")
-        private String operatorId;
-        @JSONField(name = "store_id")
-        private String storeId;
-        @JSONField(name = "terminal_id")
-        private String terminalId;
-        @JSONField(name = "extend_params")
-        private ExtendParams extendParams;
-        @JSONField(name = "timeout_express")
-        private String timeoutExpress;
-        @JSONField(name = "settle_info")
-        private SettleInfo settleInfo;
-        @JSONField(name = "logistics_detail")
-        private LogisticsDetail logisticsDetail;
-        @JSONField(name = "business_params")
-        private BusinessParams businessParams;
-        @JSONField(name = "receiver_address_info")
-        private ReceiverAddressInfo receiverAddressInfo;
     }
     
     

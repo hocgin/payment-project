@@ -2,6 +2,7 @@ package in.hocg.payment.alipay.v2.request;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import in.hocg.payment.alipay.v2.response.TradePagePayResponse;
+import in.hocg.payment.core.PaymentMap;
 import in.hocg.payment.sign.ApiField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,6 +11,9 @@ import lombok.experimental.Accessors;
 /**
  * Created by hocgin on 2019/11/21.
  * email: hocgin@gmail.com
+ * <a href="https://docs.open.alipay.com/api_1/alipay.trade.page.pay">
+ * alipay.trade.page.pay(统一收单下单并支付页面接口)
+ * </a>
  *
  * @author hocgin
  */
@@ -23,7 +27,10 @@ public class TradePagePayRequest extends AliPayRequest<TradePagePayResponse> {
     
     @Data
     @Accessors(chain = true)
-    public static class BizContent implements AliPayRequest.BizContent {
+    @EqualsAndHashCode(callSuper = true)
+    public static class BizContent
+            extends PaymentMap
+            implements AliPayRequest.BizContent {
         @JSONField(name = "out_trade_no")
         private String outTradeNo;
         @JSONField(name = "product_code")
@@ -32,7 +39,6 @@ public class TradePagePayRequest extends AliPayRequest<TradePagePayResponse> {
         private String totalAmount;
         @JSONField(name = "subject")
         private String subject;
-        // 未完, 待续
     }
     
     @Override

@@ -1,6 +1,7 @@
 package in.hocg.payment.alipay.v2.request;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 import in.hocg.payment.PaymentException;
 import in.hocg.payment.alipay.Helpers;
 import in.hocg.payment.alipay.constants.Constants;
