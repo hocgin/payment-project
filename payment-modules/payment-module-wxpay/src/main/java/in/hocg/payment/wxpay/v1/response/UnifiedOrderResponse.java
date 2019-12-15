@@ -13,7 +13,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @XStreamAlias("xml")
 @EqualsAndHashCode(callSuper = true)
-public class UnifiedOrderResponse extends WxPayResponse {
+public class UnifiedOrderResponse
+        extends WxPayXmlResponse {
     @XStreamAlias("trade_type")
     private String tradeType;
     @XStreamAlias("prepay_id")

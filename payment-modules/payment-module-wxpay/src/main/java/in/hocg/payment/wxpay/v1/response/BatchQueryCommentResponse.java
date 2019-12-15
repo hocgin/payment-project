@@ -13,5 +13,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @XStreamAlias("xml")
 @EqualsAndHashCode(callSuper = true)
-public class BatchQueryCommentResponse extends WxPayResponse {
+public class BatchQueryCommentResponse
+        extends WxPayXmlResponse {
 }

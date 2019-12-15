@@ -17,7 +17,8 @@ import java.util.List;
 @Data
 @XStreamAlias("xml")
 @EqualsAndHashCode(callSuper = true)
-public class PayRefundResponse extends WxPayResponse {
+public class PayRefundResponse
+        extends WxPayXmlResponse {
     @XStreamAlias("transaction_id")
     private String transactionId;
     @XStreamAlias("out_trade_no")
@@ -72,6 +73,7 @@ public class PayRefundResponse extends WxPayResponse {
     
     @Override
     public void afterPropertiesSet() {
+        super.afterPropertiesSet();
         composeCouponRefunds();
     }
 }

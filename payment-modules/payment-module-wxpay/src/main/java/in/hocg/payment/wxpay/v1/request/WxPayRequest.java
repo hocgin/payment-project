@@ -21,8 +21,6 @@ import lombok.experimental.Accessors;
 
 import java.util.Map;
 
-import static in.hocg.payment.wxpay.constants.Constants.RESPONSE_SUCCESS_CODE;
-
 /**
  * Created by hocgin on 2019/12/3.
  * email: hocgin@gmail.com
@@ -83,11 +81,6 @@ public abstract class WxPayRequest<R extends WxPayResponse>
         String url = String.format("%s/%s", configStorage.getUrl(), uri);
         String response = Helpers.getHttpClient().post(url, this.toXML());
         R result = InitializingBean.from(WxPayConverts.XML, response, responseClass);
-        
-        // 业务结果检查
-        if (!RESPONSE_SUCCESS_CODE.equals(result.getReturnCode())) {
-            throw PaymentException.wrap("业务处理失败: " + result.getReturnCode());
-        }
         
         // 验签
         if (!result.checkSign(signType, key)) {

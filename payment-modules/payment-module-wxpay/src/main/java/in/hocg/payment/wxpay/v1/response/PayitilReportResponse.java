@@ -13,5 +13,5 @@ import lombok.EqualsAndHashCode;
 @Data
 @XStreamAlias("xml")
 @EqualsAndHashCode(callSuper = true)
-public class PayitilReportResponse extends WxPayResponse {
+public class PayitilReportResponse extends WxPayDataResponse {
 }

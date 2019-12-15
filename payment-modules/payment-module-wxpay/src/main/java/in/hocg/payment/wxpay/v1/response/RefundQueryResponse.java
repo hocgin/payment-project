@@ -18,7 +18,8 @@ import java.util.List;
 @Data
 @XStreamAlias("xml")
 @EqualsAndHashCode(callSuper = true)
-public class RefundQueryResponse extends WxPayResponse {
+public class RefundQueryResponse
+        extends WxPayXmlResponse {
     @XStreamAlias("total_refund_count")
     private String totalRefundCount;
     @XStreamAlias("transaction_id")
@@ -103,6 +104,7 @@ public class RefundQueryResponse extends WxPayResponse {
     
     @Override
     public void afterPropertiesSet() {
+        super.afterPropertiesSet();
         this.composeRefundInfo();
     }
 }

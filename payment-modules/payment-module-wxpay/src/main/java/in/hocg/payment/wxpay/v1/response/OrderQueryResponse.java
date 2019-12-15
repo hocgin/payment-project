@@ -17,7 +17,8 @@ import java.util.List;
 @Data
 @XStreamAlias("xml")
 @EqualsAndHashCode(callSuper = true)
-public class OrderQueryResponse extends WxPayResponse {
+public class OrderQueryResponse
+        extends WxPayXmlResponse {
     @XStreamAlias("device_info")
     private String deviceInfo;
     @XStreamAlias("openid")
@@ -80,6 +81,7 @@ public class OrderQueryResponse extends WxPayResponse {
     
     @Override
     public void afterPropertiesSet() {
+        super.afterPropertiesSet();
         composeCoupons();
     }
 }

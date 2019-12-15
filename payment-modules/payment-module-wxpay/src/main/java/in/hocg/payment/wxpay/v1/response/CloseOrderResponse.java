@@ -13,5 +13,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @XStreamAlias("xml")
 @EqualsAndHashCode(callSuper = true)
-public class CloseOrderResponse extends WxPayResponse {
+public class CloseOrderResponse
+        extends WxPayXmlResponse {
 }
