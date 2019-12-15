@@ -14,12 +14,4 @@
 
     <name>Payment Module :: AliPay</name>
     <artifactId>payment-module-alipay</artifactId>
-
-    <dependencies>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <optional>true</optional>
-        </dependency>
-    </dependencies>
 </project>

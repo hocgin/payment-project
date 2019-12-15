@@ -35,8 +35,8 @@ import java.util.Map;
 public abstract class WxPayRequest<R extends WxPayResponse>
         extends PaymentRequest<WxPayService, R> {
     
-    @ApiField(value = "app_id", required = true)
-    @XStreamAlias("app_id")
+    @ApiField(value = "appid", required = true)
+    @XStreamAlias("appid")
     protected String appId;
     
     @ApiField(value = "mch_id", required = true)
