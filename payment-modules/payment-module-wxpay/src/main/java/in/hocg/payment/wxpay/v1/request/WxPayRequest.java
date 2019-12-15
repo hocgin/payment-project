@@ -15,7 +15,6 @@ import in.hocg.payment.wxpay.sign.WxSignType;
 import in.hocg.payment.wxpay.v1.WxPayConfigStorage;
 import in.hocg.payment.wxpay.v1.WxPayService;
 import in.hocg.payment.wxpay.v1.response.WxPayResponse;
-import in.hocg.payment.wxpay.xml.XStreamInitializer;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -60,7 +59,7 @@ public abstract class WxPayRequest<R extends WxPayResponse>
     protected String signType;
     
     public String toXML() {
-        XStream xstream = XStreamInitializer.getInstance();
+        XStream xstream = Helpers.newXStream();
         xstream.processAnnotations(this.getClass());
         return xstream.toXML(this);
     }
