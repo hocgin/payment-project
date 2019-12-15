@@ -1,7 +1,6 @@
 package in.hocg.payment.alipay.v2.request;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.annotation.JSONField;
 import in.hocg.payment.PaymentException;
 import in.hocg.payment.alipay.Helpers;
 import in.hocg.payment.alipay.constants.Constants;
@@ -188,17 +187,13 @@ public abstract class AliPayRequest<R extends AliPayResponse>
         form.append("</form>");
         form.append("<script>document.forms[0].submit();</script>");
         
-        try {
-            R result = responseClass.newInstance();
-            result.setContent(form.toString());
-            return result;
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        final String response = form.toString();
+        return InitializingBean.from(AliPayConverts.TEXT, response, responseClass);
     }
     
     /**
      * 构建 URL
+     *
      * @return
      */
     protected R buildSdkParams(Class<R> responseClass) {
@@ -208,12 +203,7 @@ public abstract class AliPayRequest<R extends AliPayResponse>
             entry.setValue(URLEncoder.encode(String.valueOf(value)));
         });
         
-        try {
-            R result = responseClass.newInstance();
-            result.setContent(StringUtils.mapToString(values, "&"));
-            return result;
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        final String response = StringUtils.mapToString(values, "&");
+        return InitializingBean.from(AliPayConverts.TEXT, response, responseClass);
     }
 }

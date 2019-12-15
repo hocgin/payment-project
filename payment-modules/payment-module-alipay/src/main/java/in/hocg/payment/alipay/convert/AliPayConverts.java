@@ -3,6 +3,7 @@ package in.hocg.payment.alipay.convert;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.parser.Feature;
 import in.hocg.payment.alipay.v2.response.AliPayHttpResponse;
+import in.hocg.payment.alipay.v2.response.AliPayResponse;
 import in.hocg.payment.convert.Convert;
 
 import java.util.Map;
@@ -35,4 +36,14 @@ public final class AliPayConverts {
         }
     };
     
+    public static final Convert<AliPayResponse> TEXT = new Convert<AliPayResponse>() {
+        @Override
+        public <R extends AliPayResponse> R convert(String body, Class<R> clazz) {
+            try {
+                return clazz.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
 }
