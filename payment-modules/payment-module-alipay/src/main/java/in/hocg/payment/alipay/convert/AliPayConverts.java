@@ -13,10 +13,11 @@ import java.util.Map;
  *
  * @author hocgin
  */
-public enum AliPayConverts implements Convert<AliPayHttpResponse> {
-    JSON {
+public final class AliPayConverts {
+    public static final Convert<AliPayHttpResponse> JSON = new Convert<AliPayHttpResponse>() {
+        
         @Override
-        public <T extends AliPayHttpResponse> T convert(String body, Class<T> clazz) {
+        public <R extends AliPayHttpResponse> R convert(String body, Class<R> clazz) {
             final Map<String, String> map = com.alibaba.fastjson.JSON.parseObject(body, new TypeReference<Map<String, String>>() {
             }, Feature.OrderedField);
             String responseKey = "";
@@ -28,9 +29,10 @@ public enum AliPayConverts implements Convert<AliPayHttpResponse> {
             }
             final String responseBody = map.getOrDefault(responseKey, "{}");
             
-            final T object = com.alibaba.fastjson.JSON.parseObject(responseBody, clazz);
+            final R object = com.alibaba.fastjson.JSON.parseObject(responseBody, clazz);
             object.setSign(map.getOrDefault(AliPayHttpResponse.FIELD_SIGN, null));
             return object;
         }
-    }
+    };
+    
 }
