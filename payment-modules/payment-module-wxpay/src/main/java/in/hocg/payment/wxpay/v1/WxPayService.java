@@ -1,6 +1,8 @@
 package in.hocg.payment.wxpay.v1;
 
+import in.hocg.payment.core.PaymentMessage;
 import in.hocg.payment.core.PaymentService;
+import in.hocg.payment.wxpay.convert.WxPayConverts;
 import lombok.Getter;
 
 /**
@@ -14,5 +16,10 @@ public class WxPayService extends PaymentService<WxPayConfigStorage> {
     
     public WxPayService(WxPayConfigStorage configStorage) {
         super(configStorage);
+    }
+    
+    @Override
+    public <T extends PaymentMessage> T message(String content, Class<T> clazz) {
+        return message(content, WxPayConverts.MESSAGE, clazz);
     }
 }

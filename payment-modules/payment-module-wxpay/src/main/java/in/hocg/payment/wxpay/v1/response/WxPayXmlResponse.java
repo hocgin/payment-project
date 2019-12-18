@@ -61,7 +61,6 @@ public abstract class WxPayXmlResponse
     @XStreamAlias("err_code_des")
     private String errCodeDes;
     
-    private String xmlString;
     private Document xmlDoc;
     
     /**
@@ -99,7 +98,7 @@ public abstract class WxPayXmlResponse
             factory.setExpandEntityReferences(false);
             factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
             this.xmlDoc = factory.newDocumentBuilder()
-                    .parse(new ByteArrayInputStream(this.xmlString.getBytes(StandardCharsets.UTF_8)));
+                    .parse(new ByteArrayInputStream(this.getContent().getBytes(StandardCharsets.UTF_8)));
             return xmlDoc;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -112,7 +111,7 @@ public abstract class WxPayXmlResponse
      * @return
      */
     public Map<String, Object> toMap() {
-        if (Strings.isNullOrEmpty(this.xmlString)) {
+        if (Strings.isNullOrEmpty(this.getContent())) {
             throw new RuntimeException("xml内容错误");
         }
         
@@ -140,6 +139,7 @@ public abstract class WxPayXmlResponse
         Map<String, Object> data = this.toMap();
         SignValue signHelper = Helpers.newSignValue().handle(data);
         String signValue = signHelper.getSignValue();
+        signValue += String.format("&key=%s", key);
         return scheme.verify(signValue, key, this.getSign());
     }
     

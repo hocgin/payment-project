@@ -30,7 +30,7 @@ public class AliPayMessageController {
      */
     @RequestMapping("/trade_status_sync")
     @ResponseBody
-    public ResponseEntity<String> test(@RequestBody String data) {
+    public ResponseEntity<String> tradeStatusSync(@RequestBody String data) {
         TradeStatusSyncMessage message = aliPayService.message(data, TradeStatusSyncMessage.class);
         final String notifyType = message.getNotifyType();
         log.debug("通知类型: {}, 通知信息: {}", notifyType, message);

@@ -19,7 +19,7 @@ public enum WxSignType implements SignScheme {
         
         @Override
         public String sign(String data, String privateKey) {
-            return MD5Encrypt.sign(data).toUpperCase();
+            return MD5Encrypt.encode32(data).toUpperCase();
         }
         
         @Override
@@ -44,4 +44,14 @@ public enum WxSignType implements SignScheme {
     };
     
     public abstract String string();
+    
+    
+    public static WxSignType of(String name) {
+        for (WxSignType value : WxSignType.values()) {
+            if (value.string().equals(name)) {
+                return value;
+            }
+        }
+        return WxSignType.HMAC_SHA256;
+    }
 }

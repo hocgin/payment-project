@@ -57,6 +57,7 @@ public class Helpers {
         xstream.ignoreUnknownElements();
         xstream.setMode(XStream.NO_REFERENCES);
         xstream.omitField(PaymentRequest.class, "paymentService");
+        xstream.autodetectAnnotations(true);
         XStream.setupDefaultSecurity(xstream);
         xstream.allowTypesByWildcard(new String[]{
                 "in.hocg.**"

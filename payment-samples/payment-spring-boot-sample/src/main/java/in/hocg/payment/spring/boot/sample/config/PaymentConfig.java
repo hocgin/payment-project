@@ -5,6 +5,9 @@ import in.hocg.payment.PaymentServices;
 import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.sign.SignType;
+import in.hocg.payment.wxpay.sign.WxSignType;
+import in.hocg.payment.wxpay.v1.WxPayConfigStorage;
+import in.hocg.payment.wxpay.v1.WxPayService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +29,19 @@ public class PaymentConfig {
                 .setSignType(SignType.RSA2)
                 .setIsDev(true);
         return PaymentServices.createPaymentService(AliPayService.class, configStorage);
+    }
+    
+    
+    
+    @Bean
+    WxPayService wxPayService() {
+        final WxPayConfigStorage configStorage = ConfigStorages.createConfigStorage(WxPayConfigStorage.class)
+                .setAppId("appid")
+                .setKey("key")
+                .setMchId("mchId")
+                .setSignType(WxSignType.HMAC_SHA256)
+                .setIsDev(true);
+        return PaymentServices.createPaymentService(WxPayService.class, configStorage);
     }
     
 }

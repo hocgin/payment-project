@@ -42,6 +42,10 @@
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15</artifactId>
+        </dependency>
         <!--测试阶段-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
