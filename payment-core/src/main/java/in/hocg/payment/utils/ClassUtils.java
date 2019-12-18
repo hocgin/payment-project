@@ -1,12 +1,14 @@
 package in.hocg.payment.utils;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by hocgin on 2019/7/14.
@@ -15,33 +17,20 @@ import java.util.*;
  * @author hocgin
  */
 public class ClassUtils {
-    /**
-     * 缓存已分析的类
-     */
-    private static Map<Class, ClassUtils> CACHED = Maps.newHashMap();
-    private final Class<?> clazz;
-    
-    private ClassUtils(Class<?> clazz) {
-        this.clazz = clazz;
-    }
-    
-    public static ClassUtils from(Class<?> clazz) {
-        return CACHED.computeIfAbsent(clazz, ClassUtils::new);
-    }
     
     /**
      * 获取所有函数
      *
      * @return
      */
-    public ArrayList<Method> getAllMethod() {
-        ArrayList<Method> result = Lists.newArrayList();
+    public static List<Method> getAllMethod(Class<?> clazz) {
+        List<Method> result = Lists.newArrayList();
         result.addAll(Arrays.asList(clazz.getDeclaredMethods()));
         Class<?> superclass = clazz.getSuperclass();
         if (Object.class.equals(superclass)) {
             return result;
         }
-        result.addAll(ClassUtils.from(superclass).getAllMethod());
+        result.addAll(ClassUtils.getAllMethod(superclass));
         
         return result;
     }
@@ -51,7 +40,7 @@ public class ClassUtils {
      *
      * @return
      */
-    public List<Field> getAllField() {
+    public static List<Field> getAllField(Class<?> clazz) {
         ArrayList<Field> result = Lists.newArrayList();
         result.addAll(Arrays.asList(clazz.getDeclaredFields()));
         
@@ -59,7 +48,7 @@ public class ClassUtils {
         if (Object.class.equals(superclass)) {
             return result;
         }
-        result.addAll(ClassUtils.from(superclass).getAllField());
+        result.addAll(ClassUtils.getAllField(superclass));
         return result;
     }
     
@@ -69,29 +58,27 @@ public class ClassUtils {
      * @param fieldName
      * @return
      */
-    public Field getField(String fieldName) {
+    public static Optional<Field> getField(Class<?> clazz, String fieldName) {
         Field field = null;
         try {
             field = clazz.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
             Class<?> superclass = clazz.getSuperclass();
             if (!Object.class.equals(superclass)) {
-                return ClassUtils.from(superclass).getField(fieldName);
+                return ClassUtils.getField(clazz, fieldName);
             }
         }
-        if (Objects.isNull(field)) {
-            throw new IllegalArgumentException(String.format("在 %s 中未找到 %s 字段", clazz.getSimpleName(), fieldName));
-        }
-        return field;
+        return Optional.ofNullable(field);
     }
     
     /**
      * 通过函数名称获取 Class 对应的函数
      *
+     * @param clazz
      * @param methodName
      * @return
      */
-    public Method getMethod(String methodName) {
+    public static Method getMethod(Class<?> clazz, String methodName) {
         Method[] methods = clazz.getMethods();
         for (Method method : methods) {
             if (method.getName().equals(methodName)) {

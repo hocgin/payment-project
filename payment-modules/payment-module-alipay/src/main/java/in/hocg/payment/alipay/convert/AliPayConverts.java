@@ -2,10 +2,14 @@ package in.hocg.payment.alipay.convert;
 
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.parser.Feature;
+import com.google.common.collect.Maps;
+import in.hocg.payment.alipay.v2.message.AliPayMessage;
 import in.hocg.payment.alipay.v2.response.AliPayHttpResponse;
 import in.hocg.payment.alipay.v2.response.AliPayResponse;
 import in.hocg.payment.convert.Convert;
+import in.hocg.payment.utils.ObjectMeta;
 
+import java.net.URLDecoder;
 import java.util.Map;
 
 /**
@@ -41,6 +45,36 @@ public final class AliPayConverts {
         public <R extends AliPayResponse> R convert(String body, Class<R> clazz) {
             try {
                 return clazz.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    };
+    
+    public static final Convert<AliPayMessage> MESSAGE = new Convert<AliPayMessage>() {
+        @Override
+        public <R extends AliPayMessage> R convert(String body, Class<R> clazz) {
+            try {
+                final R result = clazz.newInstance();
+                final String[] items = body.split("&");
+                Map<String, String> params = Maps.newHashMap();
+                String[] vars;
+                for (String item : items) {
+                    vars = item.split("=", 2);
+                    final String key = vars[0];
+                    String value = vars[1];
+                    if (!"sign".equalsIgnoreCase(key)) {
+                        value = URLDecoder.decode(value);
+                    }
+                    params.put(key, value);
+                }
+    
+                final ObjectMeta objectMeta = ObjectMeta.from(clazz);
+                params.forEach((key, value) -> {
+                    objectMeta.setIfExist(result, key, value);
+                });
+    
+                return result;
             } catch (InstantiationException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }

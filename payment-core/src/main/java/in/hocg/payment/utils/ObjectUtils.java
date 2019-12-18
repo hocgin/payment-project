@@ -19,17 +19,16 @@ public class ObjectUtils {
      *
      * @param target
      * @param methodName
-     * @param args
      * @param <R>
      * @return
      * @throws NoSuchMethodException
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    public static <R> R callMethod(Object target, String methodName, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static <R> R callMethod(Object target, String methodName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method method = target.getClass().getMethod(methodName);
         Invokable<Object, R> from = (Invokable<Object, R>) Invokable.from(method);
-        return from.invoke(target, args);
+        return from.invoke(target);
     }
     
     /**
@@ -45,13 +44,12 @@ public class ObjectUtils {
         return callMethod(target, methodName);
     }
     
-    
     public static <R> R tryCallGetter(Object target, String fieldName, CaseFormat fieldCaseFormat) {
         try {
             return callGetter(target, fieldName, fieldCaseFormat);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
     }
+    
 }

@@ -43,15 +43,13 @@ public class SignObjects {
      */
     public static Map<String, Field> getSignFields(Class<?> aClass) {
         Map<String, Field> result = Maps.newHashMap();
-        ClassUtils.from(aClass).getAllField()
-                .stream()
-                .filter(field -> {
-                    if (!field.isAnnotationPresent(ApiField.class)) {
-                        return false;
-                    }
-                    ApiField annotation = field.getAnnotation(ApiField.class);
-                    return !annotation.ignore();
-                }).forEach(field -> {
+        ClassUtils.getAllField(aClass).stream().filter(field -> {
+            if (!field.isAnnotationPresent(ApiField.class)) {
+                return false;
+            }
+            ApiField annotation = field.getAnnotation(ApiField.class);
+            return !annotation.ignore();
+        }).forEach(field -> {
             ApiField annotation = field.getAnnotation(ApiField.class);
             String fieldName = annotation.value();
             if (Strings.isNullOrEmpty(fieldName)) {

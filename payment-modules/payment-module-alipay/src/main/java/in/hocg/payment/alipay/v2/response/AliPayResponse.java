@@ -1,5 +1,6 @@
 package in.hocg.payment.alipay.v2.response;
 
+import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.core.PaymentResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,5 +14,5 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public abstract class AliPayResponse extends PaymentResponse {
+public abstract class AliPayResponse extends PaymentResponse<AliPayService> {
 }

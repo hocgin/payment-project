@@ -8,9 +8,7 @@ import in.hocg.payment.alipay.convert.AliPayConverts;
 import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.alipay.v2.response.AliPayResponse;
-import in.hocg.payment.core.ErrorContext;
-import in.hocg.payment.core.InitializingBean;
-import in.hocg.payment.core.PaymentRequest;
+import in.hocg.payment.core.*;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignObjects;
 import in.hocg.payment.sign.SignType;
@@ -155,7 +153,7 @@ public abstract class AliPayRequest<R extends AliPayResponse>
         AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
         SignType signType = configStorage.getSignType();
         @NonNull String aliPayPublicKey = configStorage.getAliPayPublicKey();
-        R result = InitializingBean.from(AliPayConverts.JSON, response, responseClass);
+        R result = TextInitializingBean.from(AliPayConverts.JSON, response, responseClass);
         
         // 如果签名失败
         if (!result.checkSign(signType, aliPayPublicKey)) {
@@ -188,7 +186,7 @@ public abstract class AliPayRequest<R extends AliPayResponse>
         form.append("<script>document.forms[0].submit();</script>");
         
         final String response = form.toString();
-        return InitializingBean.from(AliPayConverts.TEXT, response, responseClass);
+        return TextInitializingBean.from(AliPayConverts.TEXT, response, responseClass);
     }
     
     /**
@@ -204,6 +202,6 @@ public abstract class AliPayRequest<R extends AliPayResponse>
         });
         
         final String response = StringUtils.mapToString(values, "&");
-        return InitializingBean.from(AliPayConverts.TEXT, response, responseClass);
+        return TextInitializingBean.from(AliPayConverts.TEXT, response, responseClass);
     }
 }

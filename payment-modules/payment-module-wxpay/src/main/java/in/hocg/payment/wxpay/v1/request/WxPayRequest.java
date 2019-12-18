@@ -4,8 +4,8 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import in.hocg.payment.PaymentException;
 import in.hocg.payment.convert.Convert;
-import in.hocg.payment.core.InitializingBean;
 import in.hocg.payment.core.PaymentRequest;
+import in.hocg.payment.core.TextInitializingBean;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignObjects;
 import in.hocg.payment.sign.SignValue;
@@ -115,7 +115,7 @@ public abstract class WxPayRequest<R extends WxPayResponse>
         WxPayConfigStorage configStorage = getPaymentService().getConfigStorage();
         @NonNull final String key = configStorage.getKey();
         @NonNull final WxSignType signType = configStorage.getSignType();
-        R result = InitializingBean.from(convert, response, responseClass);
+        R result = TextInitializingBean.from(convert, response, responseClass);
         
         // 验签
         if (!result.checkSign(signType, key)) {

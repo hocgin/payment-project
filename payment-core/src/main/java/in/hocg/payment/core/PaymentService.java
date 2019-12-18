@@ -1,6 +1,7 @@
 package in.hocg.payment.core;
 
 
+import in.hocg.payment.convert.Convert;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -29,4 +30,19 @@ public abstract class PaymentService<T extends ConfigStorage> {
         return request.request((P) this);
     }
     
+    /**
+     * 消息
+     *
+     * @param content
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public <T extends PaymentMessage> T message(String content, Convert convert, Class<T> clazz) {
+        return PaymentMessage.from(this, convert, content, clazz);
+    }
+    
+    public <T extends PaymentMessage> T message(String content, Class<T> clazz) {
+        throw new UnsupportedOperationException();
+    }
 }

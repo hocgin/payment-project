@@ -42,6 +42,7 @@ public class AliPayController {
     public String payUseApp() {
         final String code = String.valueOf(System.currentTimeMillis());
         final TradeAppPayRequest tradeAppPayRequest = new TradeAppPayRequest();
+        tradeAppPayRequest.setNotifyUrl("http://hocgin.free.idcfengye.com/alipay/message/test");
         tradeAppPayRequest.setBizContent2(new TradeAppPayRequest.BizContent()
                 .setSubject("iPhone Xs Max 256G")
                 .setTotalAmount("0.01")
