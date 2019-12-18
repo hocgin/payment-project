@@ -47,16 +47,17 @@ class WxPayMessageControllerTest extends AbstractSpringBootTest {
                 "  <trade_type><![CDATA[JSAPI]]></trade_type>\n" +
                 "  <transaction_id><![CDATA[1004400740201409030005092168]]></transaction_id>\n" +
                 "</xml>";
+        final String responseBody = Helpers.newXStream()
+                .toXML(UnifiedOrderMessage.Result.builder()
+                        .returnCode("OK")
+                        .returnMsg("SUCCESS")
+                        .build());
         mockMvc.perform(MockMvcRequestBuilders.post(url)
                 .content(content)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
-                        .string(CoreMatchers.equalTo(Helpers.newXStream()
-                                .toXML(UnifiedOrderMessage.Result.builder()
-                                        .returnCode("OK")
-                                        .returnMsg("SUCCESS")
-                                        .build())))
+                        .string(CoreMatchers.equalTo(responseBody))
                 );
     }
     
@@ -70,16 +71,17 @@ class WxPayMessageControllerTest extends AbstractSpringBootTest {
                 "   <nonce_str><![CDATA[TeqClE3i0mvn3DrK]]></nonce_str>\n" +
                 "   <req_info><![CDATA[Z2YMvNIShl15ujmiz4r67vAgjzZ6aY9nOE9QmRMKYuPlt3weO2FLodKoht18D5TOpegSecxdRDBr+yyOzV0DEqBUbuiuXwvGKr9cvAC3xHOSSqrCBLFcHOrA62qxJb4euWkYdIvpgmndfQ4XBv2U+N4/bOndlfT6Yh9hUFn6CLhrjomWG4gnRlnSGNcfl8csu0DbixJLZBuf8saXx8OPKgRHCAxERjoCKQLG1ifl2YQnSH3PkVbM+bjbL7ac5U6dShwNv1Ax2iuzhw9mcXUp1PhXkMTREQsCemLEzBVFV7eXTA/FlFKKEZX4wvsM8PQJ1ycmJKz8K0iqZJ+vjx9hjAw6NFH9dAL3Dj9i1OKD6A9rR0vVPSx+vc3csG6WsF1+0nXe0231byJ9K4AxJVIJFhoQcV+CmqKBoGPtNl+7tnZIFoL+6QlZVirItxPIFBPi+jG72twRRDhxXyCEjXwMJ57SfoTvB3T4yDTw7O0TwDHGRrQk2Rabdu7Nu1ZKy35lFdZ7XH/yMfGITZ/RhVwijCyH8NnCIRO0VzopPY3xyLYgUIwTEYCx/K2Gd3GLJEeqazEPJNbe893rxvImgyCQX2CzbLX41rJweAsLCOtkcfwsTTX7knwutGU2LJxsPAEUUspGCXhWw7VHu4ktbmWSLplHemqTrlbkTcV7N+vcSiQH0oHJW/PXy3DqmHXDrDldl0wPxZRSihGV+ML7DPD0CURuguYq5xUfLOuzgigeOVZ7zWe1kdG3F3JyJHoKVsGorKic7pJlwLAThtqFONwF6ciXPiFtf9jLhT7ikv/MI7s5Lw83glI/69LnLLJnP9mNUC9VmNtxU7Cq7gJk7GVaNBw+2qtoUVvhBpGEqhSoi2HGtI9MZWYLI9qrqfqRMcViNTggDF0bShCF+sswh3CbrL4GAjt9dUsDM4nZImYjXB7Ilz4hbX/Yy4U+4pL/zCO7ihJCAK9SYTrZRx0DmU5dgszuILsWTnyY2V5ejbluyUn42itil/P1Wi586why4yivfTEyznkE7mP7iKE7fa4QpNsYJk486dGu+WeCMLcmyUYmo78yzuRNOcSGuBh/z9dL]]></req_info>\n" +
                 "</xml>";
+        final String responseBody = Helpers.newXStream()
+                .toXML(UnifiedOrderMessage.Result.builder()
+                        .returnCode("OK")
+                        .returnMsg("SUCCESS")
+                        .build());
         mockMvc.perform(MockMvcRequestBuilders.post(url)
                 .content(content)
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
-                        .string(CoreMatchers.equalTo(Helpers.newXStream()
-                                .toXML(UnifiedOrderMessage.Result.builder()
-                                        .returnCode("OK")
-                                        .returnMsg("SUCCESS")
-                                        .build())))
+                        .string(CoreMatchers.equalTo(responseBody))
                 );
     }
 }
