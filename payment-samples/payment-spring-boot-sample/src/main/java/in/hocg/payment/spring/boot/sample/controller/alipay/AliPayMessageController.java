@@ -1,8 +1,7 @@
 package in.hocg.payment.spring.boot.sample.controller.alipay;
 
-import in.hocg.payment.alipay.convert.AliPayConverts;
 import in.hocg.payment.alipay.v2.AliPayService;
-import in.hocg.payment.alipay.v2.message.TestAliPayMessage;
+import in.hocg.payment.alipay.v2.message.TradeStatusSyncMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +28,12 @@ public class AliPayMessageController {
      *
      * @param data
      */
-    @RequestMapping("/test")
+    @RequestMapping("/trade_status_sync")
     @ResponseBody
-    public ResponseEntity test(@RequestBody String data) {
-        TestAliPayMessage message = aliPayService.message(data, AliPayConverts.MESSAGE, TestAliPayMessage.class);
-        log.debug("{}", message);
-        return ResponseEntity.ok(message);
+    public ResponseEntity<String> test(@RequestBody String data) {
+        TradeStatusSyncMessage message = aliPayService.message(data, TradeStatusSyncMessage.class);
+        final String notifyType = message.getNotifyType();
+        log.debug("通知类型: {}, 通知信息: {}", notifyType, message);
+        return ResponseEntity.ok(notifyType);
     }
 }

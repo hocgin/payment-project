@@ -11,7 +11,7 @@ import lombok.Getter;
  * @author hocgin
  */
 @Getter
-public class TestAliPayMessage extends AliPayMessage {
+public class TradeStatusSyncMessage extends AliPayMessage {
     @ApiField("gmt_create")
     @ObjectMeta.Alias("gmt_create")
     private String gmtCreate;
