@@ -34,6 +34,6 @@ public class AliPayMessageController {
         TradeStatusSyncMessage message = aliPayService.message(data, TradeStatusSyncMessage.class);
         final String notifyType = message.getNotifyType();
         log.debug("通知类型: {}, 通知信息: {}", notifyType, message);
-        return ResponseEntity.ok(notifyType);
+        return ResponseEntity.ok("success");
     }
 }

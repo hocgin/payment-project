@@ -30,7 +30,7 @@ class AliPayMessageControllerTest extends AbstractSpringBootTest {
                 .accept(MediaType.ALL))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
-                        .string(CoreMatchers.equalTo("trade_status_sync"))
+                        .string(CoreMatchers.equalTo("success"))
                 );
     }
     
