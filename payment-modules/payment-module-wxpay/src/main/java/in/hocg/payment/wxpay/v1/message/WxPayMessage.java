@@ -105,7 +105,7 @@ public abstract class WxPayMessage extends PaymentMessage<WxPayService> {
         return result;
     }
     
-    interface Result extends PaymentMessage.Result {
+    public interface Result extends PaymentMessage.Result {
     
         default String string() {
             return Helpers.newXStream().toXML(this);
