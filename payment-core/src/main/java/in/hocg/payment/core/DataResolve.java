@@ -14,17 +14,18 @@ import java.util.function.Function;
 /**
  * Created by hocgin on 2019/12/13.
  * email: hocgin@gmail.com
- * 消息转换器
+ * 数据转换器
  *
  * @author hocgin
  */
-public abstract class MessageResolve<K> {
+public abstract class DataResolve<K> {
     
     @RequiredArgsConstructor
     @Getter
     public static class Rule<T, R> {
         @NonNull
         private final Convert<T> convert;
+        @NonNull
         private final Function<? extends T, R> handle;
     }
     
@@ -40,7 +41,7 @@ public abstract class MessageResolve<K> {
      * @param rule
      * @return
      */
-    public MessageResolve<K> addRule(K key, Rule rule) {
+    public DataResolve<K> addRule(K key, Rule rule) {
         rules.put(key, rule);
         return this;
     }

@@ -1,7 +1,7 @@
 package in.hocg.payment.spring.boot.sample.controller.allin.resolve;
 
 import in.hocg.payment.convert.Convert;
-import in.hocg.payment.core.MessageResolve;
+import in.hocg.payment.core.DataResolve;
 import in.hocg.payment.wxpay.v1.message.UnifiedOrderMessage;
 import in.hocg.payment.wxpay.v1.message.WxPayMessage;
 import lombok.NonNull;
@@ -14,7 +14,7 @@ import java.util.function.Function;
  *
  * @author hocgin
  */
-public class WxMessageRule extends MessageResolve.Rule<WxPayMessage, WxPayMessage.Result> {
+public class WxMessageRule extends DataResolve.Rule<WxPayMessage, WxPayMessage.Result> {
     public WxMessageRule() {
         this(new Convert<WxPayMessage>() {
             @Override

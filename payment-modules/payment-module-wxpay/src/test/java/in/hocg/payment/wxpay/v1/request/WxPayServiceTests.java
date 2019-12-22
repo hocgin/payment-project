@@ -3,7 +3,7 @@ package in.hocg.payment.wxpay.v1.request;
 import in.hocg.payment.ConfigStorages;
 import in.hocg.payment.PaymentServices;
 import in.hocg.payment.convert.Convert;
-import in.hocg.payment.core.MessageResolve;
+import in.hocg.payment.core.DataResolve;
 import in.hocg.payment.core.PaymentMessage;
 import in.hocg.payment.wxpay.v1.WxPayConfigStorage;
 import in.hocg.payment.wxpay.v1.WxPayService;
@@ -172,7 +172,7 @@ class WxPayServiceTests {
     
     @Test
     void test() {
-        class WxPayMessageResolve extends MessageResolve<Integer> {
+        class WxPayMessageResolve extends DataResolve<Integer> {
         }
         @RequiredArgsConstructor
         class RefundResult implements PaymentMessage.Result {
@@ -180,7 +180,7 @@ class WxPayServiceTests {
         }
         
         final WxPayMessageResolve messageResolve = new WxPayMessageResolve();
-        final MessageResolve.Rule<PaymentMessage, RefundResult> rule = new MessageResolve.Rule<>(new Convert<PaymentMessage>() {
+        final DataResolve.Rule<PaymentMessage, RefundResult> rule = new DataResolve.Rule<>(new Convert<PaymentMessage>() {
             @Override
             public <R extends PaymentMessage> R convert(String body, Class<R> clazz) {
                 final UnifiedOrderMessage message = new UnifiedOrderMessage();
