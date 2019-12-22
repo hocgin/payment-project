@@ -24,12 +24,16 @@ public class ErrorContext {
     private String activity;
     
     /**
-     * 参数
+     * 请求
      */
     @Setter
-    private String requestBody;
+    private String request;
     
-    private String responseBody;
+    /**
+     * 响应
+     */
+    @Setter
+    private String response;
     
     /**
      * 描述
@@ -80,7 +84,7 @@ public class ErrorContext {
         this.message = null;
         this.cause = null;
         this.url = null;
-        this.requestBody = null;
+        this.request = null;
         
         LOCAL.remove();
         return this;
@@ -89,31 +93,37 @@ public class ErrorContext {
     @Override
     public String toString() {
         StringBuilder description = new StringBuilder();
-    
+        
         if (this.message != null) {
             description.append(LINE_SEPARATOR);
             description.append("### ");
             description.append(this.message);
         }
-    
-        if (requestBody != null) {
-            description.append(LINE_SEPARATOR);
-            description.append("### 请求参数: ");
-            description.append(requestBody);
-        }
-    
+        
         if (activity != null) {
             description.append(LINE_SEPARATOR);
             description.append("### 触发场景: ");
             description.append(activity);
         }
-    
+        
         if (this.url != null) {
             description.append(LINE_SEPARATOR);
             description.append("### 请求地址: ");
-            description.append(this.url.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ').trim());
+            description.append(this.url);
         }
-    
+        
+        if (request != null) {
+            description.append(LINE_SEPARATOR);
+            description.append("### 请求参数: ");
+            description.append(request);
+        }
+        
+        if (response != null) {
+            description.append(LINE_SEPARATOR);
+            description.append("### 响应参数: ");
+            description.append(response);
+        }
+        
         if (cause != null) {
             description.append(LINE_SEPARATOR);
             description.append("### 异常: ");
