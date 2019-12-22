@@ -27,5 +27,19 @@ public interface SignScheme {
      */
     boolean verify(String data, String publicKey, String sign);
     
+    /**
+     * 签名算法名称
+     *
+     * @return
+     */
+    default String string() {
+        if (this instanceof Enum) {
+            return ((Enum) this).name();
+        }
+        return this.getClass().getSimpleName();
+    }
     
+    default SignScheme useLogger() {
+        return new SignSchemeLogger(this);
+    }
 }

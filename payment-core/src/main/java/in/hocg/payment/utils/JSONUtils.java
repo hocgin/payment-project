@@ -40,14 +40,15 @@ public class JSONUtils {
      * @return
      */
     public static String pretty(Object object) {
-        if (object == null) {
-            return "";
-        }
-        
         Object jsonObject = object;
         if (object instanceof String) {
             jsonObject = JSON.parseObject(((String) object));
         }
+        
+        if (jsonObject == null) {
+            return "{}";
+        }
+        
         return JSON.toJSONString(jsonObject, true);
     }
 }

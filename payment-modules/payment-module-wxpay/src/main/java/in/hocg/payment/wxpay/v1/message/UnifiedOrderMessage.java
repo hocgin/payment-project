@@ -2,8 +2,9 @@ package in.hocg.payment.wxpay.v1.message;
 
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import in.hocg.payment.PaymentException;
+import in.hocg.payment.exception.ExceptionFactory;
 import in.hocg.payment.sign.ApiField;
+import in.hocg.payment.sign.SignScheme;
 import in.hocg.payment.sign.SignValue;
 import in.hocg.payment.wxpay.Helpers;
 import in.hocg.payment.wxpay.sign.WxSignType;
@@ -107,7 +108,7 @@ public class UnifiedOrderMessage extends WxPayMessage {
         String signValue = signHelper.getSignValue();
         signValue += String.format("&key=%s", key);
         
-        WxSignType signType = WxSignType.of(getSignType());
+        SignScheme signType = WxSignType.of(getSignType()).useLogger();
         return signType.verify(signValue, key, this.getSign());
     }
     
@@ -115,7 +116,7 @@ public class UnifiedOrderMessage extends WxPayMessage {
     public void afterPropertiesSet() {
         composeCoupons();
         if (!checkSign()) {
-            throw PaymentException.wrap("签名错误");
+            throw ExceptionFactory.wrap("支付消息签名不一致");
         }
     }
     

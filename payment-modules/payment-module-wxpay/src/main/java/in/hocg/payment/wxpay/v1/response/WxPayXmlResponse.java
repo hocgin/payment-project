@@ -4,7 +4,8 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import in.hocg.payment.PaymentException;
+import in.hocg.payment.exception.ExceptionFactory;
+import in.hocg.payment.exception.PaymentException;
 import in.hocg.payment.sign.SignScheme;
 import in.hocg.payment.sign.SignValue;
 import in.hocg.payment.wxpay.Helpers;
@@ -147,7 +148,7 @@ public abstract class WxPayXmlResponse
     public void afterPropertiesSet() {
         // 业务结果检查
         if (!RESPONSE_SUCCESS_CODE.equals(this.getReturnCode())) {
-            throw PaymentException.wrap("业务处理失败: " + this.getReturnCode());
+            throw ExceptionFactory.wrap("业务处理失败: " + this.getReturnCode());
         }
     }
 }

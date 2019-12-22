@@ -1,6 +1,7 @@
 package in.hocg.payment;
 
 import in.hocg.payment.core.ConfigStorage;
+import in.hocg.payment.exception.ExceptionFactory;
 import lombok.NonNull;
 
 /**
@@ -22,7 +23,7 @@ public class ConfigStorages {
         try {
             return configStorageClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            throw PaymentException.wrap(e);
+            throw ExceptionFactory.wrap("创建{class}对象发生错误", new Object[]{configStorageClass}, e);
         }
     }
     

@@ -39,7 +39,7 @@ public class HMACSHA256Encrypt {
      * @param secret 秘钥
      * @return 加密后字符串
      */
-    public static String sign(String data, String secret) {
+    public static String encode(String data, String secret) {
         String hash;
         try {
             Mac sha256HMAC = Mac.getInstance("HmacSHA256");

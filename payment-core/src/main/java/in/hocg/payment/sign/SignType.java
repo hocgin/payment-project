@@ -14,7 +14,7 @@ public enum SignType implements SignScheme {
     RSA {
         @Override
         public String sign(String data, String privateKey) {
-            return RSAEncrypt.sign(data, privateKey, RSAEncrypt.Algorithm.SHA1WithRSA);
+            return RSAEncrypt.encode(data, privateKey, RSAEncrypt.Algorithm.SHA1WithRSA);
         }
         
         @Override
@@ -24,7 +24,7 @@ public enum SignType implements SignScheme {
     }, RSA2 {
         @Override
         public String sign(String data, String privateKey) {
-            return RSAEncrypt.sign(data, privateKey, RSAEncrypt.Algorithm.SHA256WithRSA);
+            return RSAEncrypt.encode(data, privateKey, RSAEncrypt.Algorithm.SHA256WithRSA);
         }
         
         @Override

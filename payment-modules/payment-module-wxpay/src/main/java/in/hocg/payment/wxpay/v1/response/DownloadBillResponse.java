@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @XStreamAlias("xml")
 @EqualsAndHashCode(callSuper = true)
-public class DownloadBillResponse extends WxPayXmlResponse {
+public class DownloadBillResponse extends WxPayDataResponse {
     @Override
     public boolean checkSign(SignScheme scheme, String key) {
         return true;

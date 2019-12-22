@@ -21,8 +21,6 @@ public class MD5Encrypt {
      * @return
      */
     public static String encode32(String data) {
-        String sign = Hashing.md5().hashBytes(data.getBytes()).toString();
-        log.debug("待签名的数据: {}\n生成的签名: {}", data, sign);
-        return sign;
+        return Hashing.md5().hashBytes(data.getBytes()).toString();
     }
 }

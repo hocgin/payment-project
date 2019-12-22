@@ -1,8 +1,9 @@
 package in.hocg.payment.net;
 
 import com.google.common.collect.Maps;
-import in.hocg.payment.PaymentException;
 import in.hocg.payment.core.ErrorContext;
+import in.hocg.payment.exception.ExceptionFactory;
+import in.hocg.payment.exception.NetworkException;
 import in.hocg.payment.utils.LangUtils;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
@@ -46,7 +47,7 @@ public class OkHttpClient implements HttpClient {
         try {
             return CLIENT.newCall(request).execute();
         } catch (IOException e) {
-            throw PaymentException.wrap(e);
+            throw new NetworkException("HTTP:发起请求失败");
         }
     }
     
@@ -67,7 +68,7 @@ public class OkHttpClient implements HttpClient {
         try {
             return CLIENT.newCall(request).execute();
         } catch (IOException e) {
-            throw PaymentException.wrap(e);
+            throw ExceptionFactory.wrap(e);
         }
     }
     
@@ -76,14 +77,14 @@ public class OkHttpClient implements HttpClient {
     public String get(String url, Map<String, String> headers) {
         Response response = execGet(url, headers);
         if (!response.isSuccessful()) {
-            throw PaymentException.wrap("网络请求失败");
+            throw new NetworkException("HTTP:响应状态码非[200..300)");
         }
         ResponseBody responseBody = response.body();
         try {
             assert responseBody != null;
             return responseBody.string();
         } catch (IOException e) {
-            throw PaymentException.wrap(e);
+            throw new NetworkException("HTTP:获取响应数据失败");
         }
     }
     
@@ -99,14 +100,14 @@ public class OkHttpClient implements HttpClient {
         RequestBody requestBody = RequestBody.create(body.getBytes());
         Response response = execPost(url, headers, requestBody);
         if (!response.isSuccessful()) {
-            throw PaymentException.wrap("网络请求失败");
+            throw new NetworkException("HTTP:响应状态码非[200..300)");
         }
         ResponseBody responseBody = response.body();
         try {
             assert responseBody != null;
             return responseBody.string();
         } catch (IOException e) {
-            throw PaymentException.wrap(e);
+            throw new NetworkException("HTTP:获取响应数据失败");
         }
     }
     

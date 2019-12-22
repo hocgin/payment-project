@@ -5,7 +5,7 @@ import in.hocg.payment.wxpay.Helpers;
 import in.hocg.payment.wxpay.v1.message.UnifiedOrderMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -19,10 +19,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author hocgin
  */
 @Slf4j
-class WxPayMessageControllerTest extends AbstractSpringBootTest {
+public class WxPayMessageControllerTest extends AbstractSpringBootTest {
     
     @Test
-    void unifiedOrderMessage() throws Exception {
+    public void unifiedOrderMessage() throws Exception {
         final String url = "/wxpay/message/unified-order";
         final String content = "<xml>\n" +
                 "  <appid><![CDATA[wx2421b1c4370ec43b]]></appid>\n" +
@@ -62,7 +62,7 @@ class WxPayMessageControllerTest extends AbstractSpringBootTest {
     }
     
     @Test
-    void payRefundMessage() throws Exception {
+    public void payRefundMessage() throws Exception {
         final String url = "/wxpay/message/pay-refund";
         final String content = "<xml>\n" +
                 "<return_code>SUCCESS</return_code>\n" +

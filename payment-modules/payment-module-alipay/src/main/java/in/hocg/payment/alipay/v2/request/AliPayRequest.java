@@ -1,18 +1,17 @@
 package in.hocg.payment.alipay.v2.request;
 
 import com.alibaba.fastjson.JSON;
-import in.hocg.payment.PaymentException;
 import in.hocg.payment.alipay.Helpers;
 import in.hocg.payment.alipay.constants.Constants;
 import in.hocg.payment.alipay.convert.AliPayConverts;
 import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.alipay.v2.response.AliPayResponse;
-import in.hocg.payment.core.*;
-import in.hocg.payment.sign.ApiField;
-import in.hocg.payment.sign.SignObjects;
-import in.hocg.payment.sign.SignType;
-import in.hocg.payment.sign.SignValue;
+import in.hocg.payment.core.ErrorContext;
+import in.hocg.payment.core.PaymentRequest;
+import in.hocg.payment.core.TextInitializingBean;
+import in.hocg.payment.exception.ExceptionFactory;
+import in.hocg.payment.sign.*;
 import in.hocg.payment.utils.LangUtils;
 import in.hocg.payment.utils.StringUtils;
 import lombok.Data;
@@ -100,7 +99,7 @@ public abstract class AliPayRequest<R extends AliPayResponse>
     @NotNull
     protected Map<String, Object> handleRequestParams() {
         AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
-        SignType signType = configStorage.getSignType();
+        SignScheme signType = configStorage.getSignType().useLogger();
         
         // 设置参数
         this.appId = LangUtils.getOrDefault(this.getAppId(), configStorage.getAppId());
@@ -109,7 +108,7 @@ public abstract class AliPayRequest<R extends AliPayResponse>
         this.timestamp = LangUtils.getOrDefault(this.getTimestamp(), LocalDateTime.now().format(Constants.ALIPAY_API_DATE_FORMAT));
         this.version = LangUtils.getOrDefault(this.getVersion(), configStorage.getVersion());
         this.notifyUrl = LangUtils.getOrDefault(this.getNotifyUrl(), null);
-        this.signType = LangUtils.getOrDefault(this.getSignType(), signType.name());
+        this.signType = LangUtils.getOrDefault(this.getSignType(), signType.string());
         
         @NonNull String privateKey = configStorage.getPrivateKey();
         Map<String, Object> values = SignObjects.getSignValues(this);
@@ -151,13 +150,13 @@ public abstract class AliPayRequest<R extends AliPayResponse>
     protected R handleResponse(Class<R> responseClass, String response) {
         ErrorContext.instance().activity("正在处理响应: " + this.getClass()).object(response);
         AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
-        SignType signType = configStorage.getSignType();
+        SignScheme signType = configStorage.getSignType().useLogger();
         @NonNull String aliPayPublicKey = configStorage.getAliPayPublicKey();
         R result = TextInitializingBean.from(AliPayConverts.JSON, response, responseClass);
         
         // 如果签名失败
         if (!result.checkSign(signType, aliPayPublicKey)) {
-            throw PaymentException.wrap("签名校验失败，数据可能被串改");
+            throw ExceptionFactory.wrap("响应签名校验失败，数据可能被串改");
         }
         return result;
     }

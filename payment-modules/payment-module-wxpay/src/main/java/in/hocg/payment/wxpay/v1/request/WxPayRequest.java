@@ -2,17 +2,17 @@ package in.hocg.payment.wxpay.v1.request;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import in.hocg.payment.PaymentException;
 import in.hocg.payment.convert.Convert;
 import in.hocg.payment.core.PaymentRequest;
 import in.hocg.payment.core.TextInitializingBean;
+import in.hocg.payment.exception.ExceptionFactory;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignObjects;
+import in.hocg.payment.sign.SignScheme;
 import in.hocg.payment.sign.SignValue;
 import in.hocg.payment.utils.LangUtils;
 import in.hocg.payment.wxpay.Helpers;
 import in.hocg.payment.wxpay.convert.WxPayConverts;
-import in.hocg.payment.wxpay.sign.WxSignType;
 import in.hocg.payment.wxpay.v1.WxPayConfigStorage;
 import in.hocg.payment.wxpay.v1.WxPayService;
 import in.hocg.payment.wxpay.v1.response.WxPayResponse;
@@ -70,7 +70,7 @@ public abstract class WxPayRequest<R extends WxPayResponse>
         this.appId = LangUtils.getOrDefault(this.getAppId(), configStorage.getAppId());
         this.mchId = LangUtils.getOrDefault(this.getMchId(), configStorage.getMchId());
         this.nonceStr = LangUtils.getOrDefault(this.getNonceStr(), String.valueOf(System.currentTimeMillis()));
-        WxSignType signType = configStorage.getSignType();
+        SignScheme signType = configStorage.getSignType().useLogger();
         this.signType = LangUtils.getOrDefault(this.getSignType(), signType.string());
         
         Map<String, Object> values = SignObjects.getSignValues(this);
@@ -114,12 +114,12 @@ public abstract class WxPayRequest<R extends WxPayResponse>
                                String response) {
         WxPayConfigStorage configStorage = getPaymentService().getConfigStorage();
         @NonNull final String key = configStorage.getKey();
-        @NonNull final WxSignType signType = configStorage.getSignType();
+        @NonNull final SignScheme signType = configStorage.getSignType().useLogger();
         R result = TextInitializingBean.from(convert, response, responseClass);
         
         // 验签
         if (!result.checkSign(signType, key)) {
-            throw PaymentException.wrap("签名校验失败，数据可能被串改");
+            throw ExceptionFactory.wrap("响应签名校验失败，数据可能被串改");
         }
         return result;
     }

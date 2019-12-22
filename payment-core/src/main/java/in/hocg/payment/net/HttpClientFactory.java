@@ -33,7 +33,7 @@ public class HttpClientFactory {
      */
     public static <T extends HttpClient> HttpClient newInstance(Class<T> httpClientClass) {
         try {
-            return httpClientClass.newInstance();
+            return new HttpClientLogger(httpClientClass.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

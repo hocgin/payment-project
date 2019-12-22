@@ -1,8 +1,8 @@
 package in.hocg.payment;
 
 import in.hocg.payment.core.ConfigStorage;
-import in.hocg.payment.core.Help;
 import in.hocg.payment.core.PaymentService;
+import in.hocg.payment.exception.ExceptionFactory;
 import lombok.NonNull;
 
 import java.lang.reflect.Constructor;
@@ -31,7 +31,7 @@ public class PaymentServices {
             Constructor<T> constructor = paymentServiceClass.getConstructor(configStorage.getClass());
             return constructor.newInstance(configStorage);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            throw PaymentException.wrap(e);
+            throw ExceptionFactory.wrap("创建支付服务失败", new Object[]{e}, e);
         }
     }
 }

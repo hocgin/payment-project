@@ -1,7 +1,7 @@
 package in.hocg.payment.spring.boot.sample.controller.allin.resolve;
 
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by hocgin on 2019/12/21.
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
  *
  * @author hocgin
  */
-@Configurable
+@Component
 public class AllInMessageConfiguration {
     
     @Bean

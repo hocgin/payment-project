@@ -76,4 +76,7 @@ public class TextUtils {
         return sb.toString();
     }
     
+    public static CharSequence pretty(Object object) {
+        return Objects.toString(object);
+    }
 }

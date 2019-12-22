@@ -87,10 +87,11 @@
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>1.7.25</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
             <dependency>
                 <groupId>org.bouncycastle</groupId>
-                <artifactId>bcprov-jdk15</artifactId>
-                <version>[1.60,)</version>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>1.64</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

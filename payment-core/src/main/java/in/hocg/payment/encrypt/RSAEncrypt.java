@@ -38,18 +38,15 @@ public class RSAEncrypt {
     
     private static final String KEY_ALGORITHM = "RSA";
     
-    public static String sign(@NonNull String data,
-                              @NonNull String privateKey,
-                              @NonNull Algorithm algorithm) {
+    public static String encode(@NonNull String data,
+                                @NonNull String privateKey,
+                                @NonNull Algorithm algorithm) {
         try {
             Signature signature = Signature.getInstance(algorithm.getValue());
             signature.initSign(getPrivateKey(privateKey));
             signature.update(data.getBytes());
-            String sign = Base64.getEncoder().encodeToString(signature.sign());
-            log.debug("待签名的数据: {}\n使用的私钥: {}\n生成的签名: {}", data, privateKey, sign);
-            return sign;
+            return Base64.getEncoder().encodeToString(signature.sign());
         } catch (Exception e) {
-            log.error("签名失败: ", e);
             throw new RuntimeException(e);
         }
     }
@@ -62,11 +59,8 @@ public class RSAEncrypt {
             Signature signature = Signature.getInstance(algorithm.getValue());
             signature.initVerify(getPublicKey(publicKey));
             signature.update(data.getBytes());
-            boolean verify = signature.verify(Base64.getDecoder().decode(sign));
-            log.debug("待签名的数据: {}\n使用的公钥: {}\n待验证的签名: {}\n验证结果: {}", data, publicKey, sign, verify);
-            return verify;
+            return signature.verify(Base64.getDecoder().decode(sign));
         } catch (Exception e) {
-            log.error("验签失败: ", e);
             throw new RuntimeException(e);
         }
     }

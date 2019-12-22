@@ -30,7 +30,7 @@ class RSATest {
         log.debug("公钥: {}", publicKey);
         
         String text = "as";
-        String sign = RSAEncrypt.sign(text, privateKey, RSAEncrypt.Algorithm.SHA1WithRSA);
+        String sign = RSAEncrypt.encode(text, privateKey, RSAEncrypt.Algorithm.SHA1WithRSA);
         log.debug("签名结果: {}", sign);
         boolean result = RSAEncrypt.verify(text, publicKey, RSAEncrypt.Algorithm.SHA1WithRSA, sign);
         log.debug("验证签名结果: {}", result);
@@ -47,7 +47,7 @@ class RSATest {
         log.debug("公钥: {}", publicKey);
         
         String text = "as";
-        String sign = RSAEncrypt.sign(text, privateKey, RSAEncrypt.Algorithm.SHA256WithRSA);
+        String sign = RSAEncrypt.encode(text, privateKey, RSAEncrypt.Algorithm.SHA256WithRSA);
         log.debug("签名结果: {}", sign);
         boolean result = RSAEncrypt.verify(text, publicKey, RSAEncrypt.Algorithm.SHA256WithRSA, sign);
         log.debug("验证签名结果: {}", result);
