@@ -1,7 +1,10 @@
 package in.hocg.payment.core;
 
+import com.google.common.collect.Maps;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
+import java.util.Map;
 
 /**
  * Created by hocgin on 2019/11/19.
@@ -24,16 +27,10 @@ public class ErrorContext {
     private String activity;
     
     /**
-     * 请求
+     * 入参
      */
     @Setter
-    private String request;
-    
-    /**
-     * 响应
-     */
-    @Setter
-    private String response;
+    private Object args;
     
     /**
      * 描述
@@ -84,7 +81,7 @@ public class ErrorContext {
         this.message = null;
         this.cause = null;
         this.url = null;
-        this.request = null;
+        this.args = null;
         
         LOCAL.remove();
         return this;
@@ -112,16 +109,10 @@ public class ErrorContext {
             description.append(this.url);
         }
         
-        if (request != null) {
+        if (args != null) {
             description.append(LINE_SEPARATOR);
-            description.append("### 请求参数: ");
-            description.append(request);
-        }
-        
-        if (response != null) {
-            description.append(LINE_SEPARATOR);
-            description.append("### 响应参数: ");
-            description.append(response);
+            description.append("### 参数: ");
+            description.append(args);
         }
         
         if (cause != null) {
@@ -132,4 +123,5 @@ public class ErrorContext {
         
         return description.toString();
     }
+    
 }

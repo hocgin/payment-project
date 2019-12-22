@@ -1,6 +1,7 @@
 package in.hocg.payment.net;
 
 import com.google.common.collect.Maps;
+import in.hocg.payment.core.ErrorContext;
 import in.hocg.payment.utils.LangUtils;
 import in.hocg.payment.utils.TextUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +26,14 @@ public class HttpClientLogger implements HttpClient {
     
     @Override
     public HttpClient proxy(Proxy proxy) {
+        ErrorContext.instance().activity("设置HTTP代理");
+        client.proxy(proxy);
         return this;
     }
     
     @Override
     public String get(String url, Map<String, String> headers) {
+        ErrorContext.instance().activity("发起 GET 请求").url(url);
         String result = null;
         try {
             result = client.get(url, headers);
@@ -52,6 +56,7 @@ public class HttpClientLogger implements HttpClient {
     
     @Override
     public String post(String url, Map<String, String> headers, String body) {
+        ErrorContext.instance().activity("发起 POST 请求").url(url);
         String result = null;
         try {
             result = client.post(url, headers, body);
@@ -63,6 +68,7 @@ public class HttpClientLogger implements HttpClient {
     
     @Override
     public String post(String url, String body) {
+        ErrorContext.instance().activity("发起 POST 请求").url(url);
         String result = null;
         try {
             result = client.post(url, body);

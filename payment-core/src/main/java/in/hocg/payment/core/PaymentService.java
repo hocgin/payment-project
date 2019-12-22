@@ -2,6 +2,7 @@ package in.hocg.payment.core;
 
 
 import in.hocg.payment.convert.Convert;
+import in.hocg.payment.exception.ExceptionFactory;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,11 @@ public abstract class PaymentService<T extends ConfigStorage> {
     public <R extends PaymentResponse,
             P extends PaymentService,
             T extends PaymentRequest<P, R>> R request(@NonNull T request) {
-        return request.request((P) this);
+        try {
+            return request.request((P) this);
+        } catch (Exception e) {
+            throw ExceptionFactory.wrap("操作失败", e);
+        }
     }
     
     /**
@@ -39,7 +44,11 @@ public abstract class PaymentService<T extends ConfigStorage> {
      * @return
      */
     public <T extends PaymentMessage> T message(String content, Convert convert, Class<T> clazz) {
-        return PaymentMessage.from(this, convert, content, clazz);
+        try {
+            return PaymentMessage.from(this, convert, content, clazz);
+        } catch (Exception e) {
+            throw ExceptionFactory.wrap("消息解析失败", e);
+        }
     }
     
     public <T extends PaymentMessage> T message(String content, Class<T> clazz) {

@@ -15,10 +15,9 @@ class ErrorContextTest {
     @Test
     void instance() {
         final ErrorContext instance = ErrorContext.instance();
-        instance.request("{请求参数}");
+        instance.args("{请求参数}");
         instance.activity("场景");
         instance.url("/url/url");
-        instance.response("{响应}");
         instance.cause(new Exception("异常"));
         instance.message("描述信息");
         
