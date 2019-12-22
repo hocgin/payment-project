@@ -10,8 +10,11 @@ import in.hocg.payment.alipay.v2.response.AliPayResponse;
 import in.hocg.payment.core.ErrorContext;
 import in.hocg.payment.core.PaymentRequest;
 import in.hocg.payment.core.TextInitializingBean;
-import in.hocg.payment.exception.ExceptionFactory;
-import in.hocg.payment.sign.*;
+import in.hocg.payment.exception.PaymentException;
+import in.hocg.payment.sign.ApiField;
+import in.hocg.payment.sign.SignObjects;
+import in.hocg.payment.sign.SignScheme;
+import in.hocg.payment.sign.SignValue;
 import in.hocg.payment.utils.LangUtils;
 import in.hocg.payment.utils.StringUtils;
 import lombok.Data;
@@ -156,7 +159,7 @@ public abstract class AliPayRequest<R extends AliPayResponse>
         
         // 如果签名失败
         if (!result.checkSign(signType, aliPayPublicKey)) {
-            throw ExceptionFactory.wrap("响应签名校验失败，数据可能被串改");
+            throw new PaymentException("响应签名校验失败，数据可能被串改");
         }
         return result;
     }

@@ -31,7 +31,7 @@ public class PaymentServices {
             Constructor<T> constructor = paymentServiceClass.getConstructor(configStorage.getClass());
             return constructor.newInstance(configStorage);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            throw ExceptionFactory.wrap("创建支付服务失败", new Object[]{e}, e);
+            throw ExceptionFactory.wrap("创建支付服务失败", e);
         }
     }
 }

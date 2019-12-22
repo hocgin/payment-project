@@ -1,9 +1,8 @@
 package in.hocg.payment.alipay.v2.response;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import in.hocg.payment.exception.ExceptionFactory;
-import in.hocg.payment.exception.PaymentException;
 import in.hocg.payment.alipay.constants.Constants;
+import in.hocg.payment.exception.PaymentException;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignScheme;
 import lombok.Data;
@@ -65,7 +64,7 @@ public abstract class AliPayHttpResponse extends AliPayResponse {
         super.afterPropertiesSet();
         // 如果业务处理失败
         if (!Constants.RESPONSE_SUCCESS_CODE.equals(this.getCode())) {
-            throw ExceptionFactory.wrap("业务处理失败，错误码=" + this.getCode());
+            throw new PaymentException("业务处理失败，错误码=" + this.getCode());
         }
     }
 }

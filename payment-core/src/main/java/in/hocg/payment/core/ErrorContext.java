@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true, fluent = true)
 public class ErrorContext {
     
-    private static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
+    private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final ThreadLocal<ErrorContext> LOCAL = new ThreadLocal<ErrorContext>();
     
     private ErrorContext stored;

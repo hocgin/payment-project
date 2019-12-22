@@ -23,7 +23,7 @@ public class ConfigStorages {
         try {
             return configStorageClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            throw ExceptionFactory.wrap("创建{class}对象发生错误", new Object[]{configStorageClass}, e);
+            throw ExceptionFactory.wrap("创建"+configStorageClass+"对象发生错误", e);
         }
     }
     

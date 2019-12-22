@@ -2,7 +2,7 @@ package in.hocg.payment.wxpay.v1.message;
 
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import in.hocg.payment.exception.ExceptionFactory;
+import in.hocg.payment.exception.PaymentException;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignScheme;
 import in.hocg.payment.sign.SignValue;
@@ -116,7 +116,7 @@ public class UnifiedOrderMessage extends WxPayMessage {
     public void afterPropertiesSet() {
         composeCoupons();
         if (!checkSign()) {
-            throw ExceptionFactory.wrap("支付消息签名不一致");
+            throw new PaymentException("支付消息签名不一致");
         }
     }
     

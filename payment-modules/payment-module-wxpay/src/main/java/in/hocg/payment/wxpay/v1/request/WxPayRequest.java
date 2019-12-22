@@ -5,7 +5,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import in.hocg.payment.convert.Convert;
 import in.hocg.payment.core.PaymentRequest;
 import in.hocg.payment.core.TextInitializingBean;
-import in.hocg.payment.exception.ExceptionFactory;
+import in.hocg.payment.exception.PaymentException;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignObjects;
 import in.hocg.payment.sign.SignScheme;
@@ -119,7 +119,7 @@ public abstract class WxPayRequest<R extends WxPayResponse>
         
         // 验签
         if (!result.checkSign(signType, key)) {
-            throw ExceptionFactory.wrap("响应签名校验失败，数据可能被串改");
+            throw new PaymentException("响应签名校验失败，数据可能被串改");
         }
         return result;
     }

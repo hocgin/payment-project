@@ -68,7 +68,7 @@ public class OkHttpClient implements HttpClient {
         try {
             return CLIENT.newCall(request).execute();
         } catch (IOException e) {
-            throw ExceptionFactory.wrap(e);
+            throw ExceptionFactory.wrap("", e);
         }
     }
     
