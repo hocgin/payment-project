@@ -151,7 +151,7 @@ public abstract class AliPayRequest<R extends AliPayResponse>
      * @return
      */
     protected R handleResponse(Class<R> responseClass, String response) {
-        ErrorContext.instance().activity("正在处理响应: " + this.getClass()).object(response);
+        ErrorContext.instance().activity("正在处理响应: " + this.getClass()).requestBody(response);
         AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
         SignScheme signType = configStorage.getSignType().useLogger();
         @NonNull String aliPayPublicKey = configStorage.getAliPayPublicKey();

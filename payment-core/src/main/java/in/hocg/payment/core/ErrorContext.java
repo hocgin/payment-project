@@ -27,7 +27,9 @@ public class ErrorContext {
      * 参数
      */
     @Setter
-    private String object;
+    private String requestBody;
+    
+    private String responseBody;
     
     /**
      * 描述
@@ -78,7 +80,7 @@ public class ErrorContext {
         this.message = null;
         this.cause = null;
         this.url = null;
-        this.object = null;
+        this.requestBody = null;
         
         LOCAL.remove();
         return this;
@@ -94,27 +96,27 @@ public class ErrorContext {
             description.append(this.message);
         }
     
-        if (object != null) {
+        if (requestBody != null) {
             description.append(LINE_SEPARATOR);
-            description.append("### The error may involve ");
-            description.append(object);
+            description.append("### 请求参数: ");
+            description.append(requestBody);
         }
     
         if (activity != null) {
             description.append(LINE_SEPARATOR);
-            description.append("### The error occurred while ");
+            description.append("### 触发场景: ");
             description.append(activity);
         }
     
         if (this.url != null) {
             description.append(LINE_SEPARATOR);
-            description.append("### URL: ");
+            description.append("### 请求地址: ");
             description.append(this.url.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ').trim());
         }
     
         if (cause != null) {
             description.append(LINE_SEPARATOR);
-            description.append("### Cause: ");
+            description.append("### 异常: ");
             description.append(cause.toString());
         }
         
