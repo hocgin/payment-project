@@ -34,11 +34,7 @@ public abstract class PaymentRequest<P extends PaymentService, R extends Payment
      */
     protected R request(P paymentService) {
         this.paymentService = paymentService;
-        try {
-            return this.request();
-        } finally {
-            ErrorContext.instance().reset();
-        }
+        return this.request();
     }
     
     /**

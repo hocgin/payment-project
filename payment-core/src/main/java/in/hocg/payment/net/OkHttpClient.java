@@ -1,7 +1,6 @@
 package in.hocg.payment.net;
 
 import com.google.common.collect.Maps;
-import in.hocg.payment.core.ErrorContext;
 import in.hocg.payment.exception.ExceptionFactory;
 import in.hocg.payment.exception.NetworkException;
 import in.hocg.payment.utils.LangUtils;
@@ -90,7 +89,6 @@ public class OkHttpClient implements HttpClient {
     
     @Override
     public String get(String url) {
-        ErrorContext.instance().activity("发起请求").url(url);
         return get(url, Maps.newHashMap());
     }
     

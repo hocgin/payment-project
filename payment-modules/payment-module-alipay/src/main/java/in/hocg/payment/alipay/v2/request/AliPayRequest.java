@@ -7,7 +7,6 @@ import in.hocg.payment.alipay.convert.AliPayConverts;
 import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.alipay.v2.response.AliPayResponse;
-import in.hocg.payment.core.ErrorContext;
 import in.hocg.payment.core.PaymentRequest;
 import in.hocg.payment.core.TextInitializingBean;
 import in.hocg.payment.exception.PaymentException;
@@ -131,7 +130,6 @@ public abstract class AliPayRequest<R extends AliPayResponse>
      * @return
      */
     protected R request(Class<R> responseClass) {
-        ErrorContext.instance().activity("正在发起请求: " + this.getClass());
         AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
         String baseUrl = configStorage.getUrl();
         
@@ -151,7 +149,6 @@ public abstract class AliPayRequest<R extends AliPayResponse>
      * @return
      */
     protected R handleResponse(Class<R> responseClass, String response) {
-        ErrorContext.instance().activity("正在处理响应: " + this.getClass()).requestBody(response);
         AliPayConfigStorage configStorage = getPaymentService().getConfigStorage();
         SignScheme signType = configStorage.getSignType().useLogger();
         @NonNull String aliPayPublicKey = configStorage.getAliPayPublicKey();
