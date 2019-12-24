@@ -1,9 +1,9 @@
 package in.hocg.payment.spring.boot.sample.controller.allin;
 
+import in.hocg.payment.spring.boot.sample.basic.Result;
 import in.hocg.payment.spring.boot.sample.controller.allin.resolve.pay.AllInPayResolve;
 import in.hocg.payment.spring.boot.sample.controller.allin.resolve.pay.PayType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -21,10 +21,10 @@ public class AllInPayController {
     
     @RequestMapping("/{channel}/{feature}")
     @ResponseBody
-    public ResponseEntity<String> pay(@PathVariable("channel") Integer channel,
-                                          @PathVariable("feature") Integer feature,
-                                          @RequestBody String data) {
-        return payResolve.handle(PayType.of(channel, feature), data);
+    public Result pay(@PathVariable("channel") Integer channel,
+                      @PathVariable("feature") Integer feature,
+                      @RequestBody String data) {
+        return Result.success(payResolve.handle(PayType.of(channel, feature), data));
     }
     
 }
