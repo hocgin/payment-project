@@ -1,6 +1,7 @@
 package in.hocg.payment.spring.boot.sample.controller.allin.resolve.pay;
 
-import in.hocg.payment.resolve.StringResolve;
+import in.hocg.payment.resolve.DataResolve;
+import in.hocg.payment.spring.boot.sample.controller.allin.resolve.pay.pojo.AppPayDto;
 
 /**
  * Created by hocgin on 2019/12/24.
@@ -8,6 +9,6 @@ import in.hocg.payment.resolve.StringResolve;
  *
  * @author hocgin
  */
-public class AllInPayResolve extends StringResolve<PayType> {
+public class AllInPayResolve extends DataResolve<AppPayDto, PayType> {
 
 }

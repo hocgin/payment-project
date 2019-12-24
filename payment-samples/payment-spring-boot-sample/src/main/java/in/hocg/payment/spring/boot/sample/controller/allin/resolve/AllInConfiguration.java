@@ -7,6 +7,8 @@ import in.hocg.payment.spring.boot.sample.controller.allin.resolve.message.rule.
 import in.hocg.payment.spring.boot.sample.controller.allin.resolve.message.rule.WxPayRefundMessageRule;
 import in.hocg.payment.spring.boot.sample.controller.allin.resolve.message.rule.WxUnifiedOrderMessageRule;
 import in.hocg.payment.spring.boot.sample.controller.allin.resolve.pay.AllInPayResolve;
+import in.hocg.payment.spring.boot.sample.controller.allin.resolve.pay.PayType;
+import in.hocg.payment.spring.boot.sample.controller.allin.resolve.pay.rule.TradeAppPayResponseRule;
 import in.hocg.payment.wxpay.v1.WxPayService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -21,7 +23,8 @@ import org.springframework.stereotype.Component;
 public class AllInConfiguration {
     
     @Bean
-    public AllInMessageResolve messageResolve(WxPayService wxPayService, AliPayService aliPayService) {
+    public AllInMessageResolve messageResolve(WxPayService wxPayService,
+                                              AliPayService aliPayService) {
         final AllInMessageResolve dataResolve = new AllInMessageResolve();
         
         // 微信支付
@@ -35,9 +38,10 @@ public class AllInConfiguration {
     
     
     @Bean
-    public AllInPayResolve payResolve() {
+    public AllInPayResolve payResolve(WxPayService wxPayService,
+                                      AliPayService aliPayService) {
         final AllInPayResolve dataResolve = new AllInPayResolve();
-        // dataResolve.addRule(1, new WxMessageRule());
+        dataResolve.addRule(PayType.AliPay_TradeAppPay, new TradeAppPayResponseRule(aliPayService));
         return dataResolve;
     }
 }
