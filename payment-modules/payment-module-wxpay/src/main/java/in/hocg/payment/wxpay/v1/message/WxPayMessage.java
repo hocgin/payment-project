@@ -3,7 +3,7 @@ package in.hocg.payment.wxpay.v1.message;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import in.hocg.payment.core.PaymentMessage;
+import in.hocg.payment.PaymentMessage;
 import in.hocg.payment.wxpay.Helpers;
 import in.hocg.payment.wxpay.v1.WxPayService;
 import lombok.Data;

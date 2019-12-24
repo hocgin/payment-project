@@ -1,4 +1,4 @@
-package in.hocg.payment.core;
+package in.hocg.payment;
 
 /**
  * Created by hocgin on 2019/11/19.

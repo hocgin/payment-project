@@ -1,6 +1,7 @@
-package in.hocg.payment.core;
+package in.hocg.payment.bean;
 
-import in.hocg.payment.convert.Convert;
+import in.hocg.payment.PaymentService;
+import in.hocg.payment.convert.StringConvert;
 import lombok.Getter;
 
 /**
@@ -21,7 +22,7 @@ public abstract class TextInitializingBean<S extends PaymentService>
     }
     
     public static <T extends TextInitializingBean,
-            S extends PaymentService> T from(Convert convert,
+            S extends PaymentService> T from(StringConvert convert,
                                              String content,
                                              Class<T> clazz) {
         T object = (T) convert.convert(content, clazz);

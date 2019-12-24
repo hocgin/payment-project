@@ -1,5 +1,6 @@
-package in.hocg.payment.core;
+package in.hocg.payment;
 
+import in.hocg.payment.bean.TextInitializingBean;
 import in.hocg.payment.sign.SignScheme;
 
 /**

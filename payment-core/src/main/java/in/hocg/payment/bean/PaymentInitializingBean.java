@@ -1,6 +1,7 @@
-package in.hocg.payment.core;
+package in.hocg.payment.bean;
 
-import in.hocg.payment.convert.Convert;
+import in.hocg.payment.PaymentService;
+import in.hocg.payment.convert.StringConvert;
 import lombok.Getter;
 
 /**
@@ -31,9 +32,9 @@ public abstract class PaymentInitializingBean<S extends PaymentService>
     
     }
     
-    protected static <T extends PaymentInitializingBean,
+    public static <T extends PaymentInitializingBean,
             S extends PaymentService> T from(S service,
-                                             Convert convert,
+                                             StringConvert convert,
                                              String content,
                                              Class<T> clazz) {
         T object = (T) convert.convert(content, clazz);

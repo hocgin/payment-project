@@ -6,7 +6,7 @@ import com.google.common.collect.Maps;
 import in.hocg.payment.alipay.v2.message.AliPayMessage;
 import in.hocg.payment.alipay.v2.response.AliPayHttpResponse;
 import in.hocg.payment.alipay.v2.response.AliPayResponse;
-import in.hocg.payment.convert.Convert;
+import in.hocg.payment.convert.StringConvert;
 import in.hocg.payment.utils.ObjectMeta;
 
 import java.net.URLDecoder;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @author hocgin
  */
 public final class AliPayConverts {
-    public static final Convert<AliPayHttpResponse> JSON = new Convert<AliPayHttpResponse>() {
+    public static final StringConvert<AliPayHttpResponse> JSON = new StringConvert<AliPayHttpResponse>() {
         
         @Override
         public <R extends AliPayHttpResponse> R convert(String body, Class<R> clazz) {
@@ -40,7 +40,7 @@ public final class AliPayConverts {
         }
     };
     
-    public static final Convert<AliPayResponse> TEXT = new Convert<AliPayResponse>() {
+    public static final StringConvert<AliPayResponse> TEXT = new StringConvert<AliPayResponse>() {
         @Override
         public <R extends AliPayResponse> R convert(String body, Class<R> clazz) {
             try {
@@ -51,7 +51,7 @@ public final class AliPayConverts {
         }
     };
     
-    public static final Convert<AliPayMessage> MESSAGE = new Convert<AliPayMessage>() {
+    public static final StringConvert<AliPayMessage> MESSAGE = new StringConvert<AliPayMessage>() {
         @Override
         public <R extends AliPayMessage> R convert(String body, Class<R> clazz) {
             try {

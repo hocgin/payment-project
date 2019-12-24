@@ -2,9 +2,9 @@ package in.hocg.payment.wxpay.v1.request;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import in.hocg.payment.convert.Convert;
-import in.hocg.payment.core.PaymentRequest;
-import in.hocg.payment.core.TextInitializingBean;
+import in.hocg.payment.convert.StringConvert;
+import in.hocg.payment.PaymentRequest;
+import in.hocg.payment.bean.TextInitializingBean;
 import in.hocg.payment.exception.PaymentException;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignObjects;
@@ -89,7 +89,7 @@ public abstract class WxPayRequest<R extends WxPayResponse>
      * @return
      */
     protected R request(String uri,
-                        Convert convert,
+                        StringConvert convert,
                         Class<R> responseClass) {
         WxPayConfigStorage configStorage = this.getPaymentService().getConfigStorage();
         final String baseUrl = configStorage.getUrl();
@@ -109,7 +109,7 @@ public abstract class WxPayRequest<R extends WxPayResponse>
      * @param response
      * @return
      */
-    protected R handleResponse(Convert convert,
+    protected R handleResponse(StringConvert convert,
                                Class<R> responseClass,
                                String response) {
         WxPayConfigStorage configStorage = getPaymentService().getConfigStorage();

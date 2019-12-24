@@ -1,7 +1,7 @@
 package in.hocg.payment.alipay.v2;
 
 import in.hocg.payment.alipay.constants.Constants;
-import in.hocg.payment.core.ConfigStorage;
+import in.hocg.payment.ConfigStorage;
 import in.hocg.payment.sign.SignType;
 import lombok.Data;
 import lombok.Getter;

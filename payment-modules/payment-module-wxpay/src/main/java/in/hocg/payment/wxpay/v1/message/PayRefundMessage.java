@@ -3,7 +3,6 @@ package in.hocg.payment.wxpay.v1.message;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
-import in.hocg.payment.core.PaymentMessage;
 import in.hocg.payment.encrypt.AES256Encrypt;
 import in.hocg.payment.encrypt.MD5Encrypt;
 import in.hocg.payment.sign.ApiField;

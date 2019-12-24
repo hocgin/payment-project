@@ -6,7 +6,7 @@ import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
-import in.hocg.payment.core.PaymentRequest;
+import in.hocg.payment.PaymentRequest;
 import in.hocg.payment.net.HttpClient;
 import in.hocg.payment.net.HttpClientFactory;
 import in.hocg.payment.net.OkHttpClient;

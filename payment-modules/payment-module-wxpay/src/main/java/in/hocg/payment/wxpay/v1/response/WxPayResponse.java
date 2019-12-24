@@ -1,6 +1,6 @@
 package in.hocg.payment.wxpay.v1.response;
 
-import in.hocg.payment.core.PaymentResponse;
+import in.hocg.payment.PaymentResponse;
 
 /**
  * Created by hocgin on 2019/12/3.

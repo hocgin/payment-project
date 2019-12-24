@@ -1,7 +1,7 @@
 package in.hocg.payment.wxpay.v1;
 
-import in.hocg.payment.core.PaymentMessage;
-import in.hocg.payment.core.PaymentService;
+import in.hocg.payment.PaymentMessage;
+import in.hocg.payment.PaymentService;
 import in.hocg.payment.wxpay.convert.WxPayConverts;
 import lombok.Getter;
 

@@ -1,7 +1,7 @@
 package in.hocg.payment.alipay.v2.response;
 
 import in.hocg.payment.alipay.v2.AliPayService;
-import in.hocg.payment.core.PaymentResponse;
+import in.hocg.payment.PaymentResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

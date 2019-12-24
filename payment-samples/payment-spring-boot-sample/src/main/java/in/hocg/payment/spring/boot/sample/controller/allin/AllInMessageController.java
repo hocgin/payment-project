@@ -1,6 +1,6 @@
 package in.hocg.payment.spring.boot.sample.controller.allin;
 
-import in.hocg.payment.core.PaymentMessage;
+import in.hocg.payment.PaymentMessage;
 import in.hocg.payment.spring.boot.sample.controller.allin.resolve.message.AllInMessageResolve;
 import in.hocg.payment.spring.boot.sample.controller.allin.resolve.message.MessageType;
 import lombok.RequiredArgsConstructor;

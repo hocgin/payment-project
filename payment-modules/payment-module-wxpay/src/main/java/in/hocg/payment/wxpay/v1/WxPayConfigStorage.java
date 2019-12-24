@@ -1,6 +1,6 @@
 package in.hocg.payment.wxpay.v1;
 
-import in.hocg.payment.core.ConfigStorage;
+import in.hocg.payment.ConfigStorage;
 import in.hocg.payment.wxpay.constants.Constants;
 import in.hocg.payment.wxpay.sign.WxSignType;
 import lombok.Data;

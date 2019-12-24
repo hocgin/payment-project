@@ -1,7 +1,7 @@
-package in.hocg.payment.core;
+package in.hocg.payment;
 
 
-import in.hocg.payment.convert.Convert;
+import in.hocg.payment.convert.StringConvert;
 import in.hocg.payment.exception.ExceptionFactory;
 import lombok.Getter;
 import lombok.NonNull;
@@ -43,7 +43,7 @@ public abstract class PaymentService<T extends ConfigStorage> {
      * @param <T>
      * @return
      */
-    public <T extends PaymentMessage> T message(String content, Convert convert, Class<T> clazz) {
+    public <T extends PaymentMessage> T message(String content, StringConvert convert, Class<T> clazz) {
         try {
             return PaymentMessage.from(this, convert, content, clazz);
         } catch (Exception e) {

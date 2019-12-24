@@ -1,6 +1,6 @@
 package in.hocg.payment.spring.boot.sample.controller.allin.resolve.message;
 
-import in.hocg.payment.core.DataResolve;
+import in.hocg.payment.resolve.StringResolve;
 
 /**
  * Created by hocgin on 2019/12/21.
@@ -8,6 +8,5 @@ import in.hocg.payment.core.DataResolve;
  *
  * @author hocgin
  */
-public class AllInMessageResolve extends DataResolve<MessageType> {
-
+public class AllInMessageResolve extends StringResolve<MessageType> {
 }

@@ -1,4 +1,6 @@
-package in.hocg.payment.core;
+package in.hocg.payment;
+
+import in.hocg.payment.bean.PaymentInitializingBean;
 
 /**
  * Created by hocgin on 2019/11/19.

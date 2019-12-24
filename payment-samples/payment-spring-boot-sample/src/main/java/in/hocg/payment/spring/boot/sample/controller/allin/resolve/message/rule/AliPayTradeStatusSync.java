@@ -2,8 +2,8 @@ package in.hocg.payment.spring.boot.sample.controller.allin.resolve.message.rule
 
 import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.alipay.v2.message.TradeStatusSyncMessage;
-import in.hocg.payment.convert.Convert;
-import in.hocg.payment.core.DataResolve;
+import in.hocg.payment.convert.StringConvert;
+import in.hocg.payment.resolve.StringResolve;
 
 import java.util.function.Function;
 
@@ -13,9 +13,9 @@ import java.util.function.Function;
  *
  * @author hocgin
  */
-public class AliPayTradeStatusSync extends DataResolve.Rule<TradeStatusSyncMessage, TradeStatusSyncMessage.Result> {
+public class AliPayTradeStatusSync extends StringResolve.StringRule<TradeStatusSyncMessage, TradeStatusSyncMessage.Result> {
     public AliPayTradeStatusSync(AliPayService payService) {
-        super(new Convert<TradeStatusSyncMessage>() {
+        super(new StringConvert<TradeStatusSyncMessage>() {
             @Override
             public <R extends TradeStatusSyncMessage> R convert(String body, Class<R> clazz) {
                 return payService.message(body, clazz);

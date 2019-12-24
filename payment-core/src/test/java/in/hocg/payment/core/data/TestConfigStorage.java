@@ -1,6 +1,6 @@
 package in.hocg.payment.core.data;
 
-import in.hocg.payment.core.ConfigStorage;
+import in.hocg.payment.ConfigStorage;
 
 /**
  * Created by hocgin on 2019/12/1.

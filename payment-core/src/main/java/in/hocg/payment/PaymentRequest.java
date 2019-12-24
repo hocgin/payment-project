@@ -1,4 +1,4 @@
-package in.hocg.payment.core;
+package in.hocg.payment;
 
 
 import com.alibaba.fastjson.JSON;

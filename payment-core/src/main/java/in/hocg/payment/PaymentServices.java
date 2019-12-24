@@ -1,7 +1,5 @@
 package in.hocg.payment;
 
-import in.hocg.payment.core.ConfigStorage;
-import in.hocg.payment.core.PaymentService;
 import in.hocg.payment.exception.ExceptionFactory;
 import lombok.NonNull;
 

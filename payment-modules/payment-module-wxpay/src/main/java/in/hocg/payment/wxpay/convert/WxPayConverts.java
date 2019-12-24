@@ -1,7 +1,7 @@
 package in.hocg.payment.wxpay.convert;
 
 import com.thoughtworks.xstream.XStream;
-import in.hocg.payment.convert.Convert;
+import in.hocg.payment.convert.StringConvert;
 import in.hocg.payment.wxpay.Helpers;
 import in.hocg.payment.wxpay.v1.message.WxPayMessage;
 import in.hocg.payment.wxpay.v1.response.WxPayDataResponse;
@@ -14,7 +14,7 @@ import in.hocg.payment.wxpay.v1.response.WxPayXmlResponse;
  * @author hocgin
  */
 public final class WxPayConverts {
-    public static final Convert<WxPayXmlResponse> XML = new Convert<WxPayXmlResponse>() {
+    public static final StringConvert<WxPayXmlResponse> XML = new StringConvert<WxPayXmlResponse>() {
         @Override
         public <R extends WxPayXmlResponse> R convert(String body, Class<R> clazz) {
             XStream xstream = Helpers.newXStream();
@@ -23,7 +23,7 @@ public final class WxPayConverts {
         }
     };
     
-    public static final Convert<WxPayDataResponse> TEXT = new Convert<WxPayDataResponse>() {
+    public static final StringConvert<WxPayDataResponse> TEXT = new StringConvert<WxPayDataResponse>() {
         @Override
         public <R extends WxPayDataResponse> R convert(String body, Class<R> clazz) {
             try {
@@ -34,7 +34,7 @@ public final class WxPayConverts {
         }
     };
     
-    public static final Convert<WxPayMessage> MESSAGE = new Convert<WxPayMessage>() {
+    public static final StringConvert<WxPayMessage> MESSAGE = new StringConvert<WxPayMessage>() {
         @Override
         public <R extends WxPayMessage> R convert(String body, Class<R> clazz) {
             XStream xstream = Helpers.newXStream();

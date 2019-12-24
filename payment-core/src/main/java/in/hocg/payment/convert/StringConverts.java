@@ -9,7 +9,7 @@ import in.hocg.payment.utils.XMLUtils;
  *
  * @author hocgin
  */
-public enum Converts implements Convert<Object> {
+public enum StringConverts implements StringConvert<Object> {
     JSON() {
         @Override
         public <R extends Object> R convert(String body, Class<R> clazz) {

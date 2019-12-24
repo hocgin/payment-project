@@ -1,7 +1,7 @@
 package in.hocg.payment.spring.boot.sample.controller.allin.resolve.message.rule;
 
-import in.hocg.payment.convert.Convert;
-import in.hocg.payment.core.DataResolve;
+import in.hocg.payment.convert.StringConvert;
+import in.hocg.payment.resolve.StringResolve;
 import in.hocg.payment.wxpay.v1.WxPayService;
 import in.hocg.payment.wxpay.v1.message.UnifiedOrderMessage;
 
@@ -13,9 +13,9 @@ import java.util.function.Function;
  *
  * @author hocgin
  */
-public class WxUnifiedOrderMessageRule extends DataResolve.Rule<UnifiedOrderMessage, UnifiedOrderMessage.Result> {
+public class WxUnifiedOrderMessageRule extends StringResolve.StringRule<UnifiedOrderMessage, UnifiedOrderMessage.Result> {
     public WxUnifiedOrderMessageRule(WxPayService payService) {
-        super(new Convert<UnifiedOrderMessage>() {
+        super(new StringConvert<UnifiedOrderMessage>() {
             @Override
             public <R extends UnifiedOrderMessage> R convert(String body, Class<R> clazz) {
                 return payService.message(body, clazz);

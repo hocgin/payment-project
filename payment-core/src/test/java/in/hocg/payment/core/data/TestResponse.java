@@ -1,6 +1,6 @@
 package in.hocg.payment.core.data;
 
-import in.hocg.payment.core.PaymentResponse;
+import in.hocg.payment.PaymentResponse;
 import in.hocg.payment.sign.SignScheme;
 
 /**

@@ -1,4 +1,4 @@
-package in.hocg.payment.core;
+package in.hocg.payment.bean;
 
 /**
  * Created by hocgin on 2019/12/14.

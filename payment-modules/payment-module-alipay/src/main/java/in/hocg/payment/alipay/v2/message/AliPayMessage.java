@@ -5,7 +5,7 @@ import com.google.common.collect.Maps;
 import in.hocg.payment.alipay.Helpers;
 import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.AliPayService;
-import in.hocg.payment.core.PaymentMessage;
+import in.hocg.payment.PaymentMessage;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignType;
 import in.hocg.payment.sign.SignValue;

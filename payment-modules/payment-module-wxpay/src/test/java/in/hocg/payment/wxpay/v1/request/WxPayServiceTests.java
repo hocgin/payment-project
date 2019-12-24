@@ -2,18 +2,11 @@ package in.hocg.payment.wxpay.v1.request;
 
 import in.hocg.payment.ConfigStorages;
 import in.hocg.payment.PaymentServices;
-import in.hocg.payment.convert.Convert;
-import in.hocg.payment.core.DataResolve;
-import in.hocg.payment.core.PaymentMessage;
 import in.hocg.payment.wxpay.v1.WxPayConfigStorage;
 import in.hocg.payment.wxpay.v1.WxPayService;
-import in.hocg.payment.wxpay.v1.message.UnifiedOrderMessage;
 import in.hocg.payment.wxpay.v1.response.*;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.function.Function;
 
 /**
  * Created by hocgin on 2019/12/3.

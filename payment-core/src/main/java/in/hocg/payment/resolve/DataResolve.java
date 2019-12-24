@@ -1,4 +1,4 @@
-package in.hocg.payment.core;
+package in.hocg.payment.resolve;
 
 import com.google.common.collect.Maps;
 import in.hocg.payment.convert.Convert;
@@ -18,13 +18,13 @@ import java.util.function.Function;
  *
  * @author hocgin
  */
-public abstract class DataResolve<K> {
+public abstract class DataResolve<S, K> {
     
     @RequiredArgsConstructor
     @Getter
-    public static class Rule<T, R> {
+    public static class Rule<S, T, R> {
         @NonNull
-        private final Convert<T> convert;
+        private final Convert<S, T> convert;
         @NonNull
         private final Function<? extends T, R> handle;
     }
@@ -41,7 +41,7 @@ public abstract class DataResolve<K> {
      * @param rule
      * @return
      */
-    public DataResolve<K> addRule(K key, Rule rule) {
+    public DataResolve<S, K> addRule(K key, Rule rule) {
         rules.put(key, rule);
         return this;
     }
@@ -54,7 +54,7 @@ public abstract class DataResolve<K> {
      * @param <T>
      * @return
      */
-    public <T> T resolve(K key, String body) {
+    public <T> T resolve(K key, S body) {
         Rule rule = rules.get(key);
         @NonNull final Convert convert = rule.getConvert();
         final Class superclass = ClassUtils.getGenericSuperclass(rule.getClass(), 0);
@@ -69,7 +69,7 @@ public abstract class DataResolve<K> {
      * @param <T>
      * @return
      */
-    public <T> T handle(K key, String body) {
+    public <T> T handle(K key, S body) {
         Rule rule = rules.get(key);
         final Function handle = rule.getHandle();
         if (Objects.isNull(handle)) {

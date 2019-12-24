@@ -1,7 +1,7 @@
 package in.hocg.payment.net;
 
 import com.google.common.collect.Maps;
-import in.hocg.payment.convert.Convert;
+import in.hocg.payment.convert.StringConvert;
 import in.hocg.payment.utils.JSONUtils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class ObjectHttpClient {
     
     public <T> T get(String url,
                      Map<String, String> headers,
-                     Convert convert,
+                     StringConvert convert,
                      Class<T> responseClass) {
         String responseBody = httpClient.get(url, headers);
         print("GET", url, headers, "{}", responseBody);
@@ -38,7 +38,7 @@ public class ObjectHttpClient {
     }
     
     public <T> T get(String url,
-                     Convert convert,
+                     StringConvert convert,
                      Class<T> responseClass) {
         return get(url, Maps.newHashMap(), convert, responseClass);
     }
@@ -46,7 +46,7 @@ public class ObjectHttpClient {
     public <T> T post(String url,
                       Map<String, String> headers,
                       String requestBody,
-                      Convert convert,
+                      StringConvert convert,
                       Class<T> responseClass) {
         String responseBody = httpClient.post(url, headers, requestBody);
         print("POST", url, headers, requestBody, responseBody);
@@ -55,7 +55,7 @@ public class ObjectHttpClient {
     
     public <T> T post(String url,
                       String requestBody,
-                      Convert convert,
+                      StringConvert convert,
                       Class<T> responseClass) {
         return post(url, Maps.newHashMap(), requestBody, convert, responseClass);
     }
