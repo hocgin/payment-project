@@ -2,6 +2,8 @@ package in.hocg.payment.alipay.v2.message;
 
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.utils.ObjectMeta;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
 /**
@@ -81,4 +83,16 @@ public class TradeStatusSyncMessage extends AliPayMessage {
     @ApiField("point_amount")
     @ObjectMeta.Alias("point_amount")
     private String pointAmount;
+    
+    
+    @Data
+    @Builder
+    public static class Result implements AliPayMessage.Result {
+        protected String result;
+        
+        @Override
+        public String string() {
+            return this.result;
+        }
+    }
 }

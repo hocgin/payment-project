@@ -59,4 +59,8 @@ public abstract class AliPayMessage extends PaymentMessage<AliPayService> {
             throw new RuntimeException("签名错误");
         }
     }
+    
+    public interface Result extends PaymentMessage.Result {
+    
+    }
 }

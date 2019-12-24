@@ -170,32 +170,4 @@ class WxPayServiceTests {
         System.out.println(response);
     }
     
-    @Test
-    void test() {
-        class WxPayMessageResolve extends DataResolve<Integer> {
-        }
-        @RequiredArgsConstructor
-        class RefundResult implements PaymentMessage.Result {
-            private final Object body;
-        }
-        
-        final WxPayMessageResolve messageResolve = new WxPayMessageResolve();
-        final DataResolve.Rule<PaymentMessage, RefundResult> rule = new DataResolve.Rule<>(new Convert<PaymentMessage>() {
-            @Override
-            public <R extends PaymentMessage> R convert(String body, Class<R> clazz) {
-                final UnifiedOrderMessage message = new UnifiedOrderMessage();
-                message.setAttach(body);
-                return (R) message;
-            }
-        }, new Function<UnifiedOrderMessage, RefundResult>() {
-            @Override
-            public RefundResult apply(UnifiedOrderMessage paymentMessage) {
-                return new RefundResult(paymentMessage);
-            }
-        });
-        messageResolve.addRule(1, rule);
-        
-        RefundResult handle = messageResolve.handle(1, "{}");
-        System.out.println(handle);
-    }
 }

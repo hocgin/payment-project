@@ -10,6 +10,7 @@ public abstract class PaymentMessage<S extends PaymentService>
         extends PaymentInitializingBean<S> {
     
     public interface Result {
+        String string();
     }
 }
 

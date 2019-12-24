@@ -57,10 +57,18 @@ public abstract class DataResolve<K> {
     public <T> T resolve(K key, String body) {
         Rule rule = rules.get(key);
         @NonNull final Convert convert = rule.getConvert();
-        final Class superclass = ClassUtils.getGenericSuperclass(this.getClass(), 0);
+        final Class superclass = ClassUtils.getGenericSuperclass(rule.getClass(), 0);
         return ((T) convert.convert(body, superclass));
     }
     
+    /**
+     * 进行处理
+     *
+     * @param key
+     * @param body
+     * @param <T>
+     * @return
+     */
     public <T> T handle(K key, String body) {
         Rule rule = rules.get(key);
         final Function handle = rule.getHandle();
