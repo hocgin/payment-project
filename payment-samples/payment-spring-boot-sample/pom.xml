@@ -11,6 +11,9 @@
 
     <name>Payment :: Spring Boot :: Sample</name>
     <artifactId>payment-spring-boot-sample</artifactId>
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
 
     <dependencies>
         <dependency>
