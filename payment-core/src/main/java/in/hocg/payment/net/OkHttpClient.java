@@ -6,6 +6,9 @@ import in.hocg.payment.exception.NetworkException;
 import in.hocg.payment.utils.LangUtils;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
+import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.Proxy;
@@ -19,17 +22,25 @@ import java.util.Map;
  */
 @Slf4j
 public class OkHttpClient implements HttpClient {
-    
-    private static okhttp3.OkHttpClient CLIENT = new okhttp3.OkHttpClient.Builder().build();
-    
+
+    protected okhttp3.OkHttpClient client = null;
+
+    public OkHttpClient() {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor(log::info);
+        logging.setLevel(Level.BODY);
+        client = new okhttp3.OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .build();
+    }
+
     @Override
     public HttpClient proxy(Proxy proxy) {
-        CLIENT = new okhttp3.OkHttpClient.Builder()
+        client = new okhttp3.OkHttpClient.Builder()
                 .proxy(proxy)
                 .build();
         return this;
     }
-    
+
     /**
      * GET 请求
      *
@@ -44,12 +55,12 @@ public class OkHttpClient implements HttpClient {
                 .get()
                 .build();
         try {
-            return CLIENT.newCall(request).execute();
+            return client.newCall(request).execute();
         } catch (IOException e) {
             throw new NetworkException("HTTP:发起请求失败");
         }
     }
-    
+
     /**
      * POST 请求
      *
@@ -65,13 +76,13 @@ public class OkHttpClient implements HttpClient {
                 .post(requestBody)
                 .build();
         try {
-            return CLIENT.newCall(request).execute();
+            return client.newCall(request).execute();
         } catch (IOException e) {
             throw ExceptionFactory.wrap("", e);
         }
     }
-    
-    
+
+
     @Override
     public String get(String url, Map<String, String> headers) {
         Response response = execGet(url, headers);
@@ -86,12 +97,12 @@ public class OkHttpClient implements HttpClient {
             throw new NetworkException("HTTP:获取响应数据失败");
         }
     }
-    
+
     @Override
     public String get(String url) {
         return get(url, Maps.newHashMap());
     }
-    
+
     @Override
     public String post(String url, Map<String, String> headers, String body) {
         body = LangUtils.getOrDefault(body, "");
@@ -108,10 +119,10 @@ public class OkHttpClient implements HttpClient {
             throw new NetworkException("HTTP:获取响应数据失败");
         }
     }
-    
+
     @Override
     public String post(String url, String body) {
         return post(url, Maps.newHashMap(), body);
     }
-    
+
 }

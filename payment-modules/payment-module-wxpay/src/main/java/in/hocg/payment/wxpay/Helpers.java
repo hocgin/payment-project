@@ -11,6 +11,9 @@ import in.hocg.payment.net.HttpClient;
 import in.hocg.payment.net.HttpClientFactory;
 import in.hocg.payment.net.OkHttpClient;
 import in.hocg.payment.sign.SignValue;
+import in.hocg.payment.wxpay.v2.WxPayConfigStorage;
+import in.hocg.payment.wxpay.net.CertHttpClient;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Writer;
 import java.util.Objects;
@@ -21,14 +24,17 @@ import java.util.Objects;
  *
  * @author hocgin
  */
+@Slf4j
 public class Helpers {
+    private static HttpClient certHttpClient = null;
+
     private static final XppDriver XPP_DRIVER = new XppDriver() {
         @Override
         public HierarchicalStreamWriter createWriter(Writer out) {
             return new PrettyPrintWriter(out, getNameCoder()) {
                 private static final String PREFIX_CDATA = "<![CDATA[";
                 private static final String SUFFIX_CDATA = "]]>";
-                
+
                 @Override
                 protected void writeText(QuickWriter writer, String text) {
                     if (text.startsWith(PREFIX_CDATA) && text.endsWith(SUFFIX_CDATA)) {
@@ -36,9 +42,9 @@ public class Helpers {
                     } else {
                         super.writeText(writer, text);
                     }
-                    
+
                 }
-                
+
                 @Override
                 public String encodeNode(String name) {
                     return name;
@@ -46,7 +52,7 @@ public class Helpers {
             };
         }
     };
-    
+
     /**
      * XStream
      *
@@ -60,22 +66,32 @@ public class Helpers {
         xstream.autodetectAnnotations(true);
         XStream.setupDefaultSecurity(xstream);
         xstream.allowTypesByWildcard(new String[]{
-                "in.hocg.**"
+            "in.hocg.**"
         });
         xstream.setClassLoader(Thread.currentThread().getContextClassLoader());
         return xstream;
     }
-    
+
     /**
      * 微信签名策略
      */
     public static SignValue newSignValue() {
         SignValue signValue = new SignValue();
         return signValue.setFilter(entry -> Objects.nonNull(entry.getValue()))
-                .setOrderStrategy(SignValue.KeyOrder.ASC);
+            .setOrderStrategy(SignValue.KeyOrder.ASC);
     }
-    
+
     public static HttpClient getHttpClient() {
         return HttpClientFactory.getSingleInstance(OkHttpClient.class);
+    }
+
+    public static void initCertHttpClient(WxPayConfigStorage configStorage) {
+        if (certHttpClient == null) {
+            certHttpClient = new CertHttpClient(configStorage);
+        }
+    }
+
+    public static HttpClient getCertHttpClient() {
+        return certHttpClient;
     }
 }
