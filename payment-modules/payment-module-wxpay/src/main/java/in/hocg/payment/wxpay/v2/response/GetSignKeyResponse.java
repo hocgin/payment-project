@@ -5,15 +5,16 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * Created by hocgin on 2019/12/13.
- * email: hocgin@gmail.com
- *
- * @author hocgin
+ * @author 李华业
+ * @date 2020年03月08日 11:17:29
  */
 @Data
 @XStreamAlias("xml")
 @EqualsAndHashCode(callSuper = true)
-public class PayitilReportResponse extends WxPayDataResponse {
+public class GetSignKeyResponse extends WxPayXmlResponse{
+    @XStreamAlias("sandbox_signkey")
+    private String key;
+
     @Override
     public boolean isSign() {
         return false;

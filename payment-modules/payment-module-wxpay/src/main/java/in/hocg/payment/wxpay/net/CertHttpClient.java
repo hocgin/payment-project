@@ -26,7 +26,7 @@ public class CertHttpClient extends OkHttpClient {
             KeyAndTrustManagers keyAndTrustManagers =
                 trustManagerForCertificates(in, configStorage.getMchId());
             SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(keyAndTrustManagers.keyManagers, keyAndTrustManagers.trustManagers, null);
+            sslContext.init(keyAndTrustManagers.keyManagers, null, null);
             sslSocketFactory = sslContext.getSocketFactory();
             X509TrustManager trustManager = (X509TrustManager) keyAndTrustManagers.trustManagers[0];
 
@@ -35,7 +35,7 @@ public class CertHttpClient extends OkHttpClient {
             client = new okhttp3.OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .hostnameVerifier((String s, SSLSession s1) -> true)
-                .sslSocketFactory(sslSocketFactory, trustManager)
+                .sslSocketFactory(sslSocketFactory)
                 .build();
 
         } catch (Exception e) {

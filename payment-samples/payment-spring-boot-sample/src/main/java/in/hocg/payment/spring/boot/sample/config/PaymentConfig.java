@@ -41,7 +41,7 @@ public class PaymentConfig {
                 .setMchId(System.getenv("wx_mch_id"))
                 .setCertFile(new File(System.getenv("wx_cert_file")))
                 .setSignType(WxSignType.HMAC_SHA256)
-                .setIsDev(false);
+                .setIsDev(true);
         return PaymentServices.createPaymentService(WxPayService.class, configStorage);
     }
 

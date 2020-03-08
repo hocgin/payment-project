@@ -2,9 +2,11 @@ package in.hocg.payment.spring.boot.sample.controller.wxpay;
 
 import in.hocg.payment.spring.boot.sample.utils.IpUtils;
 import in.hocg.payment.wxpay.v2.WxPayService;
+import in.hocg.payment.wxpay.v2.request.GetSignKeyRequest;
 import in.hocg.payment.wxpay.v2.request.PayRefundRequest;
 import in.hocg.payment.wxpay.v2.request.RefundQueryRequest;
 import in.hocg.payment.wxpay.v2.request.UnifiedOrderRequest;
+import in.hocg.payment.wxpay.v2.response.GetSignKeyResponse;
 import in.hocg.payment.wxpay.v2.response.UnifiedOrderResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2020年03月03日 11:12:30
  */
 @Slf4j
-@RequestMapping("/wepay")
 @Controller
+@RequestMapping("/wxpay")
 @RequiredArgsConstructor
 public class WxPayController {
 

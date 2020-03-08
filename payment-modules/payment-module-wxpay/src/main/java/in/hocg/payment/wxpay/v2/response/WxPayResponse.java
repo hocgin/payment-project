@@ -9,4 +9,7 @@ import in.hocg.payment.PaymentResponse;
  * @author hocgin
  */
 public abstract class WxPayResponse extends PaymentResponse {
+    public boolean isSign() {
+        return true;
+    }
 }

@@ -1,6 +1,7 @@
 package in.hocg.payment.core.data;
 
 import in.hocg.payment.PaymentRequest;
+import in.hocg.payment.net.HttpClient;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -11,10 +12,15 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class TestRequest extends PaymentRequest<TestPaymentService, TestResponse> {
-    
+
     @Override
     protected TestResponse request() {
         log.debug("执行请求");
         return new TestResponse();
+    }
+
+    @Override
+    protected HttpClient httpClient() {
+        return null;
     }
 }

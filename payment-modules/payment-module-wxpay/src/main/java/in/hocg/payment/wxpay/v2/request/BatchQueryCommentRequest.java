@@ -1,8 +1,9 @@
 package in.hocg.payment.wxpay.v2.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import in.hocg.payment.net.HttpClient;
 import in.hocg.payment.sign.ApiField;
-import in.hocg.payment.wxpay.v2.annotation.SafeApi;
+import in.hocg.payment.wxpay.Helpers;
 import in.hocg.payment.wxpay.v2.response.BatchQueryCommentResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +18,6 @@ import lombok.EqualsAndHashCode;
  * @author hocgin
  */
 @Data
-@SafeApi
 @XStreamAlias("xml")
 @EqualsAndHashCode(callSuper = true)
 public class BatchQueryCommentRequest extends WxPayRequest<BatchQueryCommentResponse> {
@@ -52,6 +52,11 @@ public class BatchQueryCommentRequest extends WxPayRequest<BatchQueryCommentResp
     @ApiField(value = "limit")
     @XStreamAlias("limit")
     protected String limit;
+
+    @Override
+    protected HttpClient httpClient() {
+        return Helpers.getCertHttpClient();
+    }
 
     @Override
     protected BatchQueryCommentResponse request() {

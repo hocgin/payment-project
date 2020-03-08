@@ -8,6 +8,8 @@ import in.hocg.payment.wxpay.v2.response.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 /**
  * Created by hocgin on 2019/12/3.
  * email: hocgin@gmail.com
@@ -17,15 +19,20 @@ import org.junit.jupiter.api.Test;
 class WxPayServiceTests {
     static WxPayConfigStorage configStorage;
     static WxPayService paymentService;
+    static String orderNo;
+    static String refundOrderNo;
 
     @BeforeAll
     static void before() {
         configStorage = ConfigStorages.createConfigStorage(WxPayConfigStorage.class);
-        configStorage.setAppId("****");
-        configStorage.setKey("****");
-        configStorage.setMchId("****");
-        configStorage.setIsDev(false);
+        configStorage.setAppId(System.getenv("wx_pay_app_id"));
+        configStorage.setKey(System.getenv("wx_pay_key"));
+        configStorage.setMchId(System.getenv("wx_mch_id"));
+        configStorage.setCertFile(new File(System.getenv("wx_cert_file")));
+        configStorage.setIsDev(true);
         paymentService = PaymentServices.createPaymentService(WxPayService.class, configStorage);
+        orderNo = String.valueOf(System.currentTimeMillis());
+        refundOrderNo = String.valueOf(System.currentTimeMillis()+2);
     }
 
     /**
@@ -34,7 +41,7 @@ class WxPayServiceTests {
     @Test
     void testCloseOrder() {
         final CloseOrderRequest request = new CloseOrderRequest();
-        request.setOutTradeNo("");
+        request.setOutTradeNo(orderNo);
         CloseOrderResponse response = paymentService.request(request);
         System.out.println(response);
     }
@@ -64,40 +71,15 @@ class WxPayServiceTests {
     }
 
     /**
-     * 查询订单
-     */
-    @Test
-    void testOrderQuery() {
-        final OrderQueryRequest request = new OrderQueryRequest();
-        request.setOutTradeNo("");
-        final OrderQueryResponse response = paymentService.request(request);
-        System.out.println(response);
-    }
-
-    /**
      * 交易保障
      */
     @Test
     void testPayitilReportRequest() {
         final PayitilReportRequest request = new PayitilReportRequest();
-        request.setInterfaceUrl("");
-        request.setExecuteTime("");
-        request.setUserIp("");
+        request.setInterfaceUrl("https://api.mch.weixin.qq.com/pay/unifiedorder");
+        request.setExecuteTime("1000");
+        request.setUserIp("8.8.8.8");
         final PayitilReportResponse response = paymentService.request(request);
-        System.out.println(response);
-    }
-
-    /**
-     * 申请退款
-     */
-    @Test
-    void testPayRefundRequest() {
-        final PayRefundRequest request = new PayRefundRequest();
-        request.setOutTradeNo("");
-        request.setOutRefundNo("");
-        request.setTotalFee("");
-        request.setRefundFee("");
-        final PayRefundResponse response = paymentService.request(request);
         System.out.println(response);
     }
 
@@ -117,20 +99,42 @@ class WxPayServiceTests {
      */
     @Test
     void testUnifiedOrderRequest_jsapi() {
-        final String orderNo = String.valueOf(System.currentTimeMillis());
-
         UnifiedOrderRequest request = new UnifiedOrderRequest();
         request.setBody("body");
         request.setOutTradeNo(String.format("%s", orderNo));
-        request.setTotalFee("1");
+        request.setTotalFee("101");
         request.setSpbillCreateIp("127.0.0.1");
         request.setNotifyUrl("http://www.baidu.com");
         request.setTradeType("JSAPI");
-        request.setOpenId("openid");
+        request.setOpenId("opQx55EOxwwO8kyQKrQePlHTOBAg");
         UnifiedOrderResponse response = paymentService.request(request);
         System.out.println(response);
     }
 
+    /**
+     * 查询订单
+     */
+    @Test
+    void testOrderQuery() {
+        final OrderQueryRequest request = new OrderQueryRequest();
+        request.setOutTradeNo(orderNo);
+        final OrderQueryResponse response = paymentService.request(request);
+        System.out.println(response);
+    }
+
+    /**
+     * 申请退款
+     */
+    @Test
+    void testPayRefundRequest() {
+        final PayRefundRequest request = new PayRefundRequest();
+        request.setOutTradeNo(orderNo);
+        request.setOutRefundNo(refundOrderNo);
+        request.setTotalFee("101");
+        request.setRefundFee("101");
+        final PayRefundResponse response = paymentService.request(request);
+        System.out.println(response);
+    }
     /**
      * 统一下单 - APP
      */
@@ -141,7 +145,7 @@ class WxPayServiceTests {
         UnifiedOrderRequest request = new UnifiedOrderRequest();
         request.setBody("body");
         request.setOutTradeNo(String.format("%s", orderNo));
-        request.setTotalFee("1");
+        request.setTotalFee("101");
         request.setSpbillCreateIp("127.0.0.1");
         request.setNotifyUrl("http://www.baidu.com");
         request.setTradeType("APP");
@@ -154,13 +158,13 @@ class WxPayServiceTests {
      */
     @Test
     void testBatchQueryCommentRequest() {
-
-        BatchQueryCommentRequest request = new BatchQueryCommentRequest();
-        request.setBeginTime("");
-        request.setEndTime("");
-        request.setOffset("1");
-        final BatchQueryCommentResponse response = paymentService.request(request);
-        System.out.println(response);
+//
+//        BatchQueryCommentRequest request = new BatchQueryCommentRequest();
+//        request.setBeginTime("");
+//        request.setEndTime("");
+//        request.setOffset("1");
+//        final BatchQueryCommentResponse response = paymentService.request(request);
+//        System.out.println(response);
     }
 
 }

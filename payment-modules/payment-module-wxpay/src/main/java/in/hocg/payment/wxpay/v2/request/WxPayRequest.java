@@ -2,10 +2,11 @@ package in.hocg.payment.wxpay.v2.request;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import in.hocg.payment.convert.StringConvert;
 import in.hocg.payment.PaymentRequest;
 import in.hocg.payment.bean.TextInitializingBean;
+import in.hocg.payment.convert.StringConvert;
 import in.hocg.payment.exception.PaymentException;
+import in.hocg.payment.net.HttpClient;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.sign.SignObjects;
 import in.hocg.payment.sign.SignScheme;
@@ -15,7 +16,8 @@ import in.hocg.payment.wxpay.Helpers;
 import in.hocg.payment.wxpay.convert.WxPayConverts;
 import in.hocg.payment.wxpay.v2.WxPayConfigStorage;
 import in.hocg.payment.wxpay.v2.WxPayService;
-import in.hocg.payment.wxpay.v2.annotation.SafeApi;
+import in.hocg.payment.wxpay.v2.response.GetSignKeyResponse;
+import in.hocg.payment.wxpay.v2.response.PayitilReportResponse;
 import in.hocg.payment.wxpay.v2.response.WxPayResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -99,25 +101,14 @@ public abstract class WxPayRequest<R extends WxPayResponse>
 
         String url = String.format("%s/%s", baseUrl, uri);
 
-        getClass().isAnnotationPresent(SafeApi.class);
-
-        String response;
-        if (isSafeApi()) {
-            response = Helpers.getCertHttpClient().post(url, this.toXML());
-        } else {
-            response = Helpers.getHttpClient().post(url, this.toXML());
-        }
+        String response = httpClient().post(url, this.toXML());
 
         return handleResponse(convert, responseClass, response);
     }
 
-    private boolean isSafeApi() {
-        Class<? extends WxPayRequest> clazz = getClass();
-        if (clazz.isAnnotationPresent(SafeApi.class)) {
-            SafeApi api = clazz.getAnnotation(SafeApi.class);
-            return api.value();
-        }
-        return false;
+    @Override
+    protected HttpClient httpClient() {
+        return Helpers.getHttpClient();
     }
 
     /**
@@ -136,7 +127,7 @@ public abstract class WxPayRequest<R extends WxPayResponse>
         R result = TextInitializingBean.from(convert, response, responseClass);
 
         // 验签
-        if (!result.checkSign(signType, key)) {
+        if (result.isSign() && !result.checkSign(signType, key)) {
             throw new PaymentException("响应签名校验失败，数据可能被串改");
         }
         return result;
