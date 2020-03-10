@@ -4,8 +4,6 @@ package in.hocg.payment.wxpay.net;
 import in.hocg.payment.net.OkHttpClient;
 import in.hocg.payment.wxpay.v2.WxPayConfigStorage;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.logging.HttpLoggingInterceptor;
-import okhttp3.logging.HttpLoggingInterceptor.Level;
 
 import javax.net.ssl.*;
 import java.io.FileInputStream;
@@ -28,12 +26,9 @@ public class CertHttpClient extends OkHttpClient {
             SSLContext sslContext = SSLContext.getInstance("TLS");
             sslContext.init(keyAndTrustManagers.keyManagers, null, null);
             sslSocketFactory = sslContext.getSocketFactory();
-            X509TrustManager trustManager = (X509TrustManager) keyAndTrustManagers.trustManagers[0];
 
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor(log::info);
-            logging.setLevel(Level.BODY);
             client = new okhttp3.OkHttpClient.Builder()
-                .addInterceptor(logging)
+                .addInterceptor(getHttpLoggingInterceptor())
                 .hostnameVerifier((String s, SSLSession s1) -> true)
                 .sslSocketFactory(sslSocketFactory)
                 .build();

@@ -25,18 +25,16 @@ public class OkHttpClient implements HttpClient {
     protected okhttp3.OkHttpClient client;
 
     public OkHttpClient() {
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor(log::debug);
-        logging.setLevel(Level.BODY);
         client = new okhttp3.OkHttpClient.Builder()
-            .addInterceptor(logging)
+            .addInterceptor(getHttpLoggingInterceptor())
             .build();
     }
 
     @Override
     public HttpClient proxy(Proxy proxy) {
         client = new okhttp3.OkHttpClient.Builder()
-                .proxy(proxy)
-                .build();
+            .proxy(proxy)
+            .build();
         return this;
     }
 
@@ -49,10 +47,10 @@ public class OkHttpClient implements HttpClient {
      */
     public Response execGet(String url, Map<String, String> headers) {
         Request request = new Request.Builder()
-                .url(url)
-                .headers(Headers.of(headers))
-                .get()
-                .build();
+            .url(url)
+            .headers(Headers.of(headers))
+            .get()
+            .build();
         try {
             return client.newCall(request).execute();
         } catch (IOException e) {
@@ -70,10 +68,10 @@ public class OkHttpClient implements HttpClient {
      */
     public Response execPost(String url, Map<String, String> headers, RequestBody requestBody) {
         Request request = new Request.Builder()
-                .url(url)
-                .headers(Headers.of(headers))
-                .post(requestBody)
-                .build();
+            .url(url)
+            .headers(Headers.of(headers))
+            .post(requestBody)
+            .build();
         try {
             return client.newCall(request).execute();
         } catch (IOException e) {
@@ -122,6 +120,12 @@ public class OkHttpClient implements HttpClient {
     @Override
     public String post(String url, String body) {
         return post(url, Maps.newHashMap(), body);
+    }
+
+    public HttpLoggingInterceptor getHttpLoggingInterceptor() {
+        final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(log::debug);
+        loggingInterceptor.setLevel(Level.BODY);
+        return loggingInterceptor;
     }
 
 }
