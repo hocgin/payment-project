@@ -78,6 +78,12 @@ public class Helpers {
     public static SignValue newSignValue() {
         SignValue signValue = new SignValue();
         return signValue.setFilter(entry -> Objects.nonNull(entry.getValue()))
+            .setMergeStrategy(map -> map.keySet()
+                .stream()
+                .filter(fieldName -> !((String)map.get(fieldName)).isEmpty())
+                .filter(fieldName -> !"sign".equalsIgnoreCase(fieldName))
+                .map(fieldName -> String.format("%s=%s", fieldName, map.get(fieldName)))
+                .reduce((s1, s2) -> String.format("%s&%s", s1, s2)).orElse(""))
             .setOrderStrategy(SignValue.KeyOrder.ASC);
     }
 
