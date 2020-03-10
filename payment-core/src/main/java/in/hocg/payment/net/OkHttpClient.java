@@ -25,7 +25,7 @@ public class OkHttpClient implements HttpClient {
     protected okhttp3.OkHttpClient client;
 
     public OkHttpClient() {
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor(log::info);
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor(log::debug);
         logging.setLevel(Level.BODY);
         client = new okhttp3.OkHttpClient.Builder()
             .addInterceptor(logging)
