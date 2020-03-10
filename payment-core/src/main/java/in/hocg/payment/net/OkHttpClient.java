@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.Proxy;
@@ -23,7 +22,7 @@ import java.util.Map;
 @Slf4j
 public class OkHttpClient implements HttpClient {
 
-    protected okhttp3.OkHttpClient client = null;
+    protected okhttp3.OkHttpClient client;
 
     public OkHttpClient() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor(log::info);
