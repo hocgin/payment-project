@@ -16,8 +16,6 @@ import in.hocg.payment.wxpay.Helpers;
 import in.hocg.payment.wxpay.convert.WxPayConverts;
 import in.hocg.payment.wxpay.v2.WxPayConfigStorage;
 import in.hocg.payment.wxpay.v2.WxPayService;
-import in.hocg.payment.wxpay.v2.response.GetSignKeyResponse;
-import in.hocg.payment.wxpay.v2.response.PayitilReportResponse;
 import in.hocg.payment.wxpay.v2.response.WxPayResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -101,13 +99,13 @@ public abstract class WxPayRequest<R extends WxPayResponse>
 
         String url = String.format("%s/%s", baseUrl, uri);
 
-        String response = httpClient().post(url, this.toXML());
+        String response = getHttpClient().post(url, this.toXML());
 
         return handleResponse(convert, responseClass, response);
     }
 
     @Override
-    protected HttpClient httpClient() {
+    protected HttpClient getHttpClient() {
         return Helpers.getHttpClient();
     }
 

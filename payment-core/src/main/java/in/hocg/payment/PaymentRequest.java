@@ -3,6 +3,8 @@ package in.hocg.payment;
 
 import com.alibaba.fastjson.JSON;
 import in.hocg.payment.net.HttpClient;
+import in.hocg.payment.net.HttpClientFactory;
+import in.hocg.payment.net.OkHttpClient;
 import lombok.Getter;
 
 /**
@@ -49,5 +51,7 @@ public abstract class PaymentRequest<P extends PaymentService, R extends Payment
      * 获取一个http请求client
      * @return http请求client
      */
-    protected abstract HttpClient httpClient();
+    protected HttpClient getHttpClient() {
+        return HttpClientFactory.getSingleInstance(OkHttpClient.class);
+    }
 }

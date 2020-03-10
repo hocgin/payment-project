@@ -125,7 +125,7 @@ public abstract class AliPayRequest<R extends AliPayResponse>
     }
 
     @Override
-    protected HttpClient httpClient() {
+    protected HttpClient getHttpClient() {
         return Helpers.getHttpClient();
     }
 
@@ -143,7 +143,7 @@ public abstract class AliPayRequest<R extends AliPayResponse>
 
         // 访问支付宝接口
         String url = Helpers.getUrl(baseUrl, values);
-        String response = httpClient().get(url);
+        String response = getHttpClient().get(url);
         return handleResponse(responseClass, response);
     }
 

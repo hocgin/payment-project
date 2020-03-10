@@ -20,7 +20,7 @@ public class TestRequest extends PaymentRequest<TestPaymentService, TestResponse
     }
 
     @Override
-    protected HttpClient httpClient() {
+    protected HttpClient getHttpClient() {
         return null;
     }
 }

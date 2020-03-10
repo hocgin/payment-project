@@ -46,7 +46,7 @@ public class DownloadFundFlowRequest extends WxPayRequest<DownloadFundFlowRespon
     protected String tarType;
 
     @Override
-    protected HttpClient httpClient() {
+    protected HttpClient getHttpClient() {
         return Helpers.getCertHttpClient();
     }
 

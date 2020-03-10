@@ -54,7 +54,7 @@ public class BatchQueryCommentRequest extends WxPayRequest<BatchQueryCommentResp
     protected String limit;
 
     @Override
-    protected HttpClient httpClient() {
+    protected HttpClient getHttpClient() {
         return Helpers.getCertHttpClient();
     }
 

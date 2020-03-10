@@ -89,7 +89,7 @@ public class PayRefundRequest extends WxPayRequest<PayRefundResponse> {
     private String notifyUrl;
 
     @Override
-    protected HttpClient httpClient() {
+    protected HttpClient getHttpClient() {
         return Helpers.getCertHttpClient();
     }
 
