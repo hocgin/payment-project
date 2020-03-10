@@ -109,6 +109,11 @@ public abstract class WxPayRequest<R extends WxPayResponse>
         return Helpers.getHttpClient();
     }
 
+    protected HttpClient getCertHttpClient() {
+        final WxPayConfigStorage configStorage = this.getPaymentService().getConfigStorage();
+        return Helpers.getCertHttpClient(configStorage);
+    }
+
     /**
      * 处理响应结果
      *

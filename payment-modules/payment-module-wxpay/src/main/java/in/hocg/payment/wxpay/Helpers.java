@@ -85,13 +85,10 @@ public class Helpers {
         return HttpClientFactory.getSingleInstance(OkHttpClient.class);
     }
 
-    public static void initCertHttpClient(WxPayConfigStorage configStorage) {
+    public static HttpClient getCertHttpClient(WxPayConfigStorage configStorage) {
         if (certHttpClient == null) {
             certHttpClient = new CertHttpClient(configStorage);
         }
-    }
-
-    public static HttpClient getCertHttpClient() {
         return certHttpClient;
     }
 }

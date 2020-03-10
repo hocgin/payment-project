@@ -2,11 +2,9 @@ package in.hocg.payment.wxpay.v2;
 
 import in.hocg.payment.PaymentMessage;
 import in.hocg.payment.PaymentService;
-import in.hocg.payment.wxpay.Helpers;
 import in.hocg.payment.wxpay.convert.WxPayConverts;
 import in.hocg.payment.wxpay.sign.WxSignType;
 import in.hocg.payment.wxpay.v2.request.GetSignKeyRequest;
-import in.hocg.payment.wxpay.v2.response.GetSignKeyResponse;
 import lombok.Getter;
 
 /**
@@ -20,7 +18,6 @@ public class WxPayService extends PaymentService<WxPayConfigStorage> {
 
     public WxPayService(WxPayConfigStorage configStorage) {
         super(configStorage);
-        Helpers.initCertHttpClient(configStorage);
         if (configStorage.getIsDev()){
             deployDevEnv();
         }
@@ -30,11 +27,8 @@ public class WxPayService extends PaymentService<WxPayConfigStorage> {
      * 部署沙箱环境
      */
     private void deployDevEnv() {
-        WxPayConfigStorage configStorage = getConfigStorage();
-        configStorage.setSignType(WxSignType.MD5);
-
         String key = getSandBoxSignKey();
-        configStorage.setKey(key);
+        getConfigStorage().setKey(key);
     }
 
     /**
@@ -42,9 +36,9 @@ public class WxPayService extends PaymentService<WxPayConfigStorage> {
      * @return 沙箱key
      */
     private String getSandBoxSignKey() {
-        GetSignKeyRequest request = new GetSignKeyRequest();
-        GetSignKeyResponse response = request(request);
-        return response.getKey();
+        final GetSignKeyRequest request = new GetSignKeyRequest();
+        request.setSignType(WxSignType.MD5.string());
+        return request(request).getKey();
     }
 
     @Override

@@ -3,7 +3,6 @@ package in.hocg.payment.wxpay.v2.request;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import in.hocg.payment.net.HttpClient;
 import in.hocg.payment.sign.ApiField;
-import in.hocg.payment.wxpay.Helpers;
 import in.hocg.payment.wxpay.v2.response.PayRefundResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -90,7 +89,7 @@ public class PayRefundRequest extends WxPayRequest<PayRefundResponse> {
 
     @Override
     protected HttpClient getHttpClient() {
-        return Helpers.getCertHttpClient();
+        return getCertHttpClient();
     }
 
     @Override
