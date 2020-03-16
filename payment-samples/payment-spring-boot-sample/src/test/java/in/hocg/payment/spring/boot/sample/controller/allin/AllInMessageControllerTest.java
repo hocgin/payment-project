@@ -2,7 +2,7 @@ package in.hocg.payment.spring.boot.sample.controller.allin;
 
 import in.hocg.payment.spring.boot.sample.AbstractSpringBootTest;
 import in.hocg.payment.wxpay.Helpers;
-import in.hocg.payment.wxpay.v1.message.UnifiedOrderMessage;
+import in.hocg.payment.wxpay.v2.message.UnifiedOrderMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @Slf4j
 public class AllInMessageControllerTest extends AbstractSpringBootTest {
-    
+
     @Test
     public void payRefundMessage() throws Exception {
         final String url = "/all-in/message/1/0";
@@ -46,7 +46,7 @@ public class AllInMessageControllerTest extends AbstractSpringBootTest {
                         .string(CoreMatchers.equalTo(responseBody))
                 );
     }
-    
+
     @Test
     public void unifiedOrderMessage() throws Exception {
         final String url = "/all-in/message/1/1";
@@ -86,7 +86,7 @@ public class AllInMessageControllerTest extends AbstractSpringBootTest {
                         .string(CoreMatchers.equalTo(responseBody))
                 );
     }
-    
+
     @Test
     public void tradeStatusSync() throws Exception {
         final String url = "/all-in/message/2/0";

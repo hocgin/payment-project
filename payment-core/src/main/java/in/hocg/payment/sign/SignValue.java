@@ -20,50 +20,51 @@ import java.util.stream.Stream;
  */
 @Accessors(chain = true)
 public class SignValue {
-    
+
     /**
      * 签名前的值
      */
     private Map<String, Object> handledValues;
-    
+
     /**
      * 排序前处理
      */
     @Setter
     private Function<Map.Entry<String, Object>, Map.Entry<String, Object>> mapStrategy;
-    
+
     /**
      * 排序后处理
      */
     @Setter
     private Function<Map.Entry<String, Object>, Map.Entry<String, Object>> mapSortedStrategy;
-    
+
     /**
      * 合并策略
      */
     @Setter
     private Function<Map<String, Object>, String> mergeStrategy = map -> map.keySet()
-            .stream()
-            .map(fieldName -> String.format("%s=%s", fieldName, map.get(fieldName)))
-            .reduce((s1, s2) -> String.format("%s&%s", s1, s2)).orElse("");
-    
+        .stream()
+        .filter(fieldName -> !"sign".equalsIgnoreCase(fieldName))
+        .map(fieldName -> String.format("%s=%s", fieldName, map.get(fieldName)))
+        .reduce((s1, s2) -> String.format("%s&%s", s1, s2)).orElse("");
+
     /**
      * 过滤器
      */
     @Setter
     private Predicate<? super Map.Entry<String, Object>> filter;
-    
+
     /**
      * 排序方案
      */
     @Setter
     private Comparator<? super Map.Entry<String, Object>> sorted;
-    
+
     /**
      * 处理状态
      */
     private boolean isHandled = false;
-    
+
     /**
      * 处理
      *
@@ -72,7 +73,7 @@ public class SignValue {
     public SignValue handle(Map<String, Object> initValues) {
         Map<String, Object> result = Maps.newLinkedHashMap();
         Stream<Map.Entry<String, Object>> stream = Maps.newHashMap(initValues)
-                .entrySet().stream();
+            .entrySet().stream();
         if (Objects.nonNull(mapStrategy)) {
             stream = stream.map(mapStrategy);
         }
@@ -90,7 +91,7 @@ public class SignValue {
         this.isHandled = true;
         return this;
     }
-    
+
     /**
      * 排序策略
      *
@@ -101,7 +102,7 @@ public class SignValue {
         this.sorted = keyOrder.sorted();
         return this;
     }
-    
+
     /**
      * 签名
      *
@@ -113,7 +114,7 @@ public class SignValue {
         }
         return mergeStrategy.apply(this.handledValues);
     }
-    
+
     /**
      * 获取处理过程中的值
      *
@@ -125,7 +126,7 @@ public class SignValue {
         }
         return this.handledValues;
     }
-    
+
     /**
      * 排序策略
      */
@@ -148,8 +149,8 @@ public class SignValue {
                 return Map.Entry.comparingByKey();
             }
         };
-        
+
         abstract Comparator<? super Map.Entry<String, Object>> sorted();
     }
-    
+
 }

@@ -6,10 +6,12 @@ import in.hocg.payment.alipay.v2.AliPayConfigStorage;
 import in.hocg.payment.alipay.v2.AliPayService;
 import in.hocg.payment.sign.SignType;
 import in.hocg.payment.wxpay.sign.WxSignType;
-import in.hocg.payment.wxpay.v1.WxPayConfigStorage;
-import in.hocg.payment.wxpay.v1.WxPayService;
+import in.hocg.payment.wxpay.v2.WxPayConfigStorage;
+import in.hocg.payment.wxpay.v2.WxPayService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
 
 /**
  * Created by hocgin on 2019/12/14.
@@ -19,7 +21,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PaymentConfig {
-    
+
     @Bean
     AliPayService aliPayService() {
         final AliPayConfigStorage configStorage = ConfigStorages.createConfigStorage(AliPayConfigStorage.class)
@@ -30,18 +32,17 @@ public class PaymentConfig {
                 .setIsDev(true);
         return PaymentServices.createPaymentService(AliPayService.class, configStorage);
     }
-    
-    
-    
+
     @Bean
     WxPayService wxPayService() {
         final WxPayConfigStorage configStorage = ConfigStorages.createConfigStorage(WxPayConfigStorage.class)
-                .setAppId("appid")
-                .setKey("key")
-                .setMchId("mchId")
+                .setAppId(System.getenv("wx_pay_app_id"))
+                .setKey(System.getenv("wx_pay_key"))
+                .setMchId(System.getenv("wx_mch_id"))
+                .setCertFile(new File(System.getenv("wx_cert_file")))
                 .setSignType(WxSignType.HMAC_SHA256)
                 .setIsDev(true);
         return PaymentServices.createPaymentService(WxPayService.class, configStorage);
     }
-    
+
 }

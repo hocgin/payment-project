@@ -2,7 +2,7 @@ package in.hocg.payment.spring.boot.sample.controller.wxpay;
 
 import in.hocg.payment.spring.boot.sample.AbstractSpringBootTest;
 import in.hocg.payment.wxpay.Helpers;
-import in.hocg.payment.wxpay.v1.message.UnifiedOrderMessage;
+import in.hocg.payment.wxpay.v2.message.UnifiedOrderMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @Slf4j
 public class WxPayMessageControllerTest extends AbstractSpringBootTest {
-    
+
     @Test
     public void unifiedOrderMessage() throws Exception {
         final String url = "/wxpay/message/unified-order";
@@ -60,7 +60,7 @@ public class WxPayMessageControllerTest extends AbstractSpringBootTest {
                         .string(CoreMatchers.equalTo(responseBody))
                 );
     }
-    
+
     @Test
     public void payRefundMessage() throws Exception {
         final String url = "/wxpay/message/pay-refund";

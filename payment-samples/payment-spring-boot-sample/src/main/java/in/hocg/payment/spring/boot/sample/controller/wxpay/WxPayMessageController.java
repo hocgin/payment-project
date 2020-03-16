@@ -1,8 +1,8 @@
 package in.hocg.payment.spring.boot.sample.controller.wxpay;
 
-import in.hocg.payment.wxpay.v1.WxPayService;
-import in.hocg.payment.wxpay.v1.message.PayRefundMessage;
-import in.hocg.payment.wxpay.v1.message.UnifiedOrderMessage;
+import in.hocg.payment.wxpay.v2.WxPayService;
+import in.hocg.payment.wxpay.v2.message.PayRefundMessage;
+import in.hocg.payment.wxpay.v2.message.UnifiedOrderMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiredArgsConstructor
 public class WxPayMessageController {
     private final WxPayService wxPayService;
-    
+
     @RequestMapping("/unified-order")
     @ResponseBody
     public ResponseEntity<String> unifiedOrder(@RequestBody String data) {
@@ -34,7 +34,7 @@ public class WxPayMessageController {
                 .returnMsg("SUCCESS")
                 .build().string());
     }
-    
+
     @RequestMapping("/pay-refund")
     @ResponseBody
     public ResponseEntity<String> payRefund(@RequestBody String data) {
