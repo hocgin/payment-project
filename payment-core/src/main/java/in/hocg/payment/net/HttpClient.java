@@ -1,5 +1,6 @@
 package in.hocg.payment.net;
 
+import javax.annotation.Nullable;
 import java.net.Proxy;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  * @author hocgin
  */
 public interface HttpClient {
-    
+
     /**
      * 设置代理
      *
@@ -18,7 +19,7 @@ public interface HttpClient {
      * @return
      */
     HttpClient proxy(Proxy proxy);
-    
+
     /**
      * GET 请求
      *
@@ -27,9 +28,9 @@ public interface HttpClient {
      * @return
      */
     String get(String url, Map<String, String> headers);
-    
+
     String get(String url);
-    
+
     /**
      * POST 请求
      *
@@ -39,7 +40,7 @@ public interface HttpClient {
      * @return
      */
     String post(String url, Map<String, String> headers, String body);
-    
+
     String post(String url, String body);
-    
+
 }

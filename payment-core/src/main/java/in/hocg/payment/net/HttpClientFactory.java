@@ -7,9 +7,9 @@ package in.hocg.payment.net;
  * @author hocgin
  */
 public class HttpClientFactory {
-    
+
     private static HttpClient SELF;
-    
+
     /**
      * 获取一个共享的 HttpClient
      *
@@ -23,7 +23,8 @@ public class HttpClientFactory {
         }
         return SELF;
     }
-    
+
+
     /**
      * 创建一个 HttpClient
      *
@@ -33,7 +34,7 @@ public class HttpClientFactory {
      */
     public static <T extends HttpClient> HttpClient newInstance(Class<T> httpClientClass) {
         try {
-            return new HttpClientLogger(httpClientClass.newInstance());
+            return httpClientClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

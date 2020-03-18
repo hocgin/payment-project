@@ -2,8 +2,8 @@ package in.hocg.payment.spring.boot.sample.controller.allin.resolve.message.rule
 
 import in.hocg.payment.convert.StringConvert;
 import in.hocg.payment.resolve.StringResolve;
-import in.hocg.payment.wxpay.v1.WxPayService;
-import in.hocg.payment.wxpay.v1.message.UnifiedOrderMessage;
+import in.hocg.payment.wxpay.v2.WxPayService;
+import in.hocg.payment.wxpay.v2.message.UnifiedOrderMessage;
 
 import java.util.function.Function;
 
@@ -30,6 +30,6 @@ public class WxUnifiedOrderMessageRule extends StringResolve.StringRule<UnifiedO
                         .build();
             }
         });
-        
+
     }
 }
