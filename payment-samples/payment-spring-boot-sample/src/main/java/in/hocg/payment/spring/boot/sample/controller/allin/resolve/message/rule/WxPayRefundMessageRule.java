@@ -5,8 +5,6 @@ import in.hocg.payment.resolve.StringResolve;
 import in.hocg.payment.wxpay.v2.WxPayService;
 import in.hocg.payment.wxpay.v2.message.PayRefundMessage;
 
-import java.util.function.Function;
-
 /**
  * Created by hocgin on 2019/12/21.
  * email: hocgin@gmail.com
@@ -20,15 +18,12 @@ public class WxPayRefundMessageRule extends StringResolve.StringRule<PayRefundMe
             public <R extends PayRefundMessage> R convert(String body, Class<R> clazz) {
                 return payService.message(body, clazz);
             }
-        }, new Function<PayRefundMessage, PayRefundMessage.Result>() {
-            @Override
-            public PayRefundMessage.Result apply(PayRefundMessage wxPayMessage) {
-                // ..省略业务操作
-                return PayRefundMessage.Result.builder()
-                        .returnMsg("SUCCESS")
-                        .returnCode("OK")
-                        .build();
-            }
+        }, (payRefundMessage, stringObjectMap) -> {
+            // ..省略业务操作
+            return PayRefundMessage.Result.builder()
+                .returnMsg("SUCCESS")
+                .returnCode("OK")
+                .build();
         });
 
     }

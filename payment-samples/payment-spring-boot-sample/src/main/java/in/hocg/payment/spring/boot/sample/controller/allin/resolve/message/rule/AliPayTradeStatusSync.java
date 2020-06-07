@@ -5,8 +5,6 @@ import in.hocg.payment.alipay.v2.message.TradeStatusSyncMessage;
 import in.hocg.payment.convert.StringConvert;
 import in.hocg.payment.resolve.StringResolve;
 
-import java.util.function.Function;
-
 /**
  * Created by hocgin on 2019/12/21.
  * email: hocgin@gmail.com
@@ -20,15 +18,12 @@ public class AliPayTradeStatusSync extends StringResolve.StringRule<TradeStatusS
             public <R extends TradeStatusSyncMessage> R convert(String body, Class<R> clazz) {
                 return payService.message(body, clazz);
             }
-        }, new Function<TradeStatusSyncMessage, TradeStatusSyncMessage.Result>() {
-            @Override
-            public TradeStatusSyncMessage.Result apply(TradeStatusSyncMessage wxPayMessage) {
-                // ..省略业务操作
-                return TradeStatusSyncMessage.Result.builder()
-                        .result("success")
-                        .build();
-            }
+        }, (message, stringObjectMap) -> {
+            // ..省略业务操作
+            return TradeStatusSyncMessage.Result.builder()
+                .result("success")
+                .build();
         });
-        
+
     }
 }
