@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * Created by hocgin on 2019/12/14.
@@ -35,13 +36,21 @@ public class PaymentConfig {
 
     @Bean
     WxPayService wxPayService() {
+        final String wxPayAppId = System.getProperty("wx_pay_app_id", "wx_pay_app_id");
+        final String wxPayKey = System.getProperty("wx_pay_key", "wx_pay_key");
+        final String wxMchId = System.getProperty("wx_mch_id", "wx_mch_id");
+        final String wxCertFile = System.getProperty("wx_cert_file");
+        File certFile = null;
+        if (Objects.nonNull(wxCertFile)) {
+            certFile = new File(wxCertFile);
+        }
         final WxPayConfigStorage configStorage = ConfigStorages.createConfigStorage(WxPayConfigStorage.class)
-                .setAppId(System.getenv("wx_pay_app_id"))
-                .setKey(System.getenv("wx_pay_key"))
-                .setMchId(System.getenv("wx_mch_id"))
-                .setCertFile(new File(System.getenv("wx_cert_file")))
+                .setAppId(wxPayAppId)
+                .setKey(wxPayKey)
+                .setMchId(wxMchId)
+                .setCertFile(certFile)
                 .setSignType(WxSignType.HMAC_SHA256)
-                .setIsDev(true);
+                .setIsDev(false);
         return PaymentServices.createPaymentService(WxPayService.class, configStorage);
     }
 
