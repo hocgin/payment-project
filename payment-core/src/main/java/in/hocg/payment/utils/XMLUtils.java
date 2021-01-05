@@ -17,7 +17,7 @@ import java.io.StringWriter;
  */
 @UtilityClass
 public class XMLUtils {
-    
+
     /**
      * xml 转为 对象
      *
@@ -37,7 +37,7 @@ public class XMLUtils {
         }
         return ((T) object);
     }
-    
+
     /**
      * Bean 转 xml
      *
@@ -58,5 +58,5 @@ public class XMLUtils {
         }
         return xmlStr;
     }
-    
+
 }
