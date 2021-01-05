@@ -18,6 +18,7 @@
     <modules>
         <module>payment-module-alipay</module>
         <module>payment-module-wxpay</module>
+        <module>payment-module-chinaums</module>
         <module>payment-module-tpl</module>
     </modules>
 
