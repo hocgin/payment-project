@@ -1,8 +1,12 @@
 package in.hocg.payment.utils;
 
+import com.google.common.collect.Maps;
 import lombok.experimental.UtilityClass;
 
+import java.net.URLDecoder;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -14,7 +18,7 @@ import java.util.stream.Stream;
  */
 @UtilityClass
 public class MapUtils {
-    
+
     /**
      * 对 Map 的 Key 进行排序
      *
@@ -33,7 +37,7 @@ public class MapUtils {
         }
         return result;
     }
-    
+
     /**
      * 对 Map 的 Value 进行排序
      *
@@ -54,5 +58,24 @@ public class MapUtils {
                     .forEachOrdered(e -> result.put(e.getKey(), e.getValue()));
         }
         return result;
+    }
+
+    public static Map<String, Object> getValues(String body) {
+        return getValues(body, Collections.emptyList());
+    }
+
+    public static Map<String, Object> getValues(String body, List<String> ignoreKeys) {
+        Map<String, Object> values = Maps.newHashMap();
+        final String[] items = body.split("&");
+        String[] vars;
+        for (String item : items) {
+            vars = item.split("=", 2);
+            final String key = vars[0];
+            if (ignoreKeys.contains(key)) {
+                continue;
+            }
+            values.put(key, URLDecoder.decode(vars[1]));
+        }
+        return values;
     }
 }

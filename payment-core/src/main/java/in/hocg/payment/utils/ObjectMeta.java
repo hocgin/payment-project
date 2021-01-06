@@ -1,5 +1,6 @@
 package in.hocg.payment.utils;
 
+import cn.hutool.core.convert.Convert;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import lombok.Getter;
@@ -26,15 +27,15 @@ public class ObjectMeta {
     public @interface Alias {
         String value() default "";
     }
-    
+
     private final static Map<Class<?>, ObjectMeta> CACHED = Maps.newHashMap();
-    
+
     @Getter
     private final Map<String, Field> fieldMap = new HashMap<>();
-    
+
     @Getter
     private final Class<?> clazz;
-    
+
     private ObjectMeta(Class<?> clazz) {
         this.clazz = clazz;
         ClassUtils.getAllField(clazz).forEach(field -> {
@@ -49,11 +50,11 @@ public class ObjectMeta {
             fieldMap.put(filedName, field);
         });
     }
-    
+
     public static ObjectMeta from(Class<?> clazz) {
         return CACHED.computeIfAbsent(clazz, ObjectMeta::new);
     }
-    
+
     /**
      * 设置值
      *
@@ -69,11 +70,11 @@ public class ObjectMeta {
                 return;
             }
             field.setAccessible(true);
-            field.set(target, val);
+            field.set(target, Convert.convert(field.getType(), val));
         } catch (IllegalAccessException ignored) {
         }
     }
-    
+
     /**
      * 获取值
      *

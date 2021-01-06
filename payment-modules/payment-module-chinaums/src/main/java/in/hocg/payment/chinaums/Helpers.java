@@ -1,9 +1,7 @@
 package in.hocg.payment.chinaums;
 
-import in.hocg.payment.net.HttpClient;
-import in.hocg.payment.net.HttpClientFactory;
-import in.hocg.payment.net.ObjectHttpClient;
-import in.hocg.payment.net.OkHttpClient;
+import in.hocg.payment.sign.SignScheme;
+import in.hocg.payment.sign.SignType;
 import in.hocg.payment.sign.SignValue;
 import in.hocg.payment.utils.HttpUtils;
 import lombok.experimental.UtilityClass;
@@ -27,7 +25,7 @@ public class Helpers {
     public static SignValue newSignValue() {
         SignValue signValue = new SignValue();
         return signValue.setFilter(entry -> Objects.nonNull(entry.getValue()))
-                .setOrderStrategy(SignValue.KeyOrder.ASC);
+            .setOrderStrategy(SignValue.KeyOrder.ASC);
     }
 
     /**
@@ -45,18 +43,17 @@ public class Helpers {
         return HttpUtils.getUrl(baseUrl, values);
     }
 
-    /**
-     * 获取一个 HTTP 客户端
-     *
-     * @return
-     */
-    public static ObjectHttpClient getObjectHttpClient() {
-        HttpClient httpClient = HttpClientFactory.getSingleInstance(OkHttpClient.class);
-        return new ObjectHttpClient(httpClient);
+    public static SignScheme getSignType(SignType signType) {
+        if (SignType.SHA256.equals(signType)) {
+            return SignType.SHA256.useLogger();
+        }
+        throw new UnsupportedOperationException();
     }
 
-    public static HttpClient getHttpClient() {
-        return HttpClientFactory.getSingleInstance(OkHttpClient.class);
+    public static SignScheme getSignType(String signType) {
+        if ("SHA256".equalsIgnoreCase(signType)) {
+            return SignType.SHA256;
+        }
+        throw new UnsupportedOperationException();
     }
-
 }

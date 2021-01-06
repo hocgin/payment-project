@@ -48,6 +48,7 @@ public class ChinaUmsConverts {
             }
         }
     };
+
     public static final StringConvert JSON_CONVERT = (StringConvert<ChinaUmsPayResponse>) JSON::parseObject;
 
 }

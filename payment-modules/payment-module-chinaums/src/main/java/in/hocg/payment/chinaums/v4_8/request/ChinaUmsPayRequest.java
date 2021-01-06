@@ -98,7 +98,7 @@ public abstract class ChinaUmsPayRequest<R extends ChinaUmsPayResponse>
 
     protected Map<String, Object> handleRequestParams(Map<String, Object> values) {
         ChinaUmsConfigStorage configStorage = getPaymentService().getConfigStorage();
-        SignScheme signType = configStorage.getSignType().useLogger();
+        SignScheme signType = Helpers.getSignType(configStorage.getSignType());
 
         // 设置参数
         String mid = configStorage.getMid();
