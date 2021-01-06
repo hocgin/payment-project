@@ -1,6 +1,8 @@
 package in.hocg.payment.chinaums.v4_8.request;
 
 import cn.hutool.core.date.DateUtil;
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
 import in.hocg.payment.PaymentRequest;
 import in.hocg.payment.bean.TextInitializingBean;
 import in.hocg.payment.chinaums.Helpers;
@@ -49,8 +51,7 @@ public abstract class ChinaUmsPayRequest<R extends ChinaUmsPayResponse>
         Map<String, Object> values = handleRequestParams();
 
         String httpUrl = URI.create(baseUrl).resolve(getSuffixUrl()).toString();
-        String url = Helpers.getUrl(httpUrl, values);
-        String response = getHttpClient().get(url);
+        String response = getHttpClient().post(httpUrl, JSON.toJSONString(values));
         return handleResponse(responseClass, response);
     }
 
@@ -82,7 +83,7 @@ public abstract class ChinaUmsPayRequest<R extends ChinaUmsPayResponse>
         ChinaUmsConfigStorage configStorage = getPaymentService().getConfigStorage();
         SignScheme signType = configStorage.getSignType().useLogger();
         @NonNull String publicKey = configStorage.getTxmKey();
-        R result = TextInitializingBean.from(ChinaUmsConverts.JSON, response, responseClass);
+        R result = TextInitializingBean.from(ChinaUmsConverts.JSON_CONVERT, response, responseClass);
 
         // 如果签名失败
         if (!result.checkSign(signType, publicKey)) {
@@ -92,6 +93,10 @@ public abstract class ChinaUmsPayRequest<R extends ChinaUmsPayResponse>
     }
 
     protected Map<String, Object> handleRequestParams() {
+        return this.handleRequestParams(Maps.newHashMap());
+    }
+
+    protected Map<String, Object> handleRequestParams(Map<String, Object> values) {
         ChinaUmsConfigStorage configStorage = getPaymentService().getConfigStorage();
         SignScheme signType = configStorage.getSignType().useLogger();
 
@@ -101,7 +106,7 @@ public abstract class ChinaUmsPayRequest<R extends ChinaUmsPayResponse>
         String msgSrc = configStorage.getMsgSrc();
 
         @NonNull String privateKey = configStorage.getTxmKey();
-        Map<String, Object> values = SignObjects.getSignValues(this);
+        values.putAll(SignObjects.getSignValues(this));
         values.put(MSG_SRC, msgSrc);
         values.put(TID, tid);
         values.put(MID, mid);

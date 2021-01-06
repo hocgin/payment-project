@@ -6,6 +6,7 @@ import in.hocg.payment.PaymentServices;
 import in.hocg.payment.chinaums.v4_8.ChinaUmsConfigStorage;
 import in.hocg.payment.chinaums.v4_8.ChinaUmsPayService;
 import in.hocg.payment.chinaums.v4_8.response.CreateTradeResponse;
+import in.hocg.payment.chinaums.v4_8.response.QueryTradeResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -36,12 +37,30 @@ class CreateTradeRequestTest {
     }
 
     @Test
-    void request() {
+    void h5Pay() {
         CreateTradeRequest request = new CreateTradeRequest();
         request.setOrderSn(RandomUtil.randomString(12));
         request.setMsgType("trade.h5Pay");
         request.setTotalAmount(BigDecimal.ONE);
         CreateTradeResponse response = paymentService.request(request);
+        log.debug("==> {}", response);
+    }
+
+    @Test
+    void jsPay() {
+        CreateTradeRequest request = new CreateTradeRequest();
+        request.setOrderSn(RandomUtil.randomString(12));
+        request.setMsgType("WXPay.jsPay");
+        request.setTotalAmount(BigDecimal.ONE);
+        CreateTradeResponse response = paymentService.request(request);
+        log.debug("==> {}", response);
+    }
+
+    @Test
+    void query() {
+        QueryTradeRequest request = new QueryTradeRequest();
+        request.setOrderSn("deo5yhzrb1s53whlg1x2xx");
+        QueryTradeResponse response = paymentService.request(request);
         log.debug("==> {}", response);
     }
 }

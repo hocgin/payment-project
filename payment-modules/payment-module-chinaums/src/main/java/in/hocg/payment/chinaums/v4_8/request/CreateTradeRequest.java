@@ -4,6 +4,7 @@ import in.hocg.payment.chinaums.Helpers;
 import in.hocg.payment.chinaums.v4_8.ChinaUmsConfigStorage;
 import in.hocg.payment.chinaums.v4_8.response.CreateTradeResponse;
 import in.hocg.payment.sign.ApiField;
+import in.hocg.payment.sign.SignValue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by hocgin on 2021/1/5
@@ -23,10 +25,11 @@ import java.util.Map;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class CreateTradeRequest extends ChinaUmsPayRequest<CreateTradeResponse> {
-    public static final String MER_ORDER_ID = "merOrderId";
     /**
-     * [必须] 订单编号
+     * [必须] 订单编号(如果设置orderSn, 则可以忽略)
      */
+    @ApiField(value = "merOrderId", required = true)
+    private String merOrderId;
     @ApiField(value = "orderSn", ignore = true)
     private String orderSn;
     /**
@@ -42,8 +45,8 @@ public class CreateTradeRequest extends ChinaUmsPayRequest<CreateTradeResponse> 
     /**
      * 回跳地址
      */
-    @ApiField(value = "refundUrl")
-    private String refundUrl;
+    @ApiField(value = "returnUrl")
+    private String returnUrl;
     /**
      * 通知地址
      */
@@ -63,12 +66,16 @@ public class CreateTradeRequest extends ChinaUmsPayRequest<CreateTradeResponse> 
 
     @Override
     protected CreateTradeResponse request() {
+        if (Objects.nonNull(merOrderId)) {
+            setMerOrderId(getMerOrderId(orderSn));
+        }
+
         ChinaUmsConfigStorage configStorage = getPaymentService().getConfigStorage();
         String baseUrl = configStorage.getUrl();
         Map<String, Object> values = handleRequestParams();
-        values.put(MER_ORDER_ID, getMerOrderId(orderSn));
         String httpUrl = URI.create(baseUrl).resolve(getSuffixUrl()).toString();
-        String url = Helpers.getUrl(httpUrl, values);
+        SignValue signValue = Helpers.newSignValue().handle(values);
+        String url = Helpers.getUrl(httpUrl, signValue.getHandledValues());
         return new CreateTradeResponse().setUrl(url);
     }
 

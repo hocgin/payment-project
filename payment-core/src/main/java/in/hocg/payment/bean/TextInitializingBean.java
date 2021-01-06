@@ -11,20 +11,18 @@ import lombok.Getter;
  * @author hocgin
  */
 public abstract class TextInitializingBean<S extends PaymentService>
-        implements InitializingBean {
-    
+    implements InitializingBean {
+
     @Getter
     private String content;
-    
-    
+
+
     protected void setContent(String content) {
         this.content = content;
     }
-    
-    public static <T extends TextInitializingBean,
-            S extends PaymentService> T from(StringConvert convert,
-                                             String content,
-                                             Class<T> clazz) {
+
+    public static <T extends TextInitializingBean, S extends PaymentService>
+    T from(StringConvert convert, String content, Class<T> clazz) {
         T object = (T) convert.convert(content, clazz);
         object.setContent(content);
         object.afterPropertiesSet();
