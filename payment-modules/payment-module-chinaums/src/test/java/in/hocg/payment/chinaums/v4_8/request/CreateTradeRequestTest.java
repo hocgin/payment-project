@@ -5,8 +5,10 @@ import in.hocg.payment.ConfigStorages;
 import in.hocg.payment.PaymentServices;
 import in.hocg.payment.chinaums.v4_8.ChinaUmsConfigStorage;
 import in.hocg.payment.chinaums.v4_8.ChinaUmsPayService;
+import in.hocg.payment.chinaums.v4_8.response.CloseTradeResponse;
 import in.hocg.payment.chinaums.v4_8.response.CreateTradeResponse;
 import in.hocg.payment.chinaums.v4_8.response.QueryTradeResponse;
+import in.hocg.payment.chinaums.v4_8.response.RefundTradeResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -61,6 +63,23 @@ class CreateTradeRequestTest {
         QueryTradeRequest request = new QueryTradeRequest();
         request.setOrderSn("deo5yhzrb1s53whlg1x2xx");
         QueryTradeResponse response = paymentService.request(request);
+        log.debug("==> {}", response);
+    }
+
+    @Test
+    void close() {
+        CloseTradeRequest request = new CloseTradeRequest();
+        request.setOrderSn("deo5yhzrb1s53whlg1x2xx");
+        CloseTradeResponse response = paymentService.request(request);
+        log.debug("==> {}", response);
+    }
+
+    @Test
+    void refund() {
+        RefundTradeRequest request = new RefundTradeRequest();
+        request.setOrderSn("deo5yhzrb1s53whlg1x2xx");
+        request.setRefundAmount(BigDecimal.ONE);
+        RefundTradeResponse response = paymentService.request(request);
         log.debug("==> {}", response);
     }
 }
