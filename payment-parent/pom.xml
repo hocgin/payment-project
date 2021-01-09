@@ -39,12 +39,27 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>payment-core</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>payment-modules</artifactId>
                 <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>payment-module-alipay</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>payment-module-wxpay</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>payment-module-chinaums</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <!--三方库-->
             <dependency>

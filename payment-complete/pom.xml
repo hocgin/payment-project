@@ -14,4 +14,19 @@
 
     <name>Payment Complete</name>
     <artifactId>payment-complete</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>payment-module-alipay</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>payment-module-wxpay</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>payment-module-chinaums</artifactId>
+        </dependency>
+    </dependencies>
 </project>
