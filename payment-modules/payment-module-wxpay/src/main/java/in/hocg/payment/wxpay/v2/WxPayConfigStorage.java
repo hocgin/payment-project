@@ -51,6 +51,11 @@ public class WxPayConfigStorage implements ConfigStorage {
     private File certFile;
 
     /**
+     * [可选] 证书文本
+     */
+    private String certFileStr;
+
+    /**
      * [可选] 是否沙箱环境
      */
     @NonNull
