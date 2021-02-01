@@ -1,9 +1,9 @@
 package in.hocg.payment.wxpay.net;
 
 
+import com.google.common.base.Strings;
 import in.hocg.payment.net.OkHttpClient;
 import in.hocg.payment.wxpay.v2.WxPayConfigStorage;
-import jdk.internal.joptsimple.internal.Strings;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.KeyManager;
