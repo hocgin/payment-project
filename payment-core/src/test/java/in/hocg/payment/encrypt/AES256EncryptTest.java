@@ -14,24 +14,24 @@ import java.util.Base64;
  */
 @Slf4j
 class AES256EncryptTest {
-    
+
     @Test
     void aes256() {
         String content = "123";
         final String key = MD5Encrypt.encode32("hocgin");
         log.debug("原文: {}", content);
         log.debug("KEY: {}", key);
-        
+
         byte[] encode = AES256Encrypt.encode(content, key);
         final String resultString = Base64.getEncoder().encodeToString(encode);
         log.debug("加密后: {}", resultString);
-        
+
         final String decode = AES256Encrypt.decode(encode, key);
         log.debug("解密后: {}", decode);
         Assertions.assertEquals(content, decode);
     }
-    
-    
+
+
     @Test
     void aes2562() {
         String content = "<root>\n" +
@@ -52,10 +52,10 @@ class AES256EncryptTest {
         final String key = MD5Encrypt.encode32("key");
         log.debug("原文: {}", content);
         log.debug("KEY: {}", key);
-    
+
         byte[] encode = AES256Encrypt.encode(content, key);
         final String resultString = Base64.getEncoder().encodeToString(encode);
         log.debug("加密后: {}", resultString);
     }
-    
+
 }

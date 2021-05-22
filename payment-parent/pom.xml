@@ -15,13 +15,6 @@
     <packaging>pom</packaging>
 
     <properties>
-        <java.version>1.8</java.version>
-        <java.source.version>1.8</java.source.version>
-        <java.target.version>1.8</java.target.version>
-
-        <!-- Maven plugins -->
-        <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
-
         <!--Jar version-->
         <junit.version>5.5.1</junit.version>
     </properties>
@@ -106,27 +99,4 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <fork>true</fork>
-                    <source>${java.source.version}</source>
-                    <target>${java.target.version}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <repositories>
-        <repository>
-            <id>nexus-aliyun</id>
-            <name>Nexus aliyun</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
-        </repository>
-    </repositories>
 </project>

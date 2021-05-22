@@ -1,0 +1,8 @@
+## 版本
+正式版: 数字版本
+快照版: *-SNAPSHOTS
+
+## 环境变量
+- MAVEN_GPG_PRIVATE_KEY
+- SONATYPE_PASSWORD
+- MAVEN_GPG_PASSPHRASE
