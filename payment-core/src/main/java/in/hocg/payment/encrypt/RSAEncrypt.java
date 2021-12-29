@@ -24,7 +24,7 @@ import java.util.Base64;
 @Slf4j
 @UtilityClass
 public class RSAEncrypt {
-    
+
     @Getter
     @RequiredArgsConstructor
     public
@@ -35,12 +35,10 @@ public class RSAEncrypt {
         SHA256WithRSA("SHA256WithRSA");
         private final String value;
     }
-    
+
     private static final String KEY_ALGORITHM = "RSA";
-    
-    public static String encode(@NonNull String data,
-                                @NonNull String privateKey,
-                                @NonNull Algorithm algorithm) {
+
+    public static String encode(@NonNull String data, @NonNull String privateKey, @NonNull Algorithm algorithm) {
         try {
             Signature signature = Signature.getInstance(algorithm.getValue());
             signature.initSign(getPrivateKey(privateKey));
@@ -50,7 +48,7 @@ public class RSAEncrypt {
             throw new RuntimeException(e);
         }
     }
-    
+
     public static boolean verify(@NonNull String data,
                                  @NonNull String publicKey,
                                  @NonNull Algorithm algorithm,
@@ -64,7 +62,7 @@ public class RSAEncrypt {
             throw new RuntimeException(e);
         }
     }
-    
+
     /**
      * 从字符串中获取公钥
      *
@@ -78,7 +76,7 @@ public class RSAEncrypt {
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         return keyFactory.generatePublic(keySpec);
     }
-    
+
     /**
      * 从字符串中获取私钥
      *

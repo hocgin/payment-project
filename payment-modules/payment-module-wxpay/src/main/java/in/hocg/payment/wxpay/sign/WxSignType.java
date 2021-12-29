@@ -1,7 +1,7 @@
 package in.hocg.payment.wxpay.sign;
 
+import in.hocg.payment.encrypt.Encrypt;
 import in.hocg.payment.encrypt.HMACSHA256Encrypt;
-import in.hocg.payment.encrypt.MD5Encrypt;
 import in.hocg.payment.sign.SignScheme;
 
 /**
@@ -16,12 +16,12 @@ public enum WxSignType implements SignScheme {
         public String string() {
             return "MD5";
         }
-        
+
         @Override
         public String sign(String data, String privateKey) {
-            return MD5Encrypt.encode32(data).toUpperCase();
+            return Encrypt.MD5_32.encrypt(data, Encrypt.Option.md5()).toUpperCase();
         }
-        
+
         @Override
         public boolean verify(String data, String publicKey, String sign) {
             return sign(data, publicKey).equals(sign);
@@ -31,18 +31,18 @@ public enum WxSignType implements SignScheme {
         public String string() {
             return "HMAC-SHA256";
         }
-        
+
         @Override
         public String sign(String data, String privateKey) {
             return HMACSHA256Encrypt.encode(data, privateKey).toUpperCase();
         }
-        
+
         @Override
         public boolean verify(String data, String publicKey, String sign) {
             return sign(data, publicKey).equals(sign);
         }
     };
-    
+
     public static WxSignType of(String name) {
         for (WxSignType value : WxSignType.values()) {
             if (value.string().equals(name)) {

@@ -3,26 +3,30 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>payment-dependencies</artifactId>
         <groupId>in.hocg.payment</groupId>
+        <artifactId>payment-dependencies</artifactId>
         <version>${revision}</version>
         <relativePath>../payment-dependencies/pom.xml</relativePath>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
 
-    <name>Payment :: Samples</name>
-    <artifactId>payment-samples</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>payment-spring-boot-sample</module>
-    </modules>
+    <name>Payment :: One Step</name>
+    <artifactId>payment-onestep</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>payment-core</artifactId>
-            <version>${revision}</version>
+            <artifactId>payment-module-alipay</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>payment-module-wxpay</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>payment-module-chinaums</artifactId>
         </dependency>
     </dependencies>
 </project>

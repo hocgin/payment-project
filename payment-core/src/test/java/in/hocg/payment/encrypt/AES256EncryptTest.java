@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Base64;
-
 /**
  * Created by hocgin on 2019/12/19.
  * email: hocgin@gmail.com
@@ -14,24 +12,24 @@ import java.util.Base64;
  */
 @Slf4j
 class AES256EncryptTest {
-    
+
     @Test
     void aes256() {
         String content = "123";
-        final String key = MD5Encrypt.encode32("hocgin");
+        final String key = Encrypt.MD5_32.encrypt("hocgin", Encrypt.Option.md5());
         log.debug("原文: {}", content);
         log.debug("KEY: {}", key);
-        
-        byte[] encode = AES256Encrypt.encode(content, key);
-        final String resultString = Base64.getEncoder().encodeToString(encode);
+
+        Encrypt.Option aes = Encrypt.Option.aes(key);
+        String resultString = Encrypt.AES.encrypt(content, aes);
         log.debug("加密后: {}", resultString);
-        
-        final String decode = AES256Encrypt.decode(encode, key);
+
+        final String decode = Encrypt.AES.decrypt(resultString, aes);
         log.debug("解密后: {}", decode);
         Assertions.assertEquals(content, decode);
     }
-    
-    
+
+
     @Test
     void aes2562() {
         String content = "<root>\n" +
@@ -49,13 +47,12 @@ class AES256EncryptTest {
                 "<total_fee><![CDATA[3960]]></total_fee>\n" +
                 "<transaction_id><![CDATA[4200000215201811190261405420]]></transaction_id>\n" +
                 "</root>";
-        final String key = MD5Encrypt.encode32("key");
+        final String key = Encrypt.MD5_32.encrypt("key", Encrypt.Option.md5());
         log.debug("原文: {}", content);
         log.debug("KEY: {}", key);
-    
-        byte[] encode = AES256Encrypt.encode(content, key);
-        final String resultString = Base64.getEncoder().encodeToString(encode);
+
+        String resultString = Encrypt.AES.decrypt(content, Encrypt.Option.aes(key));
         log.debug("加密后: {}", resultString);
     }
-    
+
 }

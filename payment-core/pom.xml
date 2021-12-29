@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>in.hocg.payment</groupId>
-        <artifactId>payment-parent</artifactId>
+        <artifactId>payment-dependencies</artifactId>
         <version>${revision}</version>
-        <relativePath>../payment-parent/pom.xml</relativePath>
+        <relativePath>../payment-dependencies/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

@@ -3,10 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>payment-parent</artifactId>
+        <artifactId>payment-dependencies</artifactId>
         <groupId>in.hocg.payment</groupId>
         <version>${revision}</version>
-        <relativePath>../payment-parent/pom.xml</relativePath>
+        <relativePath>../payment-dependencies/pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>

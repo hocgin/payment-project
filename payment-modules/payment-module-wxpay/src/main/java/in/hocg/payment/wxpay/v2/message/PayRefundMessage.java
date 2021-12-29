@@ -3,16 +3,13 @@ package in.hocg.payment.wxpay.v2.message;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
-import in.hocg.payment.encrypt.AES256Encrypt;
-import in.hocg.payment.encrypt.MD5Encrypt;
+import in.hocg.payment.encrypt.Encrypt;
 import in.hocg.payment.sign.ApiField;
 import in.hocg.payment.wxpay.Helpers;
 import in.hocg.payment.wxpay.v2.WxPayConfigStorage;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Base64;
 
 /**
  * Created by hocgin on 2019/12/13.
@@ -75,10 +72,9 @@ public class PayRefundMessage extends WxPayMessage {
     private void decodeReqInfo() {
         WxPayConfigStorage configStorage = getService().getConfigStorage();
         String key = configStorage.getKey();
-        key = MD5Encrypt.encode32(key);
+        key = Encrypt.MD5_32.encrypt(key, Encrypt.Option.md5());
         String reqInfo = getXmlValue("xml/req_info");
-        byte[] data = Base64.getDecoder().decode(reqInfo);
-        String content = AES256Encrypt.decode(data, key);
+        String content = Encrypt.AES.decrypt(reqInfo, Encrypt.Option.aes(key));
         XStream xstream = Helpers.newXStream();
         xstream.processAnnotations(ReqInfo.class);
         this.reqInfo = (ReqInfo) xstream.fromXML(content);
